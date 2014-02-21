@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navier-Boats", "Navier-Boats\Navier-Boats\Navier-Boats.csproj", "{0A7B465D-E65C-48DD-A55B-9B7E4763FB99}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Navier-BoatsContent", "Navier-Boats\Navier-BoatsContent\Navier-BoatsContent.contentproj", "{E10CD179-9E2B-4188-9E57-4E71B45207F1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0A7B465D-E65C-48DD-A55B-9B7E4763FB99}.Debug|x86.ActiveCfg = Debug|x86
+		{0A7B465D-E65C-48DD-A55B-9B7E4763FB99}.Debug|x86.Build.0 = Debug|x86
+		{0A7B465D-E65C-48DD-A55B-9B7E4763FB99}.Release|x86.ActiveCfg = Release|x86
+		{0A7B465D-E65C-48DD-A55B-9B7E4763FB99}.Release|x86.Build.0 = Release|x86
+		{E10CD179-9E2B-4188-9E57-4E71B45207F1}.Debug|x86.ActiveCfg = Debug|x86
+		{E10CD179-9E2B-4188-9E57-4E71B45207F1}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
