@@ -11,6 +11,8 @@ namespace Navier_Boats.Engine.Entities
     {
         private Vector2 velocity;
 
+        public Vector2 Velocity { get { return velocity; } set { velocity = value; } }
+
         public Entity()
             : base()
         {
