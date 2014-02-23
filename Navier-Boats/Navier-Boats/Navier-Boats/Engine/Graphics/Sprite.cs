@@ -72,8 +72,6 @@ namespace Navier_Boats.Engine.Graphics
             this.effects = SpriteEffects.None;
 
             this.depthLayer = 1.0f;
-
-            this.shaders = new List<Effect>();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
