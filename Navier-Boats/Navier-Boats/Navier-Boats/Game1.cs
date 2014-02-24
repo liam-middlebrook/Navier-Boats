@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
 using Navier_Boats.Game.Entities;
-
+using Navier_Boats.Engine.Entities;
 namespace Navier_Boats
 {
     /// <summary>
@@ -21,7 +21,9 @@ namespace Navier_Boats
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Player player;
+        Random randy;
+
+        List<LivingEntity> entities;
 
         public Game1()
         {
@@ -38,8 +40,11 @@ namespace Navier_Boats
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            entities = new List<LivingEntity>();
 
-            player = new Player(new Vector2(100, 100));
+            entities.Add(new Player(new Vector2(100, 100)));
+
+            randy = new Random();
 
             base.Initialize();
         }
@@ -53,9 +58,16 @@ namespace Navier_Boats
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            player.Texture = Content.Load<Texture2D>("playerTexture");
-            player.HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
+            entities[0].Texture = Content.Load<Texture2D>("playerTexture");
+            entities[0].HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
 
+            for (int i = 1; i < 100; i++)
+            {
+            entities.Add(new Wanderer(new Vector2(30*i,30*i), randy.Next(int.MaxValue)));
+            entities[i].Texture = Content.Load<Texture2D>("playerTexture");
+            entities[i].HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
+                
+            }
             // TODO: use this.Content to load your game content here
         }
 
@@ -79,8 +91,17 @@ namespace Navier_Boats
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            player.Update(gameTime, Keyboard.GetState(), Mouse.GetState());
-
+            foreach (LivingEntity entity in entities)
+            {
+                if (entity is Player)
+                {
+                    ((Player)entity).Update(gameTime, Keyboard.GetState(), Mouse.GetState());
+                }
+                else
+                {
+                    entity.Update(gameTime);
+                }
+            }
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -96,7 +117,10 @@ namespace Navier_Boats
 
             spriteBatch.Begin();
 
-            player.Draw(spriteBatch);
+            foreach (LivingEntity entity in entities)
+            {
+                entity.Draw(spriteBatch);
+            }
 
             spriteBatch.End();
             // TODO: Add your drawing code here
