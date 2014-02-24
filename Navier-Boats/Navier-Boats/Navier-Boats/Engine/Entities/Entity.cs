@@ -19,9 +19,13 @@ namespace Navier_Boats.Engine.Entities
             velocity = Vector2.Zero;
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
+            //Update Position based on Velocity * deltaTime
             Position += velocity * (gameTime.ElapsedGameTime.Milliseconds / 1000.0f);
+
+            //Set rotation to point in direction of velocity
+            Rotation = (float)Math.Atan2(velocity.Y, velocity.X);
         }
     }
 }
