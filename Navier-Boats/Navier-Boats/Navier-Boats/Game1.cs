@@ -16,6 +16,7 @@ using Navier_Boats.Engine.Entities;
  * Add your names here once you have completed the Git/SourceTree seminar:
  * 
  * Liam Middlebrook - Completed
+ * Sam Willis - Completed
  * 
  */
 
