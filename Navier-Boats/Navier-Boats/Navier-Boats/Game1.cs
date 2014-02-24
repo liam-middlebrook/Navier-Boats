@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using Navier_Boats.Game.Entities;
+
 namespace Navier_Boats
 {
     /// <summary>
@@ -18,6 +20,8 @@ namespace Navier_Boats
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        Player player;
 
         public Game1()
         {
@@ -35,6 +39,8 @@ namespace Navier_Boats
         {
             // TODO: Add your initialization logic here
 
+            player = new Player(new Vector2(100, 100));
+
             base.Initialize();
         }
 
@@ -46,6 +52,9 @@ namespace Navier_Boats
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            player.Texture = Content.Load<Texture2D>("playerTexture");
+            player.HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
 
             // TODO: use this.Content to load your game content here
         }
@@ -70,6 +79,8 @@ namespace Navier_Boats
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            player.Update(gameTime, Keyboard.GetState(), Mouse.GetState());
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -83,6 +94,11 @@ namespace Navier_Boats
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            spriteBatch.Begin();
+
+            player.Draw(spriteBatch);
+
+            spriteBatch.End();
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
