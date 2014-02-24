@@ -5,6 +5,7 @@ using System.Text;
 using Navier_Boats.Engine.Entities;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using libXNADeveloperConsole;
 
 namespace Navier_Boats.Game.Entities
 {
@@ -17,14 +18,17 @@ namespace Navier_Boats.Game.Entities
             Speed = 100;
         }
 
-        public void Update(GameTime gameTime, KeyboardState keyState, MouseState mouseState)
+        public void Update(GameTime gameTime, KeyboardHelper keyHelper, MouseState mouseState)
         { 
             // Change the player's velocity based on inputs
             Vector2 vel = Vector2.Zero;
-            vel.X += keyState.IsKeyDown(Keys.A) ? -1 : 0;
-            vel.X += keyState.IsKeyDown(Keys.D) ? 1 : 0;
-            vel.Y += keyState.IsKeyDown(Keys.W) ? -1 : 0;
-            vel.Y += keyState.IsKeyDown(Keys.S) ? 1 : 0;
+            if (!ConsoleWindow.GetInstance().IsActive)
+            {
+                vel.X += keyHelper.KeyState.IsKeyDown(Keys.A) ? -1 : 0;
+                vel.X += keyHelper.KeyState.IsKeyDown(Keys.D) ? 1 : 0;
+                vel.Y += keyHelper.KeyState.IsKeyDown(Keys.W) ? -1 : 0;
+                vel.Y += keyHelper.KeyState.IsKeyDown(Keys.S) ? 1 : 0;
+            }
             Velocity = vel;
 
             // Make the Head look at the mouse

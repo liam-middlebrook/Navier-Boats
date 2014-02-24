@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using libXNADeveloperConsole;
 
 using Navier_Boats.Game.Entities;
 using Navier_Boats.Engine.Entities;
@@ -21,6 +22,7 @@ namespace Navier_Boats
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        KeyboardHelper keyHelper;
         Random randy;
 
         List<LivingEntity> entities;
@@ -46,6 +48,8 @@ namespace Navier_Boats
 
             randy = new Random();
 
+            keyHelper = new KeyboardHelper();
+
             base.Initialize();
         }
 
@@ -61,13 +65,28 @@ namespace Navier_Boats
             entities[0].Texture = Content.Load<Texture2D>("playerTexture");
             entities[0].HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
 
-            for (int i = 1; i < 100; i++)
+            /*for (int i = 1; i < 1; i++)
             {
             entities.Add(new Wanderer(new Vector2(30*i,30*i), randy.Next(int.MaxValue)));
             entities[i].Texture = Content.Load<Texture2D>("playerTexture");
             entities[i].HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
                 
-            }
+            }//*/
+
+            ConsoleWindow.GetInstance().ConsoleFont = Content.Load<SpriteFont>("consolas");
+
+            ConsoleWindow.GetInstance().AddCommand(
+                new ConsoleCommand(
+                    "spawn",
+                    (args, logQueue) 
+                        =>
+                     {
+                         int i = entities.Count;
+                     entities.Add(new Wanderer(new Vector2(250, 250), randy.Next(int.MaxValue)));
+                     entities[i].Texture = Content.Load<Texture2D>("playerTexture");
+                     entities[i].HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
+                       ; return 0;
+                 }));
             // TODO: use this.Content to load your game content here
         }
 
@@ -91,11 +110,15 @@ namespace Navier_Boats
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            keyHelper.UpdateKeyStates();
+
+            ConsoleWindow.GetInstance().Update(keyHelper);
+
             foreach (LivingEntity entity in entities)
             {
                 if (entity is Player)
                 {
-                    ((Player)entity).Update(gameTime, Keyboard.GetState(), Mouse.GetState());
+                    ((Player)entity).Update(gameTime, keyHelper, Mouse.GetState());
                 }
                 else
                 {
@@ -122,6 +145,7 @@ namespace Navier_Boats
                 entity.Draw(spriteBatch);
             }
 
+            ConsoleWindow.GetInstance().Draw(spriteBatch);
             spriteBatch.End();
             // TODO: Add your drawing code here
 
