@@ -121,15 +121,22 @@ namespace Navier_Boats
 
             ConsoleWindow.GetInstance().Update(keyHelper);
 
-            foreach (LivingEntity entity in entities)
+            for (int i = 0; i < entities.Count; i++)
             {
-                if (entity is Player)
+                if (entities[i] is Player)
                 {
-                    ((Player)entity).Update(gameTime, keyHelper, Mouse.GetState());
+                    ((Player)entities[i]).Update(gameTime, keyHelper, Mouse.GetState());
                 }
                 else
                 {
-                    entity.Update(gameTime);
+                    entities[i].Update(gameTime);
+                }
+
+
+                if (entities[i].Health < 0)
+                {
+                    entities.RemoveAt(i);
+                    --i;
                 }
             }
             // TODO: Add your update logic here

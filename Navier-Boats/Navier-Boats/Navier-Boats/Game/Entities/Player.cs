@@ -18,6 +18,11 @@ namespace Navier_Boats.Game.Entities
             Speed = 100;
         }
 
+        public override void Interact(LivingEntity interactor)
+        {
+
+        }
+
         public void Update(GameTime gameTime, KeyboardHelper keyHelper, MouseState mouseState)
         { 
             // Change the player's velocity based on inputs

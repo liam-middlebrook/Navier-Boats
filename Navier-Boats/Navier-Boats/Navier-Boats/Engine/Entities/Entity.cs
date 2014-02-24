@@ -7,13 +7,19 @@ using Navier_Boats.Engine.Graphics;
 
 namespace Navier_Boats.Engine.Entities
 {
-    class Entity : Sprite
+    abstract class Entity : Sprite
     {
         private Vector2 acceleration;
 
         private Vector2 velocity;
 
         private float speed;
+
+        public Rectangle BoundingRectangle()
+        {
+            Rectangle wh= SourceRectangle ?? Texture.Bounds;
+            return new Rectangle((int)Position.X, (int)Position.Y, wh.Width, wh.Height);
+        }
 
         public Vector2 Acceleration { get { return acceleration; } set { acceleration = value; } }
 
@@ -26,6 +32,8 @@ namespace Navier_Boats.Engine.Entities
         {
             velocity = Vector2.Zero;
         }
+
+        public abstract void Interact(LivingEntity interactor);
 
         public virtual void Update(GameTime gameTime)
         {

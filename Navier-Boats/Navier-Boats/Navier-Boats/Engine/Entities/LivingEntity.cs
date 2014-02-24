@@ -8,7 +8,7 @@ using Navier_Boats.Engine.Graphics;
 
 namespace Navier_Boats.Engine.Entities
 {
-    class LivingEntity : Entity
+    abstract class LivingEntity : Entity
     {
         #region Fields
 
@@ -21,6 +21,8 @@ namespace Navier_Boats.Engine.Entities
         #region Properties
 
         public Texture2D HeadTexture { get { return headSprite.Texture; } set { headSprite.Texture = value; } }
+
+        public double Health { get { return health; } }
 
         #endregion
 
@@ -41,6 +43,8 @@ namespace Navier_Boats.Engine.Entities
         #endregion
 
         #region Overridden Methods
+
+        public abstract override void Interact(LivingEntity interactor);
 
         public override void Update(GameTime gameTime)
         {

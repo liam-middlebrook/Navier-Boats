@@ -14,5 +14,11 @@ namespace Navier_Boats.Engine.Entities
             TintColor = Color.Red;
             headSprite.TintColor = TintColor;
         }
+
+        public override void Interact(LivingEntity interactor)
+        {
+            TakeDamage(1);
+            interactor.TakeDamage(2);
+        }
     }
 }
