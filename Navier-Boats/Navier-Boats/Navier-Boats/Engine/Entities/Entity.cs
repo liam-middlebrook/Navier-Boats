@@ -34,8 +34,10 @@ namespace Navier_Boats.Engine.Entities
             Position += velocity * (gameTime.ElapsedGameTime.Milliseconds / 1000.0f) * speed;
 
             //Set rotation to point in direction of velocity
-            Rotation = (float)Math.Atan2(velocity.Y, velocity.X);
-
+            if (velocity != Vector2.Zero)
+            {
+                Rotation = (float)Math.Atan2(velocity.Y, velocity.X);
+            }
             acceleration = Vector2.Zero;
             velocity *= 0.9975f;
         }
