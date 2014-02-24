@@ -33,7 +33,15 @@ namespace Navier_Boats.Engine.Graphics
 
         #region Properties
 
-        public Texture2D Texture { get { return texture; } set { texture = value; } }
+        public Texture2D Texture
+        {
+            get { return texture; }
+            set
+            {
+                texture = value;
+                rotationOrigin = Center();
+            }
+        }
 
         public Vector2 Position { get { return position; } set { position = value; } }
 
@@ -74,9 +82,16 @@ namespace Navier_Boats.Engine.Graphics
             this.depthLayer = 1.0f;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, position, sourceRectangle, tintColor, rotation, rotationOrigin, scale, effects, depthLayer);
+        }
+
+        public Vector2 Center()
+        {
+            Rectangle rect = sourceRectangle ?? texture.Bounds;
+
+            return new Vector2(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
         }
     }
 }
