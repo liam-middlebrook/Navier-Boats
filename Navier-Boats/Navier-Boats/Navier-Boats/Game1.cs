@@ -9,9 +9,16 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using libXNADeveloperConsole;
-
 using Navier_Boats.Game.Entities;
 using Navier_Boats.Engine.Entities;
+
+/**
+ * Add your names here once you have completed the Git/SourceTree seminar:
+ * 
+ * Liam Middlebrook
+ * 
+ */
+
 namespace Navier_Boats
 {
     /// <summary>
