@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using libXNADeveloperConsole;
 using Navier_Boats.Game.Entities;
 using Navier_Boats.Engine.Entities;
+using Navier_Boats.Engine.Level;
 
 /**
  * Add your names here once you have completed the Git/SourceTree seminar:
@@ -57,6 +58,8 @@ namespace Navier_Boats
             randy = new Random();
 
             keyHelper = new KeyboardHelper();
+
+            CurrentLevel level = new CurrentLevel();
 
             base.Initialize();
         }

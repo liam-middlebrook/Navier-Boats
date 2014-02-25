@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 // assemblies support COM.
 [assembly: ComVisible(false)]
 
-// On Windows, the following GUID is for the ID of the typelib if this
+// On Windows, the following GUID is for the chunkID of the typelib if this
 // project is exposed to COM. On other platforms, it unique identifies the
 // title storage container when deploying this assembly to the device.
 [assembly: Guid("ac423120-362e-46c2-879c-08fa9387e9cf")]

@@ -79,6 +79,8 @@
     <Compile Include="Engine\Entities\HostileLivingEntity.cs" />
     <Compile Include="Engine\Entities\LivingEntity.cs" />
     <Compile Include="Engine\Graphics\Sprite.cs" />
+    <Compile Include="Engine\Level\Chunk.cs" />
+    <Compile Include="Engine\Level\CurrentLevel.cs" />
     <Compile Include="Game\Entities\Player.cs" />
     <Compile Include="Game\Entities\Wanderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
