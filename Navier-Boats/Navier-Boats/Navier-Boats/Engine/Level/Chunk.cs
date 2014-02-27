@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using Microsoft.Xna.Framework;
 
 namespace Navier_Boats.Engine.Level
 {
@@ -11,65 +12,66 @@ namespace Navier_Boats.Engine.Level
         public const int CHUNK_WIDTH = 128;
         public const int CHUNK_HEIGHT = 128;
 
-        private byte[,] chunkData;
+        private short[,] chunkData;
 
         public readonly string CHUNK_ID; //format 1(xIndex-sign)1(yIndex-sign)15(xIndex-value)15(yIndex-value)
-        public readonly int X, Y;
-        public Chunk(int x, int y)
+        public readonly Vector2 Position;
+        private void CreateChunk(int x, int y)
         {
-            chunkData = new byte[CHUNK_WIDTH, CHUNK_HEIGHT];
+            chunkData = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
             for (int yIndex = 0; yIndex < CHUNK_HEIGHT; yIndex++)
             {
                 for (int xIndex = 0; xIndex < CHUNK_WIDTH; xIndex++)
                 {
-                    chunkData[xIndex, yIndex] = 65;
+                    chunkData[xIndex, yIndex] = 6524;
                 }
             }
-
-            CHUNK_ID = CoordsToChunkID(x, y);
-
-            X = x;
-            Y = y;
         }
 
         public Chunk(string fileName, string directory)
         {
-            chunkData = new byte[CHUNK_WIDTH, CHUNK_HEIGHT];
+            chunkData = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
 
             CHUNK_ID = fileName.Remove(fileName.Length-6);
 
             string[] location = CHUNK_ID.Split('_');
 
-            X = int.Parse(location[0]);
-            Y = int.Parse(location[1]);
+
+            Position = new Vector2(int.Parse(location[0]), int.Parse(location[1]));
 
             BinaryReader br = null;
-            
-            try
+            if (File.Exists(Path.Combine(directory, fileName)))
             {
-                br = new BinaryReader(
-                    File.OpenRead(
-                    Path.Combine(directory, fileName)));
-
-                //Read All Chunk Data From File - Line by Line
-                for (int y = 0; y < CHUNK_HEIGHT; y++)
+                try
                 {
-                    for (int x = 0; x < CHUNK_WIDTH; x++)
+                    br = new BinaryReader(
+                        File.OpenRead(
+                        Path.Combine(directory, fileName)));
+
+                    //Read All Chunk Data From File - Line by Line
+                    for (int y = 0; y < CHUNK_HEIGHT; y++)
                     {
-                        chunkData[x, y] = br.ReadByte();
+                        for (int x = 0; x < CHUNK_WIDTH; x++)
+                        {
+                            chunkData[x, y] = br.ReadInt16();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    if (br != null)
+                    {
+                        br.Close();
                     }
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                if (br != null)
-                {
-                    br.Close();
-                }
+                CreateChunk((int)Position.X, (int)Position.Y);
             }
         }
 
@@ -105,9 +107,13 @@ namespace Navier_Boats.Engine.Level
             }
         }
 
-        public static string CoordsToChunkID(int x, int y)
+        private static string CoordsToChunkID(int x, int y)
         {
             return string.Format("{0}_{1}", x, y);
+        }
+        public static string CoordsToChunkID(Vector2 pos)
+        {
+            return CoordsToChunkID((int)pos.X, (int)pos.Y);
         }
     }
 }

@@ -37,10 +37,10 @@ namespace Navier_Boats.Engine.Level
             }
             else
             {
-                chunks[0] = new Chunk(0, 0);
-                chunks[1] = new Chunk(-1, 0);
-                chunks[2] = new Chunk(-1, -1);
-                chunks[3] = new Chunk(0, -1);
+                chunks[0] = new Chunk(Chunk.CoordsToChunkID(Vector2.Zero)+".chunk", chunkSaveDirectory);
+                chunks[1] = new Chunk(Chunk.CoordsToChunkID(new Vector2(-1, 0)) + ".chunk", chunkSaveDirectory);
+                chunks[2] = new Chunk(Chunk.CoordsToChunkID(new Vector2(-1, -1)) + ".chunk", chunkSaveDirectory);
+                chunks[3] = new Chunk(Chunk.CoordsToChunkID(new Vector2(0, -1)) + ".chunk", chunkSaveDirectory);
             }
             foreach (Chunk chunk in chunks)
                 {
@@ -57,7 +57,7 @@ namespace Navier_Boats.Engine.Level
         public void UpdateChunks(Vector2 playerPosition)
         {
             Vector2 chunkOffset = Vector2.Zero;
-            Vector2 centerPosition = new Vector2(chunks[0].X * Chunk.CHUNK_WIDTH, chunks[0].Y * Chunk.CHUNK_HEIGHT);
+            Vector2 centerPosition = new Vector2(chunks[0].Position.X * Chunk.CHUNK_WIDTH, chunks[0].Position.Y * Chunk.CHUNK_HEIGHT);
             
             // Is the Player Outside of a Reasonable Range - What direction?
             if (Math.Abs(playerPosition.X - centerPosition.X) > Chunk.CHUNK_WIDTH / 2)
@@ -76,26 +76,50 @@ namespace Navier_Boats.Engine.Level
                 Console.WriteLine("Removing Chunks in Quadrants 1 and 4");
                 chunks[0] = chunks[1];
                 chunks[3] = chunks[2];
+                Vector2[] newChunks = CheckChunkOffset(chunkOffset, new Vector2[] { chunks[1].Position, chunks[2].Position });
+                chunks[1] = new Chunk(Chunk.CoordsToChunkID(newChunks[0]) + ".chunk", chunkSaveDirectory);
+                chunks[2] = new Chunk(Chunk.CoordsToChunkID(newChunks[1]) + ".chunk", chunkSaveDirectory);
             }
             else
             {
                 Console.WriteLine("Removing Chunks in Quadrants 2 and 3");
                 chunks[1] = chunks[0];
                 chunks[2] = chunks[3];
+                Vector2[] newChunks = CheckChunkOffset(chunkOffset, new Vector2[] { chunks[0].Position, chunks[3].Position });
+                chunks[0] = new Chunk(Chunk.CoordsToChunkID(newChunks[0]) + ".chunk", chunkSaveDirectory);
+                chunks[3] = new Chunk(Chunk.CoordsToChunkID(newChunks[1]) + ".chunk", chunkSaveDirectory);
             }
             if (chunkOffset.Y > 0)
             {
                 Console.WriteLine("Removing Chunks in Quadrants 1 and 2");
                 chunks[0] = chunks[3];
                 chunks[1] = chunks[2];
+                Vector2[] newChunks = CheckChunkOffset(chunkOffset, new Vector2[] { chunks[3].Position, chunks[2].Position });
+                chunks[3] = new Chunk(Chunk.CoordsToChunkID(newChunks[0]) + ".chunk", chunkSaveDirectory);
+                chunks[2] = new Chunk(Chunk.CoordsToChunkID(newChunks[1]) + ".chunk", chunkSaveDirectory);
             }
             else
             {
                 Console.WriteLine("Removing Chunks in Quadrants 3 and 4");
                 chunks[3] = chunks[0];
                 chunks[2] = chunks[1];
+                Vector2[] newChunks = CheckChunkOffset(chunkOffset, new Vector2[] { chunks[0].Position, chunks[1].Position });
+                chunks[0] = new Chunk(Chunk.CoordsToChunkID(newChunks[0]) + ".chunk", chunkSaveDirectory);
+                chunks[1] = new Chunk(Chunk.CoordsToChunkID(newChunks[1]) + ".chunk", chunkSaveDirectory);
             }
             
+        }
+
+        private Vector2[] CheckChunkOffset(Vector2 direction, Vector2[] chunksToReplace)
+        {
+            Vector2[] newChunks = new Vector2[chunksToReplace.Length];
+            
+            for (int i = 0; i < chunksToReplace.Length; i++)
+            {
+                newChunks[i] = chunksToReplace[i] + direction;
+            }
+
+            return newChunks;
         }
     }
 }
