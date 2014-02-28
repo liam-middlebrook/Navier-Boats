@@ -4,12 +4,20 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using Microsoft.Xna.Framework;
+using Navier_Boats.Engine.Entities;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Navier_Boats.Game.Entities;
+using libXNADeveloperConsole;
+using Microsoft.Xna.Framework.Input;
 
 namespace Navier_Boats.Engine.Level
 {
     class CurrentLevel
     {
         Chunk[] chunks;
+        List<LivingEntity> entities;
+        Random randy;
             //Chunks[0] = Quadrant 1 or Top Right
             //Chunks[1] = Quadrant 2 or Top Left
             //Chunks[2] = Quadrant 3 or Bottom Left
@@ -19,6 +27,10 @@ namespace Navier_Boats.Engine.Level
 
         public CurrentLevel()
         {
+            entities = new List<LivingEntity>();
+
+            entities.Add(new Player(new Vector2(100, 100)));
+            randy = new Random();
             if (!Directory.Exists(chunkSaveDirectory))
             {
                 Directory.CreateDirectory(chunkSaveDirectory);
@@ -49,31 +61,80 @@ namespace Navier_Boats.Engine.Level
                 }
         }
 
+        public void LoadContent(ContentManager Content)
+        {
+
+            entities[0].Texture = Content.Load<Texture2D>("playerTexture");
+            entities[0].HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
+            ConsoleWindow.GetInstance().AddCommand(
+                new ConsoleCommand(
+                    "spawn",
+                    (args, logQueue)
+                        =>
+                    {
+                        int i = entities.Count;
+                        entities.Add(new Wanderer(new Vector2(250, 250), randy.Next(int.MaxValue)));
+                        entities[i].Texture = Content.Load<Texture2D>("playerTexture");
+                        entities[i].HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
+                        ; return 0;
+                    }));
+        }
+
         private void SaveChunk(Chunk chunkToSave)
         {
             chunkToSave.Save(chunkSaveDirectory);
         }
 
-        public void UpdateChunks(Vector2 playerPosition)
+        public void UpdateChunks(GameTime gameTime, KeyboardState keyState, KeyboardState prevKeyState, MouseState mouseState, MouseState prevMouseState)
         {
+
+
+            for (int i = 0; i < entities.Count; i++)
+            {
+                entities[i].Update(gameTime);
+                if (entities[i] is IInputControllable)
+                {
+                    ((IInputControllable)entities[i]).HandleInput(keyState, prevKeyState, mouseState, prevMouseState);
+                }
+                if (entities[i].Health < 0)
+                {
+                    entities.RemoveAt(i);
+                    --i;
+                }
+            }
+            for (int i = 0; i < entities.Count; i++)
+            {
+                if (entities[i] is ILateUpdateable)
+                {
+                    ((ILateUpdateable)entities[i]).LateUpdate(gameTime);
+                }
+            }
+
+
+            Vector2 playerPos = entities[0].Position * new Vector2(Chunk.CHUNK_WIDTH, Chunk.CHUNK_HEIGHT);//%= new Vector2(Chunk.CHUNK_WIDTH, Chunk.CHUNK_HEIGHT);
             Vector2 chunkOffset = Vector2.Zero;
-            Vector2 centerPosition = new Vector2(chunks[0].Position.X * Chunk.CHUNK_WIDTH, chunks[0].Position.Y * Chunk.CHUNK_HEIGHT);
+            Vector2 centerPosition = chunks[0].Position * new Vector2(Chunk.CHUNK_WIDTH, Chunk.CHUNK_HEIGHT) + new Vector2(Chunk.CHUNK_WIDTH, Chunk.CHUNK_HEIGHT);
+            //Console.WriteLine("PlayerPos: {0}", playerPosition);
+            Console.WriteLine("ChunkCenter: {0}", centerPosition);
             
             // Is the Player Outside of a Reasonable Range - What direction?
-            if (Math.Abs(playerPosition.X - centerPosition.X) > Chunk.CHUNK_WIDTH / 2)
+            if (Math.Abs(playerPos.X - centerPosition.X) > Chunk.CHUNK_WIDTH / 2)
             {
-                chunkOffset.X = (playerPosition.X > centerPosition.X) ? 1 : -1;
+                chunkOffset.X = (playerPos.X > centerPosition.X) ? 1 : -1;
             }
 
             // Is the Player Outside of a Reasonable Range - What direction?
-            if (Math.Abs(playerPosition.Y - centerPosition.Y) > Chunk.CHUNK_HEIGHT / 2)
+            if (Math.Abs(playerPos.Y - centerPosition.Y) > Chunk.CHUNK_HEIGHT / 2)
             {
-                chunkOffset.Y = (playerPosition.Y > centerPosition.Y) ? 1 : -1;
+                chunkOffset.Y = (playerPos.Y > centerPosition.Y) ? 1 : -1;
             }
-
+            //Console.WriteLine("X: {0}", Math.Abs(playerPosition.X - centerPosition.X));
+            //Console.WriteLine("Y: {0}", Math.Abs(playerPosition.Y - centerPosition.Y));
+            Console.WriteLine("Chunk Offset: {0}", chunkOffset);
+            
             if (chunkOffset.X > 0)
             {
-                Console.WriteLine("Removing Chunks in Quadrants 1 and 4");
+                //Console.WriteLine("Removing Chunks in Quadrants 1 and 4");
                 chunks[0] = chunks[1];
                 chunks[3] = chunks[2];
                 Vector2[] newChunks = CheckChunkOffset(chunkOffset, new Vector2[] { chunks[1].Position, chunks[2].Position });
@@ -82,7 +143,7 @@ namespace Navier_Boats.Engine.Level
             }
             else
             {
-                Console.WriteLine("Removing Chunks in Quadrants 2 and 3");
+                //Console.WriteLine("Removing Chunks in Quadrants 2 and 3");
                 chunks[1] = chunks[0];
                 chunks[2] = chunks[3];
                 Vector2[] newChunks = CheckChunkOffset(chunkOffset, new Vector2[] { chunks[0].Position, chunks[3].Position });
@@ -91,7 +152,7 @@ namespace Navier_Boats.Engine.Level
             }
             if (chunkOffset.Y > 0)
             {
-                Console.WriteLine("Removing Chunks in Quadrants 1 and 2");
+                //Console.WriteLine("Removing Chunks in Quadrants 1 and 2");
                 chunks[0] = chunks[3];
                 chunks[1] = chunks[2];
                 Vector2[] newChunks = CheckChunkOffset(chunkOffset, new Vector2[] { chunks[3].Position, chunks[2].Position });
@@ -100,14 +161,14 @@ namespace Navier_Boats.Engine.Level
             }
             else
             {
-                Console.WriteLine("Removing Chunks in Quadrants 3 and 4");
+                //Console.WriteLine("Removing Chunks in Quadrants 3 and 4");
                 chunks[3] = chunks[0];
                 chunks[2] = chunks[1];
                 Vector2[] newChunks = CheckChunkOffset(chunkOffset, new Vector2[] { chunks[0].Position, chunks[1].Position });
                 chunks[0] = new Chunk(Chunk.CoordsToChunkID(newChunks[0]) + ".chunk", chunkSaveDirectory);
                 chunks[1] = new Chunk(Chunk.CoordsToChunkID(newChunks[1]) + ".chunk", chunkSaveDirectory);
             }
-            
+            //*/
         }
 
         private Vector2[] CheckChunkOffset(Vector2 direction, Vector2[] chunksToReplace)
@@ -120,6 +181,14 @@ namespace Navier_Boats.Engine.Level
             }
 
             return newChunks;
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            foreach (LivingEntity entity in entities)
+            {
+                entity.Draw(spriteBatch);
+            }
         }
     }
 }

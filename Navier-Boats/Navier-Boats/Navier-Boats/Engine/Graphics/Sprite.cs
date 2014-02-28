@@ -142,7 +142,7 @@ namespace Navier_Boats.Engine.Graphics
 
             this.effects = SpriteEffects.None;
 
-            this.depthLayer = 1.0f;
+            this.depthLayer = 0.0f;
         }
 
         /// <summary>
@@ -152,6 +152,15 @@ namespace Navier_Boats.Engine.Graphics
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, position, sourceRectangle, tintColor, rotation, rotationOrigin, scale, effects, depthLayer);
+        }
+        /// <summary>
+        /// Draws the Sprite to the Screen
+        /// </summary>
+        /// <param name="spriteBatch">The SpriteBatch to draw the Sprite to the screen with</param>
+        /// <param name="levelOffset">A Vector2 representing the offset that the level is from the origin</param>
+        public virtual void Draw(SpriteBatch spriteBatch, Vector2 levelOffset)
+        {
+            spriteBatch.Draw(texture, position - levelOffset, sourceRectangle, tintColor, rotation, rotationOrigin, scale, effects, depthLayer);
         }
 
         /// <summary>

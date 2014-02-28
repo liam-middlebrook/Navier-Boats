@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Navier_Boats.Engine.Entities
 {
-    class HostileLivingEntity : LivingEntity
+    class HostileLivingEntity : LivingEntity, IInteractable
     {
         public HostileLivingEntity(int initialHealth)
             : base(initialHealth)
@@ -15,10 +15,13 @@ namespace Navier_Boats.Engine.Entities
             headSprite.TintColor = TintColor;
         }
 
-        public override void Interact(LivingEntity interactor)
+        public void Interact(IInteractable interactor)
         {
             TakeDamage(1);
-            interactor.TakeDamage(2);
+            if (interactor is LivingEntity)
+            {
+                ((LivingEntity)interactor).TakeDamage(2);
+            }
         }
     }
 }

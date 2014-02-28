@@ -9,7 +9,7 @@ using libXNADeveloperConsole;
 
 namespace Navier_Boats.Game.Entities
 {
-    class Player : LivingEntity
+    class Player : LivingEntity, IInputControllable
     {
         public Player(Vector2 position)
             : base(100)
@@ -18,28 +18,21 @@ namespace Navier_Boats.Game.Entities
             Speed = 100;
         }
 
-        public override void Interact(LivingEntity interactor)
+        public void HandleInput(KeyboardState keyState, KeyboardState prevKeyState, MouseState mouseState, MouseState prevMouseState)
         {
-
-        }
-
-        public void Update(GameTime gameTime, KeyboardHelper keyHelper, MouseState mouseState)
-        { 
-            // Change the player's velocity based on inputs
             Vector2 vel = Vector2.Zero;
             if (!ConsoleWindow.GetInstance().IsActive)
             {
-                vel.X += keyHelper.KeyState.IsKeyDown(Keys.A) ? -1 : 0;
-                vel.X += keyHelper.KeyState.IsKeyDown(Keys.D) ? 1 : 0;
-                vel.Y += keyHelper.KeyState.IsKeyDown(Keys.W) ? -1 : 0;
-                vel.Y += keyHelper.KeyState.IsKeyDown(Keys.S) ? 1 : 0;
+                vel.X += keyState.IsKeyDown(Keys.A) ? -1 : 0;
+                vel.X += keyState.IsKeyDown(Keys.D) ? 1 : 0;
+                vel.Y += keyState.IsKeyDown(Keys.W) ? -1 : 0;
+                vel.Y += keyState.IsKeyDown(Keys.S) ? 1 : 0;
             }
             Velocity = vel;
 
-            // Make the Head look at the mouse
+
             headSprite.Rotation = (float)Math.Atan2(mouseState.Y - headSprite.Position.Y, mouseState.X - headSprite.Position.X);
 
-            base.Update(gameTime);
         }
     }
 }

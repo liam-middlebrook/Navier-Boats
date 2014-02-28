@@ -33,8 +33,6 @@ namespace Navier_Boats.Engine.Entities
             velocity = Vector2.Zero;
         }
 
-        public abstract void Interact(LivingEntity interactor);
-
         public virtual void Update(GameTime gameTime)
         {
             //Update Position based on Velocity * deltaTime

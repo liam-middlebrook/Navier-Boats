@@ -33,13 +33,19 @@ namespace Navier_Boats
         SpriteBatch spriteBatch;
 
         KeyboardHelper keyHelper;
-        Random randy;
 
-        List<LivingEntity> entities;
+        MouseState mouseState;
+        MouseState prevMouseState;
+
+
+
+        CurrentLevel level;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 256;
+            graphics.PreferredBackBufferHeight = 256;
             Content.RootDirectory = "Content";
         }
 
@@ -52,15 +58,12 @@ namespace Navier_Boats
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            entities = new List<LivingEntity>();
 
-            entities.Add(new Player(new Vector2(100, 100)));
-
-            randy = new Random();
 
             keyHelper = new KeyboardHelper();
+            mouseState = Mouse.GetState();
 
-            CurrentLevel level = new CurrentLevel();
+            level = new CurrentLevel();
 
             base.Initialize();
         }
@@ -74,9 +77,7 @@ namespace Navier_Boats
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            entities[0].Texture = Content.Load<Texture2D>("playerTexture");
-            entities[0].HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
-
+            level.LoadContent(Content);
             /*for (int i = 1; i < 1; i++)
             {
             entities.Add(new Wanderer(new Vector2(30*i,30*i), randy.Next(int.MaxValue)));
@@ -87,18 +88,6 @@ namespace Navier_Boats
 
             ConsoleWindow.GetInstance().ConsoleFont = Content.Load<SpriteFont>("consolas");
 
-            ConsoleWindow.GetInstance().AddCommand(
-                new ConsoleCommand(
-                    "spawn",
-                    (args, logQueue) 
-                        =>
-                     {
-                         int i = entities.Count;
-                     entities.Add(new Wanderer(new Vector2(250, 250), randy.Next(int.MaxValue)));
-                     entities[i].Texture = Content.Load<Texture2D>("playerTexture");
-                     entities[i].HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
-                       ; return 0;
-                 }));
             // TODO: use this.Content to load your game content here
         }
 
@@ -123,27 +112,13 @@ namespace Navier_Boats
                 this.Exit();
 
             keyHelper.UpdateKeyStates();
+            prevMouseState = mouseState;
+            mouseState = Mouse.GetState();
 
             ConsoleWindow.GetInstance().Update(keyHelper);
 
-            for (int i = 0; i < entities.Count; i++)
-            {
-                if (entities[i] is Player)
-                {
-                    ((Player)entities[i]).Update(gameTime, keyHelper, Mouse.GetState());
-                }
-                else
-                {
-                    entities[i].Update(gameTime);
-                }
+            level.UpdateChunks(gameTime, keyHelper.KeyState, keyHelper.PrevKeyState, mouseState, prevMouseState);
 
-
-                if (entities[i].Health < 0)
-                {
-                    entities.RemoveAt(i);
-                    --i;
-                }
-            }
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -158,11 +133,7 @@ namespace Navier_Boats
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-
-            foreach (LivingEntity entity in entities)
-            {
-                entity.Draw(spriteBatch);
-            }
+            level.Draw(spriteBatch);
 
             ConsoleWindow.GetInstance().Draw(spriteBatch);
             spriteBatch.End();

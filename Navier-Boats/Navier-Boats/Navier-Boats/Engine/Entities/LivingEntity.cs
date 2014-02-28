@@ -44,8 +44,6 @@ namespace Navier_Boats.Engine.Entities
 
         #region Overridden Methods
 
-        public abstract override void Interact(LivingEntity interactor);
-
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);

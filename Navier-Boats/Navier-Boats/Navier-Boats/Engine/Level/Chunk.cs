@@ -12,10 +12,14 @@ namespace Navier_Boats.Engine.Level
         public const int CHUNK_WIDTH = 128;
         public const int CHUNK_HEIGHT = 128;
 
+        private string chunkDir;
         private short[,] chunkData;
 
         public readonly string CHUNK_ID; //format 1(xIndex-sign)1(yIndex-sign)15(xIndex-value)15(yIndex-value)
         public readonly Vector2 Position;
+
+        private bool fileInUse;
+
         private void CreateChunk(int x, int y)
         {
             chunkData = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
@@ -26,10 +30,12 @@ namespace Navier_Boats.Engine.Level
                     chunkData[xIndex, yIndex] = 6524;
                 }
             }
+            Save(chunkDir);
         }
 
         public Chunk(string fileName, string directory)
         {
+            chunkDir = directory;
             chunkData = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
 
             CHUNK_ID = fileName.Remove(fileName.Length-6);
@@ -40,14 +46,14 @@ namespace Navier_Boats.Engine.Level
             Position = new Vector2(int.Parse(location[0]), int.Parse(location[1]));
 
             BinaryReader br = null;
-            if (File.Exists(Path.Combine(directory, fileName)))
+            if (File.Exists(Path.Combine(directory, fileName)) && !fileInUse)
             {
                 try
                 {
+                    fileInUse = true;
                     br = new BinaryReader(
                         File.OpenRead(
                         Path.Combine(directory, fileName)));
-
                     //Read All Chunk Data From File - Line by Line
                     for (int y = 0; y < CHUNK_HEIGHT; y++)
                     {
@@ -67,6 +73,7 @@ namespace Navier_Boats.Engine.Level
                     {
                         br.Close();
                     }
+                    fileInUse = false;
                 }
             }
             else
@@ -75,34 +82,44 @@ namespace Navier_Boats.Engine.Level
             }
         }
 
+
+        ~Chunk()
+        {
+            //Save(chunkDir);
+        }
         public void Save(string directory)
         {
             BinaryWriter br = null;
-
-            try
+            if (!fileInUse)
             {
-                br = new BinaryWriter(
-                    File.OpenWrite(
-                    Path.Combine(directory, CHUNK_ID + ".chunk")));
-
-                //Write All Chunk Data To File - Line by Line
-                for (int y = 0; y < CHUNK_HEIGHT; y++)
+                try
                 {
-                    for (int x = 0; x < CHUNK_WIDTH; x++)
+                    fileInUse = true;
+                    br = new BinaryWriter(
+                        File.OpenWrite(
+                        Path.Combine(directory, CHUNK_ID + ".chunk")));
+
+                    //Write All Chunk Data To File - Line by Line
+                    for (int y = 0; y < CHUNK_HEIGHT; y++)
                     {
-                        br.Write(chunkData[x, y]);
+                        for (int x = 0; x < CHUNK_WIDTH; x++)
+                        {
+                            br.Write(chunkData[x, y]);
+                        }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                if (br != null)
+                catch (Exception ex)
                 {
-                    br.Close();
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    if (br != null)
+                    {
+                        br.Close();
+                    }
+
+                    fileInUse = false;
                 }
             }
         }
