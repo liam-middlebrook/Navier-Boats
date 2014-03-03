@@ -21,6 +21,7 @@ using Navier_Boats.Engine.Graphics;
  * Sam Willis - Completed
  * Sean Maraia - Completed
  * Thomas Landi - Completed
+ * Michael Cohen - Completed
  */
 
 namespace Navier_Boats
