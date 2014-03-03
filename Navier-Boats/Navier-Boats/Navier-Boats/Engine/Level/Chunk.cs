@@ -30,13 +30,13 @@ namespace Navier_Boats.Engine.Level
             //Currently fills a chunk with a random value between 1 and 4 (exclusive)
             //PLEASE FIX LATER - a nice grep friendly comment
             rand = new Random();
-            short tileVal = (short)rand.Next(4);
+            short tileVal = (short)rand.Next(6);
             chunkData = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
             for (int yIndex = 0; yIndex < CHUNK_HEIGHT; yIndex++)
             {
                 for (int xIndex = 0; xIndex < CHUNK_WIDTH; xIndex++)
                 {
-                    chunkData[xIndex, yIndex] = tileVal;
+                    chunkData[xIndex, yIndex] = (short)rand.Next(6);
                 }
             }
             Save(chunkDir);

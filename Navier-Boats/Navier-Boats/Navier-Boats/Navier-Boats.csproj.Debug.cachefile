@@ -1,8 +1,9 @@
 Content\playerHeadTexture.xnb
 Content\playerTexture.xnb
 Content\consolas.xnb
-Content\tiles\black.xnb
 Content\tiles\blue.xnb
-Content\tiles\red.xnb
-Content\tiles\white.xnb
-Content\tiles\yellow.xnb
+Content\tiles\abbyblue.xnb
+Content\tiles\green.xnb
+Content\tiles\navylight.xnb
+Content\tiles\pink.xnb
+Content\tiles\pruplelight.xnb

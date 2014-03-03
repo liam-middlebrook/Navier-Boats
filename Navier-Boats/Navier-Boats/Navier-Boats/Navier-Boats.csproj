@@ -75,6 +75,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\ConsoleVars.cs" />
     <Compile Include="Engine\Entities\Entity.cs" />
     <Compile Include="Engine\Entities\HostileLivingEntity.cs" />
     <Compile Include="Engine\Entities\IInputControllable.cs" />

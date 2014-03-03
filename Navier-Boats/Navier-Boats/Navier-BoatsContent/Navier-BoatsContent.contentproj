@@ -50,8 +50,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="tiles\black.png">
-      <Name>black</Name>
+    <Compile Include="tiles\abbyblue.png">
+      <Name>abbyblue</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -60,18 +60,23 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\red.png">
-      <Name>red</Name>
+    <Compile Include="tiles\green.png">
+      <Name>green</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\white.png">
-      <Name>white</Name>
+    <Compile Include="tiles\navylight.png">
+      <Name>navylight</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\yellow.png">
-      <Name>yellow</Name>
+    <Compile Include="tiles\pink.png">
+      <Name>pink</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="tiles\pruplelight.png">
+      <Name>pruplelight</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

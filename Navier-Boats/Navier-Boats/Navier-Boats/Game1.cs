@@ -140,6 +140,7 @@ namespace Navier_Boats
             spriteBatch.End();
             spriteBatch.Begin();
             ConsoleWindow.GetInstance().Draw(spriteBatch);
+            level.DrawGUI(spriteBatch);
             spriteBatch.End();
             // TODO: Add your drawing code here
 
