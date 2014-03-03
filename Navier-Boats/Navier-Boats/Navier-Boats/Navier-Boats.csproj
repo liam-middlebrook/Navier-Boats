@@ -81,6 +81,7 @@
     <Compile Include="Engine\Entities\IInteractable.cs" />
     <Compile Include="Engine\Entities\ILateUpdateable.cs" />
     <Compile Include="Engine\Entities\LivingEntity.cs" />
+    <Compile Include="Engine\Graphics\Camera.cs" />
     <Compile Include="Engine\Graphics\Sprite.cs" />
     <Compile Include="Engine\Level\Chunk.cs" />
     <Compile Include="Engine\Level\CurrentLevel.cs" />
