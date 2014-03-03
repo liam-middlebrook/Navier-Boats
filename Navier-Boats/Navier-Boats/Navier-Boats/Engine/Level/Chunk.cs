@@ -4,13 +4,17 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Navier_Boats.Engine.Level
 {
     class Chunk
     {
-        public const int CHUNK_WIDTH = 128;
-        public const int CHUNK_HEIGHT = 128;
+        public const int CHUNK_WIDTH = 32;
+        public const int CHUNK_HEIGHT = 32;
+
+        public const int TILE_WIDTH = 32;
+        public const int TILE_HEIGHT = 32;
 
         private string chunkDir;
         private short[,] chunkData;
@@ -20,14 +24,19 @@ namespace Navier_Boats.Engine.Level
 
         private bool fileInUse;
 
+        Random rand;
         private void CreateChunk(int x, int y)
         {
+            //Currently fills a chunk with a random value between 1 and 4 (exclusive)
+            //PLEASE FIX LATER - a nice grep friendly comment
+            rand = new Random();
+            short tileVal = (short)rand.Next(4);
             chunkData = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
             for (int yIndex = 0; yIndex < CHUNK_HEIGHT; yIndex++)
             {
                 for (int xIndex = 0; xIndex < CHUNK_WIDTH; xIndex++)
                 {
-                    chunkData[xIndex, yIndex] = 6524;
+                    chunkData[xIndex, yIndex] = tileVal;
                 }
             }
             Save(chunkDir);
@@ -38,12 +47,11 @@ namespace Navier_Boats.Engine.Level
             chunkDir = directory;
             chunkData = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
 
-            CHUNK_ID = fileName.Remove(fileName.Length-6);
-
+            //Parse data to position
+            CHUNK_ID = fileName.Remove(fileName.Length - 6);
             string[] location = CHUNK_ID.Split('_');
-
-
             Position = new Vector2(int.Parse(location[0]), int.Parse(location[1]));
+
 
             BinaryReader br = null;
             if (File.Exists(Path.Combine(directory, fileName)) && !fileInUse)
@@ -82,11 +90,6 @@ namespace Navier_Boats.Engine.Level
             }
         }
 
-
-        ~Chunk()
-        {
-            //Save(chunkDir);
-        }
         public void Save(string directory)
         {
             BinaryWriter br = null;
@@ -124,13 +127,35 @@ namespace Navier_Boats.Engine.Level
             }
         }
 
+        /// <summary>
+        /// Converts Chunk Coordinates to CHUNKID string format
+        /// </summary>
+        /// <param name="x">The X Coordinate of the Chunk in ChunkCoords</param>
+        /// <param name="y">The Y Coordinate of the Chunk in ChunkCoords</param>
+        /// <returns>The CHUNKID in string format</returns>
         private static string CoordsToChunkID(int x, int y)
         {
             return string.Format("{0}_{1}", x, y);
         }
+        /// <summary>
+        /// Converts Chunk Coordinates to CHUNKID string format
+        /// </summary>
+        /// <param name="pos">The Coordinates of the Chunk in ChunkCoords</param>
+        /// <returns>The CHUNKID in string format</returns>
         public static string CoordsToChunkID(Vector2 pos)
         {
             return CoordsToChunkID((int)pos.X, (int)pos.Y);
+        }
+
+        public void Draw(SpriteBatch spriteBatch, List<Texture2D> tileTextures, Vector2 chunkOffset, Vector2 position)
+        {
+            for (int y = 0; y < CHUNK_HEIGHT; y++)
+            {
+                for (int x = 0; x < CHUNK_WIDTH; x++)
+                {
+                    spriteBatch.Draw(tileTextures[chunkData[x, y]], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, Color.White);
+                }
+            }
         }
     }
 }

@@ -10,62 +10,36 @@ using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Game.Entities;
 using libXNADeveloperConsole;
 using Microsoft.Xna.Framework.Input;
+using Navier_Boats.Engine.Graphics;
 
 namespace Navier_Boats.Engine.Level
 {
     class CurrentLevel
     {
-        Chunk[] chunks;
-        List<LivingEntity> entities;
+        Chunk[,] chunks;
+        List<Texture2D> tileTextures;
+
         Random randy;
-            //Chunks[0] = Quadrant 1 or Top Right
-            //Chunks[1] = Quadrant 2 or Top Left
-            //Chunks[2] = Quadrant 3 or Bottom Left
-            //Chunks[3] = Quadrant 4 or Bottom Right
+
+        Camera drawCamera;
+        List<LivingEntity> entities;
 
         private string chunkSaveDirectory = "./LevelData";
 
-        public CurrentLevel()
+        public CurrentLevel(Camera drawCamera)
         {
+            this.drawCamera = drawCamera;
             entities = new List<LivingEntity>();
 
-            entities.Add(new Player(new Vector2(100, 100)));
+            entities.Add(new Player(new Vector2(300, 300)));
             randy = new Random();
-            if (!Directory.Exists(chunkSaveDirectory))
-            {
-                Directory.CreateDirectory(chunkSaveDirectory);
-            }
-            chunks = new Chunk[4];
-
-            if (File.Exists(Path.Combine(chunkSaveDirectory, "0_0.chunk"))
-                && File.Exists(Path.Combine(chunkSaveDirectory, "0_-1.chunk"))
-                && File.Exists(Path.Combine(chunkSaveDirectory, "-1_0.chunk"))
-                && File.Exists(Path.Combine(chunkSaveDirectory, "-1_-1.chunk")))
-            {
-                chunks[0] = new Chunk("0_0.chunk", chunkSaveDirectory);
-                chunks[1] = new Chunk("0_-1.chunk", chunkSaveDirectory);
-                chunks[2] = new Chunk("-1_0.chunk", chunkSaveDirectory);
-                chunks[3] = new Chunk("-1_-1.chunk", chunkSaveDirectory);
-            }
-            else
-            {
-                chunks[0] = new Chunk(Chunk.CoordsToChunkID(Vector2.Zero)+".chunk", chunkSaveDirectory);
-                chunks[1] = new Chunk(Chunk.CoordsToChunkID(new Vector2(-1, 0)) + ".chunk", chunkSaveDirectory);
-                chunks[2] = new Chunk(Chunk.CoordsToChunkID(new Vector2(-1, -1)) + ".chunk", chunkSaveDirectory);
-                chunks[3] = new Chunk(Chunk.CoordsToChunkID(new Vector2(0, -1)) + ".chunk", chunkSaveDirectory);
-            }
-            foreach (Chunk chunk in chunks)
-                {
-                    Console.WriteLine(chunk.CHUNK_ID);
-                    SaveChunk(chunk);
-                }
         }
 
         public void LoadContent(ContentManager Content)
         {
-
             entities[0].Texture = Content.Load<Texture2D>("playerTexture");
             entities[0].HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
+
             ConsoleWindow.GetInstance().AddCommand(
                 new ConsoleCommand(
                     "spawn",
@@ -78,6 +52,14 @@ namespace Navier_Boats.Engine.Level
                         entities[i].HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
                         ; return 0;
                     }));
+
+            tileTextures = new List<Texture2D>();
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\black"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\red"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\white"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\yellow"));
+
+            InitLevel();
         }
 
         private void SaveChunk(Chunk chunkToSave)
@@ -85,10 +67,9 @@ namespace Navier_Boats.Engine.Level
             chunkToSave.Save(chunkSaveDirectory);
         }
 
-        public void UpdateChunks(GameTime gameTime, KeyboardState keyState, KeyboardState prevKeyState, MouseState mouseState, MouseState prevMouseState)
+        public void Update(GameTime gameTime, KeyboardState keyState, KeyboardState prevKeyState, MouseState mouseState, MouseState prevMouseState)
         {
-
-
+            //Entity Update Loop
             for (int i = 0; i < entities.Count; i++)
             {
                 entities[i].Update(gameTime);
@@ -102,6 +83,7 @@ namespace Navier_Boats.Engine.Level
                     --i;
                 }
             }
+            //Entity LateUpdate Loop
             for (int i = 0; i < entities.Count; i++)
             {
                 if (entities[i] is ILateUpdateable)
@@ -110,85 +92,118 @@ namespace Navier_Boats.Engine.Level
                 }
             }
 
+            UpdateChunks();
 
-            Vector2 playerPos = entities[0].Position * new Vector2(Chunk.CHUNK_WIDTH, Chunk.CHUNK_HEIGHT);//%= new Vector2(Chunk.CHUNK_WIDTH, Chunk.CHUNK_HEIGHT);
-            Vector2 chunkOffset = Vector2.Zero;
-            Vector2 centerPosition = chunks[0].Position * new Vector2(Chunk.CHUNK_WIDTH, Chunk.CHUNK_HEIGHT) + new Vector2(Chunk.CHUNK_WIDTH, Chunk.CHUNK_HEIGHT);
-            //Console.WriteLine("PlayerPos: {0}", playerPosition);
-            Console.WriteLine("ChunkCenter: {0}", centerPosition);
-            
-            // Is the Player Outside of a Reasonable Range - What direction?
-            if (Math.Abs(playerPos.X - centerPosition.X) > Chunk.CHUNK_WIDTH / 2)
-            {
-                chunkOffset.X = (playerPos.X > centerPosition.X) ? 1 : -1;
-            }
-
-            // Is the Player Outside of a Reasonable Range - What direction?
-            if (Math.Abs(playerPos.Y - centerPosition.Y) > Chunk.CHUNK_HEIGHT / 2)
-            {
-                chunkOffset.Y = (playerPos.Y > centerPosition.Y) ? 1 : -1;
-            }
-            //Console.WriteLine("X: {0}", Math.Abs(playerPosition.X - centerPosition.X));
-            //Console.WriteLine("Y: {0}", Math.Abs(playerPosition.Y - centerPosition.Y));
-            Console.WriteLine("Chunk Offset: {0}", chunkOffset);
-            
-            if (chunkOffset.X > 0)
-            {
-                //Console.WriteLine("Removing Chunks in Quadrants 1 and 4");
-                chunks[0] = chunks[1];
-                chunks[3] = chunks[2];
-                Vector2[] newChunks = CheckChunkOffset(chunkOffset, new Vector2[] { chunks[1].Position, chunks[2].Position });
-                chunks[1] = new Chunk(Chunk.CoordsToChunkID(newChunks[0]) + ".chunk", chunkSaveDirectory);
-                chunks[2] = new Chunk(Chunk.CoordsToChunkID(newChunks[1]) + ".chunk", chunkSaveDirectory);
-            }
-            else
-            {
-                //Console.WriteLine("Removing Chunks in Quadrants 2 and 3");
-                chunks[1] = chunks[0];
-                chunks[2] = chunks[3];
-                Vector2[] newChunks = CheckChunkOffset(chunkOffset, new Vector2[] { chunks[0].Position, chunks[3].Position });
-                chunks[0] = new Chunk(Chunk.CoordsToChunkID(newChunks[0]) + ".chunk", chunkSaveDirectory);
-                chunks[3] = new Chunk(Chunk.CoordsToChunkID(newChunks[1]) + ".chunk", chunkSaveDirectory);
-            }
-            if (chunkOffset.Y > 0)
-            {
-                //Console.WriteLine("Removing Chunks in Quadrants 1 and 2");
-                chunks[0] = chunks[3];
-                chunks[1] = chunks[2];
-                Vector2[] newChunks = CheckChunkOffset(chunkOffset, new Vector2[] { chunks[3].Position, chunks[2].Position });
-                chunks[3] = new Chunk(Chunk.CoordsToChunkID(newChunks[0]) + ".chunk", chunkSaveDirectory);
-                chunks[2] = new Chunk(Chunk.CoordsToChunkID(newChunks[1]) + ".chunk", chunkSaveDirectory);
-            }
-            else
-            {
-                //Console.WriteLine("Removing Chunks in Quadrants 3 and 4");
-                chunks[3] = chunks[0];
-                chunks[2] = chunks[1];
-                Vector2[] newChunks = CheckChunkOffset(chunkOffset, new Vector2[] { chunks[0].Position, chunks[1].Position });
-                chunks[0] = new Chunk(Chunk.CoordsToChunkID(newChunks[0]) + ".chunk", chunkSaveDirectory);
-                chunks[1] = new Chunk(Chunk.CoordsToChunkID(newChunks[1]) + ".chunk", chunkSaveDirectory);
-            }
-            //*/
+            //Center camera on player
+            drawCamera.Focus(entities[0].Position);
         }
 
-        private Vector2[] CheckChunkOffset(Vector2 direction, Vector2[] chunksToReplace)
+        private void UpdateChunks()
         {
-            Vector2[] newChunks = new Vector2[chunksToReplace.Length];
-            
-            for (int i = 0; i < chunksToReplace.Length; i++)
-            {
-                newChunks[i] = chunksToReplace[i] + direction;
-            }
+            Vector2 playerPos = entities[0].Position;
+            Vector2 upperLeftBound = GetChunkCenterWorldCoords(ChunkCoordsToWorldCoords(chunks[0, 0].Position));
+            Vector2 lowerRightBound = GetChunkCenterWorldCoords(ChunkCoordsToWorldCoords(chunks[1, 1].Position));
 
-            return newChunks;
+            if (playerPos.X < upperLeftBound.X)
+            {
+                //Player has moved left
+                //push left chunks over
+                chunks[1, 0] = chunks[0, 0];
+                chunks[1, 1] = chunks[0, 1];
+                //unload left chunks and replace
+                chunks[0, 0] = new Chunk(Chunk.CoordsToChunkID(chunks[0, 0].Position + new Vector2(-1, 0)) + ".chunk", chunkSaveDirectory);
+                chunks[0, 1] = new Chunk(Chunk.CoordsToChunkID(chunks[0, 1].Position + new Vector2(-1, 0)) + ".chunk", chunkSaveDirectory);
+            }
+            else if (playerPos.X > lowerRightBound.X)
+            {
+                //Player has moved right
+                //push right chunks over
+                chunks[0, 0] = chunks[1, 0];
+                chunks[0, 1] = chunks[1, 1];
+                //unload right chunks and replace
+                chunks[1, 0] = new Chunk(Chunk.CoordsToChunkID(chunks[1, 0].Position + new Vector2(1, 0)) + ".chunk", chunkSaveDirectory);
+                chunks[1, 1] = new Chunk(Chunk.CoordsToChunkID(chunks[1, 1].Position + new Vector2(1, 0)) + ".chunk", chunkSaveDirectory);
+            }
+            if (playerPos.Y < upperLeftBound.Y)
+            {
+                //Player has moved up
+                //push top chunks down
+                chunks[0, 1] = chunks[0, 0];
+                chunks[1, 1] = chunks[1, 0];
+                //unload top chunks and replace
+                chunks[0, 0] = new Chunk(Chunk.CoordsToChunkID(chunks[0, 0].Position + new Vector2(0, -1)) + ".chunk", chunkSaveDirectory);
+                chunks[1, 0] = new Chunk(Chunk.CoordsToChunkID(chunks[1, 0].Position + new Vector2(0, -1)) + ".chunk", chunkSaveDirectory);
+            }
+            if (playerPos.Y > lowerRightBound.Y)
+            {
+                //Player has moved up
+                //push top chunks down
+                chunks[0, 0] = chunks[0, 1];
+                chunks[1, 0] = chunks[1, 1];
+                //unload top chunks and replace
+                chunks[0, 1] = new Chunk(Chunk.CoordsToChunkID(chunks[0, 1].Position + new Vector2(0, 1)) + ".chunk", chunkSaveDirectory);
+                chunks[1, 1] = new Chunk(Chunk.CoordsToChunkID(chunks[1, 1].Position + new Vector2(0, 1)) + ".chunk", chunkSaveDirectory);
+            }
+        }
+
+        /// <summary>
+        /// Adds the offset to a the world coordinates of a chunk to get it's center
+        /// </summary>
+        /// <param name="chunkPos">The chunk's position in world coords</param>
+        /// <returns>The Center of the Chunk in World Coords</returns>
+        private Vector2 GetChunkCenterWorldCoords(Vector2 chunkPos)
+        {
+            return chunkPos + new Vector2(Chunk.TILE_WIDTH * Chunk.CHUNK_WIDTH / 2, Chunk.TILE_HEIGHT * Chunk.CHUNK_HEIGHT / 2);
+        }
+
+        /// <summary>
+        /// Converts from Chunk coordinates (0,-1) to World Coordinates (0, -1024)
+        /// </summary>
+        /// <param name="chunkCoords">The coordinates of the chunk in chunkspace</param>
+        /// <returns>The coordinates of the chunk in worldspace</returns>
+        private Vector2 ChunkCoordsToWorldCoords(Vector2 chunkCoords)
+        {
+            return new Vector2(Chunk.TILE_WIDTH * Chunk.CHUNK_WIDTH, Chunk.TILE_HEIGHT * Chunk.CHUNK_HEIGHT) * chunkCoords;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            //Draw the tilemap
+            for (int y = 0; y < chunks.GetLength(0); y++)
+            {
+                for (int x = 0; x < chunks.GetLength(1); x++)
+                {
+                    chunks[x, y].Draw(spriteBatch, tileTextures, Vector2.Zero, ChunkCoordsToWorldCoords(chunks[x, y].Position));
+                }
+            }
+
+            //Draw all entities
             foreach (LivingEntity entity in entities)
             {
                 entity.Draw(spriteBatch);
             }
         }
+
+        private void InitLevel()
+        {
+            if (!Directory.Exists(chunkSaveDirectory))
+            {
+                Directory.CreateDirectory(chunkSaveDirectory);
+            }
+            chunks = new Chunk[2, 2];
+            for (int y = 0; y < 2; y++)
+            {
+                for (int x = 0; x < 2; x++)
+                {
+                    chunks[x, y] = new Chunk(Chunk.CoordsToChunkID(new Vector2(x-1, y)) + ".chunk", chunkSaveDirectory);
+                }
+            }
+            foreach (Chunk chunk in chunks)
+            {
+                Console.WriteLine(chunk.CHUNK_ID);
+                SaveChunk(chunk);
+            }
+        }
+
     }
 }

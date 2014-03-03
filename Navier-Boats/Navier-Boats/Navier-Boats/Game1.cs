@@ -12,6 +12,7 @@ using libXNADeveloperConsole;
 using Navier_Boats.Game.Entities;
 using Navier_Boats.Engine.Entities;
 using Navier_Boats.Engine.Level;
+using Navier_Boats.Engine.Graphics;
 
 /**
  * Add your names here once you have completed the Git/SourceTree seminar:
@@ -40,12 +41,13 @@ namespace Navier_Boats
 
 
         CurrentLevel level;
+        Camera camera;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 256;
-            graphics.PreferredBackBufferHeight = 256;
+            graphics.PreferredBackBufferWidth = 1024;
+            graphics.PreferredBackBufferHeight = 1024;
             Content.RootDirectory = "Content";
         }
 
@@ -63,8 +65,8 @@ namespace Navier_Boats
             keyHelper = new KeyboardHelper();
             mouseState = Mouse.GetState();
 
-            level = new CurrentLevel();
-
+            camera = new Camera();
+            level = new CurrentLevel(camera);
             base.Initialize();
         }
 
@@ -117,10 +119,10 @@ namespace Navier_Boats
 
             ConsoleWindow.GetInstance().Update(keyHelper);
 
-            level.UpdateChunks(gameTime, keyHelper.KeyState, keyHelper.PrevKeyState, mouseState, prevMouseState);
+            level.Update(gameTime, keyHelper.KeyState, keyHelper.PrevKeyState, mouseState, prevMouseState);
 
             // TODO: Add your update logic here
-
+            
             base.Update(gameTime);
         }
 
@@ -132,9 +134,11 @@ namespace Navier_Boats
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
-            level.Draw(spriteBatch);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.TransformMatrix);
 
+            level.Draw(spriteBatch);
+            spriteBatch.End();
+            spriteBatch.Begin();
             ConsoleWindow.GetInstance().Draw(spriteBatch);
             spriteBatch.End();
             // TODO: Add your drawing code here
