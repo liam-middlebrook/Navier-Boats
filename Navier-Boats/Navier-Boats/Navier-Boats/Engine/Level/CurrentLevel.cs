@@ -22,14 +22,16 @@ namespace Navier_Boats.Engine.Level
         Random randy;
 
         Camera drawCamera;
-        List<LivingEntity> entities;
+        List<Entity> entities;
+
+        SpriteFont debugFont;
 
         private string chunkSaveDirectory = "./LevelData";
 
         public CurrentLevel(Camera drawCamera)
         {
             this.drawCamera = drawCamera;
-            entities = new List<LivingEntity>();
+            entities = new List<Entity>();
 
             entities.Add(new Player(new Vector2(300, 300)));
             randy = new Random();
@@ -38,7 +40,7 @@ namespace Navier_Boats.Engine.Level
         public void LoadContent(ContentManager Content)
         {
             entities[0].Texture = Content.Load<Texture2D>("playerTexture");
-            entities[0].HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
+            ((LivingEntity)entities[0]).HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
 
             ConsoleWindow.GetInstance().AddCommand(
                 new ConsoleCommand(
@@ -49,15 +51,29 @@ namespace Navier_Boats.Engine.Level
                         int i = entities.Count;
                         entities.Add(new Wanderer(new Vector2(250, 250), randy.Next(int.MaxValue)));
                         entities[i].Texture = Content.Load<Texture2D>("playerTexture");
-                        entities[i].HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
+                        ((LivingEntity)entities[i]).HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
                         ; return 0;
                     }));
 
+            ConsoleWindow.GetInstance().AddCommand(
+                new ConsoleCommand(
+                    "debugmode",
+                    (args, logQueue)
+                        =>
+                    {
+                        ConsoleVars.GetInstance().DebugDraw = !ConsoleVars.GetInstance().DebugDraw;
+                        return 0;
+                    }));
+
             tileTextures = new List<Texture2D>();
-            tileTextures.Add(Content.Load<Texture2D>("tiles\\black"));
-            tileTextures.Add(Content.Load<Texture2D>("tiles\\red"));
-            tileTextures.Add(Content.Load<Texture2D>("tiles\\white"));
-            tileTextures.Add(Content.Load<Texture2D>("tiles\\yellow"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\abbyblue"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\blue"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\green"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\navylight"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\pink"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\pruplelight"));
+
+            debugFont = Content.Load<SpriteFont>("consolas");
 
             InitLevel();
         }
@@ -77,20 +93,25 @@ namespace Navier_Boats.Engine.Level
                 {
                     ((IInputControllable)entities[i]).HandleInput(keyState, prevKeyState, mouseState, prevMouseState);
                 }
-                if (entities[i].Health < 0)
+                if (entities[i] is IInteractable)
+                {
+                    ((IInteractable)entities[i]).CheckInteractions(entities);
+                }
+                if (((LivingEntity)entities[i]).Health < 0)
                 {
                     entities.RemoveAt(i);
                     --i;
                 }
             }
             //Entity LateUpdate Loop
-            for (int i = 0; i < entities.Count; i++)
+            foreach (Entity entity in entities)
             {
-                if (entities[i] is ILateUpdateable)
+                if (entity is ILateUpdateable)
                 {
-                    ((ILateUpdateable)entities[i]).LateUpdate(gameTime);
+                    (entity as ILateUpdateable).LateUpdate(gameTime);
                 }
             }
+
 
             UpdateChunks();
 
@@ -184,6 +205,15 @@ namespace Navier_Boats.Engine.Level
             }
         }
 
+        public void DrawGUI(SpriteBatch spriteBatch)
+        {
+            if (ConsoleVars.GetInstance().DebugDraw)
+            {
+                string output = string.Format("Player Position {0}", entities[0].Position);
+                spriteBatch.DrawString(debugFont, output, new Vector2(1024 - (debugFont.MeasureString(output).X + 10), 10), Color.Black);
+            }
+        }
+
         private void InitLevel()
         {
             if (!Directory.Exists(chunkSaveDirectory))
@@ -195,7 +225,7 @@ namespace Navier_Boats.Engine.Level
             {
                 for (int x = 0; x < 2; x++)
                 {
-                    chunks[x, y] = new Chunk(Chunk.CoordsToChunkID(new Vector2(x-1, y)) + ".chunk", chunkSaveDirectory);
+                    chunks[x, y] = new Chunk(Chunk.CoordsToChunkID(new Vector2(x - 1, y)) + ".chunk", chunkSaveDirectory);
                 }
             }
             foreach (Chunk chunk in chunks)

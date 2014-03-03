@@ -8,7 +8,7 @@ using Navier_Boats.Engine.Graphics;
 
 namespace Navier_Boats.Engine.Entities
 {
-    abstract class LivingEntity : Entity
+    abstract class LivingEntity : Entity, IInteractable
     {
         #region Fields
 
@@ -38,6 +38,26 @@ namespace Navier_Boats.Engine.Entities
         public void TakeDamage(double damage)
         {
             health -= damage;
+        }
+
+        public void CheckInteractions(List<Entity> entities)
+        {
+            foreach (Entity entity in entities)
+            {
+                if (entity is IInteractable && entity != this)
+                {
+                    IInteractable interactee = entity as IInteractable;
+                    if (Vector2.DistanceSquared(entity.Position, Position) <= 100 * 100)
+                    {
+                        interactee.Interact(this);
+                    }
+                }
+            }
+        }
+
+        public virtual void Interact(IInteractable interactor)
+        {
+
         }
 
         #endregion

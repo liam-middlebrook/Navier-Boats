@@ -21,12 +21,22 @@ namespace Navier_Boats.Game.Entities
         public void HandleInput(KeyboardState keyState, KeyboardState prevKeyState, MouseState mouseState, MouseState prevMouseState)
         {
             Vector2 vel = Vector2.Zero;
+            GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
             if (!ConsoleWindow.GetInstance().IsActive)
             {
-                vel.X += keyState.IsKeyDown(Keys.A) ? -1 : 0;
-                vel.X += keyState.IsKeyDown(Keys.D) ? 1 : 0;
-                vel.Y += keyState.IsKeyDown(Keys.W) ? -1 : 0;
-                vel.Y += keyState.IsKeyDown(Keys.S) ? 1 : 0;
+                if (gamePadState.IsConnected)
+                {
+                    float mult = 1.0f + gamePadState.Triggers.Right;
+                    vel.X += gamePadState.ThumbSticks.Left.X * mult;
+                    vel.Y += -gamePadState.ThumbSticks.Left.Y * mult;
+                }
+                else
+                {
+                    vel.X += keyState.IsKeyDown(Keys.A) ? -1 : 0;
+                    vel.X += keyState.IsKeyDown(Keys.D) ? 1 : 0;
+                    vel.Y += keyState.IsKeyDown(Keys.W) ? -1 : 0;
+                    vel.Y += keyState.IsKeyDown(Keys.S) ? 1 : 0;
+                }
             }
             Velocity = vel;
 

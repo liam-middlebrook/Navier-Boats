@@ -8,5 +8,6 @@ namespace Navier_Boats.Engine.Entities
     interface IInteractable
     {
         void Interact(IInteractable interactor);
+        void CheckInteractions(List<Entity> entities);
     }
 }
