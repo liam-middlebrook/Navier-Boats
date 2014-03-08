@@ -78,11 +78,6 @@ namespace Navier_Boats.Engine.Level
             InitLevel();
         }
 
-        private void SaveChunk(Chunk chunkToSave)
-        {
-            chunkToSave.Save(chunkSaveDirectory);
-        }
-
         public void Update(GameTime gameTime, KeyboardState keyState, KeyboardState prevKeyState, MouseState mouseState, MouseState prevMouseState)
         {
             //Entity Update Loop
@@ -231,7 +226,7 @@ namespace Navier_Boats.Engine.Level
             foreach (Chunk chunk in chunks)
             {
                 Console.WriteLine(chunk.CHUNK_ID);
-                SaveChunk(chunk);
+                chunk.Save(chunkSaveDirectory);
             }
         }
 
