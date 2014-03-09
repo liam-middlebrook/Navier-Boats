@@ -16,14 +16,15 @@ namespace Navier_Boats.Engine.Level
 {
     public class CurrentLevel
     {
-        Chunk[,] chunks;
-        List<Texture2D> tileTextures;
+        private Chunk[,] chunks;
 
-        Random randy;
+        private List<Texture2D> tileTextures;
 
-        List<Entity> entities;
+        private Random randy;
 
-        SpriteFont debugFont;
+        private List<Entity> entities;
+
+        private SpriteFont debugFont;
 
         private string chunkSaveDirectory = "./LevelData";
 
