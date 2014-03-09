@@ -7,7 +7,7 @@ using Navier_Boats.Engine.Graphics;
 
 namespace Navier_Boats.Engine.Entities
 {
-    abstract class Entity : Sprite
+    public abstract class Entity : Sprite
     {
         private Vector2 acceleration;
 

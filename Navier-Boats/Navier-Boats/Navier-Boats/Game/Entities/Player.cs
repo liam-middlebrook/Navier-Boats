@@ -10,7 +10,7 @@ using Navier_Boats.Engine.Graphics;
 
 namespace Navier_Boats.Game.Entities
 {
-    class Player : LivingEntity, IInputControllable
+    public class Player : LivingEntity, IInputControllable
     {
         public Player(Vector2 position)
             : base(100, 32)

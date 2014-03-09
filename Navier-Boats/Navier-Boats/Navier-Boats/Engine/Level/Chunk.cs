@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Navier_Boats.Engine.Level
 {
-    class Chunk
+    public class Chunk
     {
         public const int CHUNK_WIDTH = 32;
         public const int CHUNK_HEIGHT = 32;

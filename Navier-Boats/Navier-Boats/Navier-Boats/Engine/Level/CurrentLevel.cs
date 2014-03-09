@@ -14,7 +14,7 @@ using Navier_Boats.Engine.Graphics;
 
 namespace Navier_Boats.Engine.Level
 {
-    class CurrentLevel
+    public class CurrentLevel
     {
         Chunk[,] chunks;
         List<Texture2D> tileTextures;

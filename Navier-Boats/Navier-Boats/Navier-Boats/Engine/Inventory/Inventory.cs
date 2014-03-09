@@ -158,10 +158,10 @@ namespace Navier_Boats.Engine.Inventory
 
         public int Find(Type t)
         {
-            for(int i = 0; i < this.Items.Length)
+            for (int i = 0; i < this.Items.Length; i++ )
             {
                 ItemStack stack = this.Items[i];
-                if(t.IsAssignableFrom(stack.Item.GetType()))
+                if (t.IsAssignableFrom(stack.Item.GetType()))
                     return i;
             }
 
@@ -196,10 +196,10 @@ namespace Navier_Boats.Engine.Inventory
         public List<int> FindAll(Type t)
         {
             List<int> found = new List<int>();
-            for(int i = 0; i < this.Items.Length)
+            for (int i = 0; i < this.Items.Length; i++)
             {
                 ItemStack stack = this.Items[i];
-                if(t.IsAssignableFrom(stack.Item.GetType()))
+                if (t.IsAssignableFrom(stack.Item.GetType()))
                     found.Add(i);
             }
 

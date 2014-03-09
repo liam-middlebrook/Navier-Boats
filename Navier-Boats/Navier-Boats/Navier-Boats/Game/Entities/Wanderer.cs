@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace Navier_Boats.Game.Entities
 {
-    class Wanderer : HostileLivingEntity
+    public class Wanderer : HostileLivingEntity
     {
         private Random randy;
 

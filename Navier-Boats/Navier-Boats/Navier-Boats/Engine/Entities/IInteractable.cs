@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Navier_Boats.Engine.Entities
 {
-    interface IInteractable
+    public interface IInteractable
     {
         void Interact(IInteractable interactor);
         void CheckInteractions(List<Entity> entities);

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Navier_Boats.Engine.Entities
 {
-    interface ILateUpdateable
+    public interface ILateUpdateable
     {
         void LateUpdate(GameTime gameTime);
     }

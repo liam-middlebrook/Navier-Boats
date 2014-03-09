@@ -8,7 +8,7 @@ using Navier_Boats.Engine.Graphics;
 
 namespace Navier_Boats.Engine.Entities
 {
-    abstract class LivingEntity : Entity, IInteractable
+    public abstract class LivingEntity : Entity, IInteractable
     {
         #region Fields
 

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Navier_Boats.Engine.Entities
 {
-    interface IInputControllable
+    public interface IInputControllable
     {
         void HandleInput(KeyboardState keyState, KeyboardState prevKeyState, MouseState mouseState, MouseState prevMouseState);
     }

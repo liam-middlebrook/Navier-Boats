@@ -10,7 +10,7 @@ namespace Navier_Boats.Engine.Graphics
     /// <summary>
     /// A Sprite That Will Be Drawn to the Screen
     /// </summary>
-    class Sprite
+    public class Sprite
     {
         #region Fields
 

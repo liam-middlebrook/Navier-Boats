@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Navier_Boats.Engine
 {
-    class ConsoleVars
+    public class ConsoleVars
     {
         private bool debugDraw;
 

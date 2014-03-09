@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Navier_Boats.Engine.Entities
 {
-    class HostileLivingEntity : LivingEntity
+    public class HostileLivingEntity : LivingEntity
     {
         public HostileLivingEntity(int initialHealth)
             : base(initialHealth)

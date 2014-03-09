@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Navier_Boats.Engine.Graphics
 {
-    class Camera
+    public class Camera
     {
         private static Matrix transformMatrix = new Matrix();
         private static Rectangle screenSize = new Rectangle(0, 0, 1024, 1024);

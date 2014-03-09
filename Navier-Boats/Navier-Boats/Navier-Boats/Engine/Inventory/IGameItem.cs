@@ -9,19 +9,19 @@ namespace Navier_Boats.Engine.Inventory
 {
     public interface IGameItem : IInteractable
     {
-        public Texture2D InventoryTexture
+        Texture2D InventoryTexture
         {
             get;
             set;
         }
 
-        public Texture2D ItemTexture
+        Texture2D ItemTexture
         {
             get;
             set;
         }
 
-        public int MaxStack
+        int MaxStack
         {
             get;
             set;
