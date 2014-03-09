@@ -7,10 +7,38 @@ namespace Navier_Boats.Game.Inventory
 {
     public class Inventory
     {
+        private int selectedItemIndex = 0;
+
         public ItemStack[] Items
         {
             get;
             protected set;
+        }
+
+        public int SelectedItemIndex
+        {
+            get
+            {
+                return selectedItemIndex;
+            }
+
+            set
+            {
+                if (value < 0 || value > this.Items.Length)
+                {
+                    throw new ArgumentOutOfRangeException(string.Format("Tried to set selected item out of range ({0})", value));
+                }
+
+                selectedItemIndex = value;
+            }
+        }
+
+        public ItemStack SelectedItem
+        {
+            get
+            {
+                return this.Items[SelectedItemIndex];
+            }
         }
 
         public Inventory(int maxSize)
