@@ -28,6 +28,12 @@ namespace Navier_Boats.Engine.Level
         private bool fileInUse;
 
         Random rand;
+
+        /// <summary>
+        /// Creates a new Chunk with the specified Chunk Coords
+        /// </summary>
+        /// <param name="x">The X value of the chunk in chunk-coords</param>
+        /// <param name="y">The Y value of the chunk in chunk-coords</param>
         private void CreateChunk(int x, int y)
         {
             //Currently fills a chunk with a random value between 1 and 4 (exclusive)
@@ -89,6 +95,11 @@ namespace Navier_Boats.Engine.Level
             Save(chunkDir);
         }
 
+        /// <summary>
+        /// Loads in a Chunk from the HDD
+        /// </summary>
+        /// <param name="fileName">The Chunks filename</param>
+        /// <param name="directory">The Chunk Directory</param>
         public Chunk(string fileName, string directory)
         {
             chunkDir = directory;
@@ -144,6 +155,10 @@ namespace Navier_Boats.Engine.Level
             }
         }
 
+        /// <summary>
+        /// Saves a chunk to the HDD
+        /// </summary>
+        /// <param name="directory">The directory to save the chunk in</param>
         public void Save(string directory)
         {
             BinaryWriter br = null;
@@ -204,6 +219,13 @@ namespace Navier_Boats.Engine.Level
             return CoordsToChunkID((int)pos.X, (int)pos.Y);
         }
 
+        /// <summary>
+        /// Draws a chunk
+        /// </summary>
+        /// <param name="spriteBatch">The SpriteBatch to draw the chunk to</param>
+        /// <param name="tileTextures">The list of tile textures to draw the chunk to</param>
+        /// <param name="chunkOffset">The offset of the chunk (based on which quadrant it is loaded into)</param>
+        /// <param name="position">The position of the chunk in world coordinates</param>
         public void Draw(SpriteBatch spriteBatch, List<Texture2D> tileTextures, Vector2 chunkOffset, Vector2 position)
         {
             for (int y = 0; y < CHUNK_HEIGHT; y++)
