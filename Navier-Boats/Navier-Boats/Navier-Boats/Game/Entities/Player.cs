@@ -40,10 +40,9 @@ namespace Navier_Boats.Game.Entities
             }
             Velocity = vel;
 
-            float angle = (float)Math.Atan2(mouseState.Y - headSprite.Position.Y, mouseState.X - headSprite.Position.X);
+            float angle = (float)Math.Atan2(mouseState.Y - headSprite.Position.Y, mouseState.X - headSprite.Position.X) % 360;
 
-            headSprite.Rotation = MathHelper.Lerp(headSprite.Rotation, angle, 0.3f);
-
+            headSprite.Rotation = MathHelper.Lerp(headSprite.Rotation, angle, 0.1f);
         }
     }
 }
