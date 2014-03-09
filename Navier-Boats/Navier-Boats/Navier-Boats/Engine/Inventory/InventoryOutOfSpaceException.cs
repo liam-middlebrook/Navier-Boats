@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Navier_Boats.Game.Inventory
+namespace Navier_Boats.Engine.Inventory
 {
     public class InventoryOutOfSpaceException : InventoryException
     {

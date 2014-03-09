@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Entities;
 
-namespace Navier_Boats.Game.Inventory
+namespace Navier_Boats.Engine.Inventory
 {
     public interface IGameItem : IInteractable
     {
