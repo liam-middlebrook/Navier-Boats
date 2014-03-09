@@ -17,7 +17,10 @@ namespace Navier_Boats.Engine.Level
         public const int TILE_HEIGHT = 32;
 
         private string chunkDir;
-        private short[,] chunkData;
+        private short[,] chunkDataGroundLayer;
+        private short[,] chunkDataRoadLayer;
+        private short[,] chunkDataOverLayer;
+        private bool[,] chunkDataCollision;
 
         public readonly string CHUNK_ID; //format 1(xIndex-sign)1(yIndex-sign)15(xIndex-value)15(yIndex-value)
         public readonly Vector2 Position;
@@ -31,21 +34,69 @@ namespace Navier_Boats.Engine.Level
             //PLEASE FIX LATER - a nice grep friendly comment
             rand = new Random();
             short tileVal = (short)rand.Next(6);
-            chunkData = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
+            #region GroundLayer
+
+            chunkDataGroundLayer = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
             for (int yIndex = 0; yIndex < CHUNK_HEIGHT; yIndex++)
             {
                 for (int xIndex = 0; xIndex < CHUNK_WIDTH; xIndex++)
                 {
-                    chunkData[xIndex, yIndex] = (short)rand.Next(6);
+                    chunkDataGroundLayer[xIndex, yIndex] = (short)(rand.Next(6)+1);
                 }
             }
+
+            #endregion
+
+            #region RoadLayer
+
+            chunkDataRoadLayer = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
+            for (int yIndex = 0; yIndex < CHUNK_HEIGHT; yIndex++)
+            {
+                for (int xIndex = 0; xIndex < CHUNK_WIDTH; xIndex++)
+                {
+                    chunkDataRoadLayer[xIndex, yIndex] = (short)(rand.Next(6) + 1);
+                }
+            }
+
+            #endregion
+
+            #region OverLayer
+
+            chunkDataOverLayer = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
+            for (int yIndex = 0; yIndex < CHUNK_HEIGHT; yIndex++)
+            {
+                for (int xIndex = 0; xIndex < CHUNK_WIDTH; xIndex++)
+                {
+                    chunkDataOverLayer[xIndex, yIndex] = (short)(rand.Next(6) + 1);
+                }
+            }
+
+            #endregion
+
+            #region CollisionLayer
+
+            chunkDataCollision = new bool[CHUNK_WIDTH, CHUNK_HEIGHT];
+            for (int yIndex = 0; yIndex < CHUNK_HEIGHT; yIndex++)
+            {
+                for (int xIndex = 0; xIndex < CHUNK_WIDTH; xIndex++)
+                {
+                    chunkDataCollision[xIndex, yIndex] = false;
+                }
+            }
+
+            #endregion
+
             Save(chunkDir);
         }
 
         public Chunk(string fileName, string directory)
         {
             chunkDir = directory;
-            chunkData = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
+
+            chunkDataGroundLayer = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
+            chunkDataRoadLayer = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
+            chunkDataOverLayer = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
+            chunkDataCollision = new bool[CHUNK_WIDTH, CHUNK_HEIGHT];
 
             //Parse data to position
             CHUNK_ID = fileName.Remove(fileName.Length - 6);
@@ -67,7 +118,10 @@ namespace Navier_Boats.Engine.Level
                     {
                         for (int x = 0; x < CHUNK_WIDTH; x++)
                         {
-                            chunkData[x, y] = br.ReadInt16();
+                            chunkDataGroundLayer[x, y] = br.ReadInt16();
+                            chunkDataRoadLayer[x, y] = br.ReadInt16();
+                            chunkDataOverLayer[x, y] = br.ReadInt16();
+                            chunkDataCollision[x, y] = br.ReadBoolean();
                         }
                     }
                 }
@@ -107,7 +161,10 @@ namespace Navier_Boats.Engine.Level
                     {
                         for (int x = 0; x < CHUNK_WIDTH; x++)
                         {
-                            br.Write(chunkData[x, y]);
+                            br.Write(chunkDataGroundLayer[x, y]);
+                            br.Write(chunkDataRoadLayer[x, y]);
+                            br.Write(chunkDataOverLayer[x, y]);
+                            br.Write(chunkDataCollision[x, y]);
                         }
                     }
                 }
@@ -153,7 +210,18 @@ namespace Navier_Boats.Engine.Level
             {
                 for (int x = 0; x < CHUNK_WIDTH; x++)
                 {
-                    spriteBatch.Draw(tileTextures[chunkData[x, y]], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, Color.White);
+                    if (chunkDataGroundLayer[x, y] > 0)
+                    {
+                        spriteBatch.Draw(tileTextures[chunkDataGroundLayer[x, y] - 1], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, Color.White);
+                    }
+                    if (chunkDataRoadLayer[x, y] > 0)
+                    {
+                        spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y] - 1], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, new Color(255,255,255,200));
+                    }
+                    if (chunkDataOverLayer[x, y] > 0)
+                    {
+                        spriteBatch.Draw(tileTextures[chunkDataOverLayer[x, y] - 1], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, new Color(255, 255, 255, 100));
+                    }
                 }
             }
         }
