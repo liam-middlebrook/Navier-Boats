@@ -1,0 +1,175 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Navier_Boats.Game.Inventory
+{
+    public class Inventory
+    {
+        public ItemStack[] Items
+        {
+            get;
+            protected set;
+        }
+
+        public Inventory(int maxSize)
+        {
+            this.Items = new ItemStack[maxSize];
+        }
+
+        public void AddItem(ItemStack item)
+        {
+            for(int i = 0; i < this.Items.Length; i++)
+            {
+                if (this.Items[i] == null || this.Items[i].Item == null)
+                {
+                    this.Items[i] = item;
+                }
+            }
+
+            throw new InventoryOutOfSpaceException("Trying to Inventory.AddItem to a full inventory");
+        }
+        /// <summary>
+        /// Remove a single item (decrement the first stack found, removing if <= 0)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public bool RemoveItem<T>()
+        {
+            return RemoveItem(typeof(T));
+        }
+
+        public bool RemoveItem(Type t)
+        {
+            int i = Find(t);
+            if (i < 0)
+                return false;
+
+            this.Items[i].Amount--;
+            if (this.Items[i].Amount <= 0)
+                this.Items[i] = null;
+
+            return true;
+        }
+
+        public void RemoveAll<T>()
+        {
+            RemoveAll(typeof(T));
+        }
+
+        public void RemoveAll(Type t)
+        {
+            List<int> items = FindAll(t);
+            foreach (int i in items)
+            {
+                this.Items[i] = null;
+            }
+        }
+
+        public bool RemoveStack(ItemStack item)
+        {
+            int i = Find(item);
+            if (i < 0)
+                return false;
+
+            this.Items[i] = null;
+            return true;
+        }
+
+        public bool RemoveStack<T>()
+        {
+            return RemoveStack(typeof(T));
+        }
+
+        public bool RemoveStack(Type t)
+        {
+            int i = Find(t);
+            if (i < 0)
+                return false;
+
+            this.Items[i] = null;
+            return true;
+        }
+
+        /// <summary>
+        /// Find an itemstack. This is not a pure equality operation (it does not compare references). Instead,
+        /// it checks the item type and amount.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns>The index of the itemstack, or -1 if not found.</returns>
+        public int Find(ItemStack item)
+        {
+            for (int i = 0; i < this.Items.Length; i++)
+            {
+                ItemStack stack = this.Items[i];
+                if (stack == null || stack.Item == null)
+                {
+                    if (item == null || item.Item == null)
+                        return i;
+                    continue;
+                }
+
+                if (item.Amount == stack.Amount && item.Item.GetType().IsAssignableFrom(stack.Item.GetType()))
+                    return i;
+            }
+
+            return -1;
+        }
+
+        public int Find<T>()
+        {
+            return Find(typeof(T));
+        }
+
+        public int Find(Type t)
+        {
+            for(int i = 0; i < this.Items.Length)
+            {
+                ItemStack stack = this.Items[i];
+                if(t.IsAssignableFrom(stack.Item.GetType()))
+                    return i;
+            }
+
+            return -1;
+        }
+
+        public List<int> FindAll(ItemStack item)
+        {
+            List<int> found = new List<int>();
+            for (int i = 0; i < this.Items.Length; i++)
+            {
+                ItemStack stack = this.Items[i];
+                if (stack == null || stack.Item == null)
+                {
+                    if (item == null || item.Item == null)
+                        found.Add(i);
+                    continue;
+                }
+
+                if (item.Amount == stack.Amount && item.Item.GetType().IsAssignableFrom(stack.Item.GetType()))
+                    found.Add(i);
+            }
+
+            return found;
+        }
+
+        public List<int> FindAll<T>()
+        {
+            return FindAll(typeof(T));
+        }
+
+        public List<int> FindAll(Type t)
+        {
+            List<int> found = new List<int>();
+            for(int i = 0; i < this.Items.Length)
+            {
+                ItemStack stack = this.Items[i];
+                if(t.IsAssignableFrom(stack.Item.GetType()))
+                    found.Add(i);
+            }
+
+            return found;
+        }
+    }
+}
