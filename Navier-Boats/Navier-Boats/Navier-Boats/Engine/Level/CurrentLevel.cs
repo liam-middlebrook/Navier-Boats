@@ -21,16 +21,14 @@ namespace Navier_Boats.Engine.Level
 
         Random randy;
 
-        Camera drawCamera;
         List<Entity> entities;
 
         SpriteFont debugFont;
 
         private string chunkSaveDirectory = "./LevelData";
 
-        public CurrentLevel(Camera drawCamera)
+        public CurrentLevel()
         {
-            this.drawCamera = drawCamera;
             entities = new List<Entity>();
 
             entities.Add(new Player(new Vector2(300, 300)));
@@ -111,7 +109,7 @@ namespace Navier_Boats.Engine.Level
             UpdateChunks();
 
             //Center camera on player
-            drawCamera.Focus(entities[0].Position);
+            Camera.Focus(entities[0].Position);
         }
 
         private void UpdateChunks()

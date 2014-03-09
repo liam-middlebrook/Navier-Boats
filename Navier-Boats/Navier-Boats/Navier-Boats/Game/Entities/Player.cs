@@ -6,6 +6,7 @@ using Navier_Boats.Engine.Entities;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using libXNADeveloperConsole;
+using Navier_Boats.Engine.Graphics;
 
 namespace Navier_Boats.Game.Entities
 {
@@ -40,9 +41,10 @@ namespace Navier_Boats.Game.Entities
             }
             Velocity = vel;
 
-            float angle = (float)Math.Atan2(mouseState.Y - headSprite.Position.Y, mouseState.X - headSprite.Position.X) % 360;
+            Vector2 headScreenPos = Camera.ConvertToScreenCoords(headSprite.Position);
+            float angle = (float)Math.Atan2(mouseState.Y - headScreenPos.X, mouseState.X - headScreenPos.X);
 
-            headSprite.Rotation = MathHelper.Lerp(headSprite.Rotation, angle, 0.1f);
+            headSprite.Rotation = MathHelper.Lerp(headSprite.Rotation, angle, 0.3f);
         }
     }
 }

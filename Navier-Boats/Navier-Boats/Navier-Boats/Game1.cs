@@ -42,7 +42,6 @@ namespace Navier_Boats
 
 
         CurrentLevel level;
-        Camera camera;
 
         public Game1()
         {
@@ -66,8 +65,7 @@ namespace Navier_Boats
             keyHelper = new KeyboardHelper();
             mouseState = Mouse.GetState();
 
-            camera = new Camera();
-            level = new CurrentLevel(camera);
+            level = new CurrentLevel();
             base.Initialize();
         }
 
@@ -135,7 +133,7 @@ namespace Navier_Boats
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.TransformMatrix);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.TransformMatrix);
 
             level.Draw(spriteBatch);
             spriteBatch.End();
