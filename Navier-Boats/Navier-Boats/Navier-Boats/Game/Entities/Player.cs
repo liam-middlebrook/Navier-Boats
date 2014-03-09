@@ -13,7 +13,7 @@ namespace Navier_Boats.Game.Entities
     class Player : LivingEntity, IInputControllable
     {
         public Player(Vector2 position)
-            : base(100)
+            : base(100, 32)
         {
             Position = position;
             Speed = 1000;

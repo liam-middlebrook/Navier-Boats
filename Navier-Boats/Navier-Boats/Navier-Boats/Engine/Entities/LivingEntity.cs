@@ -24,13 +24,20 @@ namespace Navier_Boats.Engine.Entities
 
         public double Health { get { return health; } }
 
+        public Inventory.Inventory Items
+        {
+            get;
+            set;
+        }
+
         #endregion
 
-        public LivingEntity(double initialHealth)
+        public LivingEntity(double initialHealth, int inventorySize = 1)
             : base()
         {
             headSprite = new Sprite();
             health = initialHealth;
+            this.Items = new Inventory.Inventory(inventorySize);
         }
 
         #region Methods
