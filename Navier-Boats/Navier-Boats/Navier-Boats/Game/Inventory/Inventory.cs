@@ -30,6 +30,7 @@ namespace Navier_Boats.Game.Inventory
 
             throw new InventoryOutOfSpaceException("Trying to Inventory.AddItem to a full inventory");
         }
+
         /// <summary>
         /// Remove a single item (decrement the first stack found, removing if <= 0)
         /// </summary>
@@ -40,6 +41,11 @@ namespace Navier_Boats.Game.Inventory
             return RemoveItem(typeof(T));
         }
 
+        /// <summary>
+        /// Remove a single item (decrement the first stack found, removing if <= 0)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public bool RemoveItem(Type t)
         {
             int i = Find(t);
