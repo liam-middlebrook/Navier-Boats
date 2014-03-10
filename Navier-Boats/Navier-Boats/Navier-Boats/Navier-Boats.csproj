@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Engine\ConsoleVars.cs" />
     <Compile Include="Engine\Entities\Entity.cs" />
+    <Compile Include="Engine\Entities\EntityManager.cs" />
     <Compile Include="Engine\Entities\HostileLivingEntity.cs" />
     <Compile Include="Engine\Entities\IInputControllable.cs" />
     <Compile Include="Engine\Entities\IInteractable.cs" />

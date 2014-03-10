@@ -28,10 +28,12 @@ namespace Navier_Boats.Engine.Level
 
         private string chunkSaveDirectory = "./LevelData";
 
+        private EntityManager entityManager;
+
         public CurrentLevel()
         {
             entities = new List<Entity>();
-
+            entityManager = new EntityManager(Path.Combine(chunkSaveDirectory,"entityData"));
             entities.Add(new Player(new Vector2(300, 300)));
             randy = new Random();
         }
@@ -127,7 +129,9 @@ namespace Navier_Boats.Engine.Level
                 chunks[1, 1] = chunks[0, 1];
                 //unload left chunks and replace
                 chunks[0, 0] = new Chunk(Chunk.CoordsToChunkID(chunks[0, 0].Position + new Vector2(-1, 0)) + ".chunk", chunkSaveDirectory);
+                entityManager.LoadChunk(new Vector2(0, 0), Chunk.CoordsToChunkID(chunks[0, 0].Position + new Vector2(-1, 0)));
                 chunks[0, 1] = new Chunk(Chunk.CoordsToChunkID(chunks[0, 1].Position + new Vector2(-1, 0)) + ".chunk", chunkSaveDirectory);
+                entityManager.LoadChunk(new Vector2(0, 1), Chunk.CoordsToChunkID(chunks[0, 1].Position + new Vector2(-1, 0)));
             }
             else if (playerPos.X > lowerRightBound.X)
             {
@@ -137,7 +141,9 @@ namespace Navier_Boats.Engine.Level
                 chunks[0, 1] = chunks[1, 1];
                 //unload right chunks and replace
                 chunks[1, 0] = new Chunk(Chunk.CoordsToChunkID(chunks[1, 0].Position + new Vector2(1, 0)) + ".chunk", chunkSaveDirectory);
+                entityManager.LoadChunk(new Vector2(1, 0), Chunk.CoordsToChunkID(chunks[1, 0].Position + new Vector2(1, 0)));
                 chunks[1, 1] = new Chunk(Chunk.CoordsToChunkID(chunks[1, 1].Position + new Vector2(1, 0)) + ".chunk", chunkSaveDirectory);
+                entityManager.LoadChunk(new Vector2(1, 1), Chunk.CoordsToChunkID(chunks[1, 1].Position + new Vector2(1, 0)));
             }
             if (playerPos.Y < upperLeftBound.Y)
             {
@@ -147,7 +153,9 @@ namespace Navier_Boats.Engine.Level
                 chunks[1, 1] = chunks[1, 0];
                 //unload top chunks and replace
                 chunks[0, 0] = new Chunk(Chunk.CoordsToChunkID(chunks[0, 0].Position + new Vector2(0, -1)) + ".chunk", chunkSaveDirectory);
+                entityManager.LoadChunk(new Vector2(0, 0), Chunk.CoordsToChunkID(chunks[0, 0].Position + new Vector2(0, -1)));
                 chunks[1, 0] = new Chunk(Chunk.CoordsToChunkID(chunks[1, 0].Position + new Vector2(0, -1)) + ".chunk", chunkSaveDirectory);
+                entityManager.LoadChunk(new Vector2(1, 0), Chunk.CoordsToChunkID(chunks[1, 0].Position + new Vector2(0, -1)));
             }
             if (playerPos.Y > lowerRightBound.Y)
             {
@@ -157,7 +165,9 @@ namespace Navier_Boats.Engine.Level
                 chunks[1, 0] = chunks[1, 1];
                 //unload top chunks and replace
                 chunks[0, 1] = new Chunk(Chunk.CoordsToChunkID(chunks[0, 1].Position + new Vector2(0, 1)) + ".chunk", chunkSaveDirectory);
+                entityManager.LoadChunk(new Vector2(0, 1), Chunk.CoordsToChunkID(chunks[0, 1].Position + new Vector2(0, 1)));
                 chunks[1, 1] = new Chunk(Chunk.CoordsToChunkID(chunks[1, 1].Position + new Vector2(0, 1)) + ".chunk", chunkSaveDirectory);
+                entityManager.LoadChunk(new Vector2(1, 1), Chunk.CoordsToChunkID(chunks[1, 1].Position + new Vector2(0, 1)));
             }
         }
 
