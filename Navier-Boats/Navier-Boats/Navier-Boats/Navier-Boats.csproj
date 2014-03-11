@@ -90,6 +90,8 @@
     <Compile Include="Engine\Graphics\Sprite.cs" />
     <Compile Include="Engine\Level\Chunk.cs" />
     <Compile Include="Engine\Level\CurrentLevel.cs" />
+    <Compile Include="Engine\Level\PerlinGenerator.cs" />
+    <Compile Include="Engine\Level\TerrainGenerator.cs" />
     <Compile Include="Game\Entities\Player.cs" />
     <Compile Include="Game\Entities\Wanderer.cs" />
     <Compile Include="Engine\Inventory\IGameItem.cs" />
