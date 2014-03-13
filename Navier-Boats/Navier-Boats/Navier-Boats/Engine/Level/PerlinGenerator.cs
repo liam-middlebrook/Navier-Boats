@@ -202,7 +202,7 @@ namespace Navier_Boats.Engine.Level
         /// <param name="grid">Width of heightmap (powers of 2 work best)</param>
         /// <param name="lac">Change in frequency per octave</param>
         /// <returns></returns>
-        public float FBM2D(int x, int y, int octs, float grid, float lac)
+        public float FBM2D(int x, int y, int octs, int grid, float lac)
         {
             float frq = 1.0f / grid;
             float gain = 1.0f / lac;
