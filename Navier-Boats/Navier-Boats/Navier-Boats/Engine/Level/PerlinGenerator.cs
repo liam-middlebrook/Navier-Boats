@@ -137,8 +137,8 @@ namespace Navier_Boats.Engine.Level
         /// <returns>Scalar value between -1 and 1 at (x,y)</returns>
         private float Perlin2D(float x, float y)
         {
-            float xN = x * seed;
-            float yN = y * seed;
+            float xN = x; 
+            float yN = y; 
 
             int xW = (int)Math.Floor(xN);
             int yW = (int)Math.Floor(yN);
@@ -202,7 +202,7 @@ namespace Navier_Boats.Engine.Level
         /// <param name="grid">Width of heightmap (powers of 2 work best)</param>
         /// <param name="lac">Change in frequency per octave</param>
         /// <returns></returns>
-        public float FBM2D(int x, int y, int octs, float grid, float lac)
+        public float FBM2D(int x, int y, int octs, int grid, float lac)
         {
             float frq = 1.0f / grid;
             float gain = 1.0f / lac;

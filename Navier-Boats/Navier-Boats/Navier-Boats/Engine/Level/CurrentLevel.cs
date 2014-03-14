@@ -16,6 +16,11 @@ namespace Navier_Boats.Engine.Level
 {
     public class CurrentLevel
     {
+        public const int OCTAVES = 4;
+        public const float LAC = 2.145634563f;
+        public const int SEED = 2; //NYI
+        public const int GRID = 32;
+
         private Chunk[,] chunks;
 
         private List<Texture2D> tileTextures;
@@ -30,12 +35,15 @@ namespace Navier_Boats.Engine.Level
 
         private EntityManager entityManager;
 
+        private TerrainGenerator terrainGen = new TerrainGenerator(OCTAVES, LAC, GRID, SEED, TerrainType.Country);
+
         public CurrentLevel()
         {
             entities = new List<Entity>();
             entityManager = new EntityManager(Path.Combine(chunkSaveDirectory,"entityData"));
             entities.Add(new Player(new Vector2(300, 300)));
             randy = new Random();
+            
         }
 
         public void LoadContent(ContentManager Content)
@@ -67,12 +75,11 @@ namespace Navier_Boats.Engine.Level
                     }));
 
             tileTextures = new List<Texture2D>();
-            tileTextures.Add(Content.Load<Texture2D>("tiles\\abbyblue"));
-            tileTextures.Add(Content.Load<Texture2D>("tiles\\blue"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\road"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\green"));
-            tileTextures.Add(Content.Load<Texture2D>("tiles\\navylight"));
-            tileTextures.Add(Content.Load<Texture2D>("tiles\\pink"));
-            tileTextures.Add(Content.Load<Texture2D>("tiles\\pruplelight"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\sand"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\blue"));
+            
 
             debugFont = Content.Load<SpriteFont>("consolas");
 
@@ -128,9 +135,9 @@ namespace Navier_Boats.Engine.Level
                 chunks[1, 0] = chunks[0, 0];
                 chunks[1, 1] = chunks[0, 1];
                 //unload left chunks and replace
-                chunks[0, 0] = new Chunk(Chunk.CoordsToChunkID(chunks[0, 0].Position + new Vector2(-1, 0)) + ".chunk", chunkSaveDirectory);
+                chunks[0, 0] = new Chunk(Chunk.CoordsToChunkID(chunks[0, 0].Position + new Vector2(-1, 0)) + ".chunk", chunkSaveDirectory, ref terrainGen);
                 entityManager.LoadChunk(new Vector2(0, 0), Chunk.CoordsToChunkID(chunks[0, 0].Position + new Vector2(-1, 0)));
-                chunks[0, 1] = new Chunk(Chunk.CoordsToChunkID(chunks[0, 1].Position + new Vector2(-1, 0)) + ".chunk", chunkSaveDirectory);
+                chunks[0, 1] = new Chunk(Chunk.CoordsToChunkID(chunks[0, 1].Position + new Vector2(-1, 0)) + ".chunk", chunkSaveDirectory, ref terrainGen);
                 entityManager.LoadChunk(new Vector2(0, 1), Chunk.CoordsToChunkID(chunks[0, 1].Position + new Vector2(-1, 0)));
             }
             else if (playerPos.X > lowerRightBound.X)
@@ -140,9 +147,9 @@ namespace Navier_Boats.Engine.Level
                 chunks[0, 0] = chunks[1, 0];
                 chunks[0, 1] = chunks[1, 1];
                 //unload right chunks and replace
-                chunks[1, 0] = new Chunk(Chunk.CoordsToChunkID(chunks[1, 0].Position + new Vector2(1, 0)) + ".chunk", chunkSaveDirectory);
+                chunks[1, 0] = new Chunk(Chunk.CoordsToChunkID(chunks[1, 0].Position + new Vector2(1, 0)) + ".chunk", chunkSaveDirectory, ref terrainGen);
                 entityManager.LoadChunk(new Vector2(1, 0), Chunk.CoordsToChunkID(chunks[1, 0].Position + new Vector2(1, 0)));
-                chunks[1, 1] = new Chunk(Chunk.CoordsToChunkID(chunks[1, 1].Position + new Vector2(1, 0)) + ".chunk", chunkSaveDirectory);
+                chunks[1, 1] = new Chunk(Chunk.CoordsToChunkID(chunks[1, 1].Position + new Vector2(1, 0)) + ".chunk", chunkSaveDirectory, ref terrainGen);
                 entityManager.LoadChunk(new Vector2(1, 1), Chunk.CoordsToChunkID(chunks[1, 1].Position + new Vector2(1, 0)));
             }
             if (playerPos.Y < upperLeftBound.Y)
@@ -152,9 +159,9 @@ namespace Navier_Boats.Engine.Level
                 chunks[0, 1] = chunks[0, 0];
                 chunks[1, 1] = chunks[1, 0];
                 //unload top chunks and replace
-                chunks[0, 0] = new Chunk(Chunk.CoordsToChunkID(chunks[0, 0].Position + new Vector2(0, -1)) + ".chunk", chunkSaveDirectory);
+                chunks[0, 0] = new Chunk(Chunk.CoordsToChunkID(chunks[0, 0].Position + new Vector2(0, -1)) + ".chunk", chunkSaveDirectory, ref terrainGen);
                 entityManager.LoadChunk(new Vector2(0, 0), Chunk.CoordsToChunkID(chunks[0, 0].Position + new Vector2(0, -1)));
-                chunks[1, 0] = new Chunk(Chunk.CoordsToChunkID(chunks[1, 0].Position + new Vector2(0, -1)) + ".chunk", chunkSaveDirectory);
+                chunks[1, 0] = new Chunk(Chunk.CoordsToChunkID(chunks[1, 0].Position + new Vector2(0, -1)) + ".chunk", chunkSaveDirectory, ref terrainGen);
                 entityManager.LoadChunk(new Vector2(1, 0), Chunk.CoordsToChunkID(chunks[1, 0].Position + new Vector2(0, -1)));
             }
             if (playerPos.Y > lowerRightBound.Y)
@@ -164,9 +171,9 @@ namespace Navier_Boats.Engine.Level
                 chunks[0, 0] = chunks[0, 1];
                 chunks[1, 0] = chunks[1, 1];
                 //unload top chunks and replace
-                chunks[0, 1] = new Chunk(Chunk.CoordsToChunkID(chunks[0, 1].Position + new Vector2(0, 1)) + ".chunk", chunkSaveDirectory);
+                chunks[0, 1] = new Chunk(Chunk.CoordsToChunkID(chunks[0, 1].Position + new Vector2(0, 1)) + ".chunk", chunkSaveDirectory, ref terrainGen);
                 entityManager.LoadChunk(new Vector2(0, 1), Chunk.CoordsToChunkID(chunks[0, 1].Position + new Vector2(0, 1)));
-                chunks[1, 1] = new Chunk(Chunk.CoordsToChunkID(chunks[1, 1].Position + new Vector2(0, 1)) + ".chunk", chunkSaveDirectory);
+                chunks[1, 1] = new Chunk(Chunk.CoordsToChunkID(chunks[1, 1].Position + new Vector2(0, 1)) + ".chunk", chunkSaveDirectory, ref terrainGen);
                 entityManager.LoadChunk(new Vector2(1, 1), Chunk.CoordsToChunkID(chunks[1, 1].Position + new Vector2(0, 1)));
             }
         }
@@ -229,7 +236,7 @@ namespace Navier_Boats.Engine.Level
             {
                 for (int x = 0; x < 2; x++)
                 {
-                    chunks[x, y] = new Chunk(Chunk.CoordsToChunkID(new Vector2(x - 1, y)) + ".chunk", chunkSaveDirectory);
+                    chunks[x, y] = new Chunk(Chunk.CoordsToChunkID(new Vector2(x - 1, y)) + ".chunk", chunkSaveDirectory, ref terrainGen);
                 }
             }
             foreach (Chunk chunk in chunks)
