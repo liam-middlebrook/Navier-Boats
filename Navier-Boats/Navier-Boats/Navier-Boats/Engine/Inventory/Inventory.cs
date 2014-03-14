@@ -64,7 +64,7 @@ namespace Navier_Boats.Engine.Inventory
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public bool RemoveItem<T>()
+        public bool RemoveItem<T>() where T : IGameItem
         {
             return RemoveItem(typeof(T));
         }
@@ -87,7 +87,7 @@ namespace Navier_Boats.Engine.Inventory
             return true;
         }
 
-        public void RemoveAll<T>()
+        public void RemoveAll<T>() where T : IGameItem
         {
             RemoveAll(typeof(T));
         }
@@ -111,7 +111,7 @@ namespace Navier_Boats.Engine.Inventory
             return true;
         }
 
-        public bool RemoveStack<T>()
+        public bool RemoveStack<T>() where T : IGameItem
         {
             return RemoveStack(typeof(T));
         }
@@ -151,7 +151,7 @@ namespace Navier_Boats.Engine.Inventory
             return -1;
         }
 
-        public int Find<T>()
+        public int Find<T>() where T : IGameItem
         {
             return Find(typeof(T));
         }
@@ -188,7 +188,7 @@ namespace Navier_Boats.Engine.Inventory
             return found;
         }
 
-        public List<int> FindAll<T>()
+        public List<int> FindAll<T>() where T : IGameItem
         {
             return FindAll(typeof(T));
         }
