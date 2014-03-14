@@ -33,10 +33,22 @@ namespace Navier_Boats.Game.Entities
                 }
                 else
                 {
-                    vel.X += keyState.IsKeyDown(Keys.A) ? -1 : 0;
-                    vel.X += keyState.IsKeyDown(Keys.D) ? 1 : 0;
-                    vel.Y += keyState.IsKeyDown(Keys.W) ? -1 : 0;
-                    vel.Y += keyState.IsKeyDown(Keys.S) ? 1 : 0;
+                    bool a = keyState.IsKeyDown(Keys.A);
+                    bool d = keyState.IsKeyDown(Keys.D);
+                    bool w = keyState.IsKeyDown(Keys.W);
+                    bool s = keyState.IsKeyDown(Keys.S);
+
+                    vel.X +=  a ? -1 : 0;
+                    vel.X +=  d ? 1 : 0;
+                    vel.Y +=  w ? -1 : 0;
+                    vel.Y +=  s ? 1 : 0;
+
+                    //Simplified from (a && w) || (w && d) || (d && s) || (s && a), yay boolean algebra
+                    if ((a||d) && (s||w))
+                    {
+                        vel.Normalize();
+                    }
+                    
                 }
             }
             Velocity = vel;
