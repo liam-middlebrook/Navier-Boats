@@ -16,6 +16,7 @@ namespace Navier_Boats.Engine.Level
         public const int TILE_WIDTH = 32;
         public const int TILE_HEIGHT = 32;
 
+
         private string chunkDir;
         private short[,] chunkDataGroundLayer;
         private short[,] chunkDataRoadLayer;
@@ -29,6 +30,7 @@ namespace Navier_Boats.Engine.Level
 
         Random rand;
 
+        private readonly TerrainGenerator terrainGen;
         /// <summary>
         /// Creates a new Chunk with the specified Chunk Coords
         /// </summary>
@@ -40,31 +42,29 @@ namespace Navier_Boats.Engine.Level
             //PLEASE FIX LATER - a nice grep friendly comment
             rand = new Random();
             short tileVal = (short)rand.Next(6);
-            #region GroundLayer
 
+            #region GroundAndRoadLayer
             chunkDataGroundLayer = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
-            for (int yIndex = 0; yIndex < CHUNK_HEIGHT; yIndex++)
-            {
-                for (int xIndex = 0; xIndex < CHUNK_WIDTH; xIndex++)
-                {
-                    chunkDataGroundLayer[xIndex, yIndex] = (short)(rand.Next(6)+1);
-                }
-            }
-
-            #endregion
-
-            #region RoadLayer
-
             chunkDataRoadLayer = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
+
             for (int yIndex = 0; yIndex < CHUNK_HEIGHT; yIndex++)
             {
                 for (int xIndex = 0; xIndex < CHUNK_WIDTH; xIndex++)
                 {
-                    chunkDataRoadLayer[xIndex, yIndex] = (short)(rand.Next(6) + 1);
+                    short p = terrainGen.GenerateTile(xIndex, yIndex, Position);
+
+                    if (p == 0)
+                        chunkDataRoadLayer[xIndex, yIndex] = p;
+                    else
+                        chunkDataGroundLayer[xIndex, yIndex] = p;
+                    
+
                 }
             }
 
             #endregion
+
+            
 
             #region OverLayer
 
@@ -100,7 +100,7 @@ namespace Navier_Boats.Engine.Level
         /// </summary>
         /// <param name="fileName">The Chunks filename</param>
         /// <param name="directory">The Chunk Directory</param>
-        public Chunk(string fileName, string directory)
+        public Chunk(string fileName, string directory, ref TerrainGenerator tg)
         {
             chunkDir = directory;
 
@@ -113,7 +113,7 @@ namespace Navier_Boats.Engine.Level
             CHUNK_ID = fileName.Remove(fileName.Length - 6);
             string[] location = CHUNK_ID.Split('_');
             Position = new Vector2(int.Parse(location[0]), int.Parse(location[1]));
-
+            terrainGen = tg;
 
             BinaryReader br = null;
             if (File.Exists(Path.Combine(directory, fileName)) && !fileInUse)
@@ -232,18 +232,15 @@ namespace Navier_Boats.Engine.Level
             {
                 for (int x = 0; x < CHUNK_WIDTH; x++)
                 {
-                    if (chunkDataGroundLayer[x, y] > 0)
-                    {
-                        spriteBatch.Draw(tileTextures[chunkDataGroundLayer[x, y] - 1], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, Color.White);
-                    }
-                    if (chunkDataRoadLayer[x, y] > 0)
-                    {
-                        spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y] - 1], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, new Color(255,255,255,200));
-                    }
-                    if (chunkDataOverLayer[x, y] > 0)
-                    {
-                        spriteBatch.Draw(tileTextures[chunkDataOverLayer[x, y] - 1], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, new Color(255, 255, 255, 100));
-                    }
+                    
+                        spriteBatch.Draw(tileTextures[chunkDataGroundLayer[x, y]], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, Color.White);
+                    
+                        spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y]], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, new Color(255,255,255,200));
+                    
+//                     if (chunkDataOverLayer[x, y] > 0)
+//                     {
+//                         spriteBatch.Draw(tileTextures[chunkDataOverLayer[x, y]], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, new Color(255, 255, 255, 100));
+//                     }
                 }
             }
         }

@@ -137,8 +137,8 @@ namespace Navier_Boats.Engine.Level
         /// <returns>Scalar value between -1 and 1 at (x,y)</returns>
         private float Perlin2D(float x, float y)
         {
-            float xN = x * seed;
-            float yN = y * seed;
+            float xN = x; 
+            float yN = y; 
 
             int xW = (int)Math.Floor(xN);
             int yW = (int)Math.Floor(yN);

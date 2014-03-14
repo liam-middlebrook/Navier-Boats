@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Design;
 namespace Navier_Boats.Engine.Level
 {
     
-    enum TerrainType
+    public enum TerrainType
     {
         Country, //For lack of a better term
         City,
@@ -15,7 +15,7 @@ namespace Navier_Boats.Engine.Level
     /// <summary>
     /// Handles the data that will be passed to the Perlin functions as well as the type of generation (Countryside vs. City)
     /// </summary>
-    class TerrainGenerator
+    public class TerrainGenerator
     {
         private TerrainType type;
         private PerlinGenerator perlinGen;
@@ -59,13 +59,14 @@ namespace Navier_Boats.Engine.Level
             switch (type)
             {
                 case TerrainType.Country:
-                    float p = 1-MathHelper.Clamp(Math.Abs(perlinGen.FBM2D(xPos, yPos, octaves, Chunk.CHUNK_WIDTH, lacuniarity)), 0, 1);
+                    
+                    float p = 1-Math.Abs(perlinGen.FBM2D(tileX/3, tileY/3, octaves, Chunk.CHUNK_WIDTH, lacuniarity));
                     
                     if (p >= 0.999f)
                         return 0; //Placeholder roads
                     else if (p < 0.999f && p >= 0.85f)
                         return 1; //Bright green grass
-                    else if (p < 0.85f && p >= 0.84f)
+                    else if (p < 0.85f && p >= 0.815f)
                         return 2; //sand around lakes
                     else
                         return 3; //lakes & small bodies of water
