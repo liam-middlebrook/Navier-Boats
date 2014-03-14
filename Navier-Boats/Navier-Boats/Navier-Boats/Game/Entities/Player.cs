@@ -25,31 +25,22 @@ namespace Navier_Boats.Game.Entities
             GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
             if (!ConsoleWindow.GetInstance().IsActive)
             {
+                float mult = 1.0f;
                 if (gamePadState.IsConnected)
                 {
-                    float mult = 1.0f + gamePadState.Triggers.Right;
-                    vel.X += gamePadState.ThumbSticks.Left.X * mult;
-                    vel.Y += -gamePadState.ThumbSticks.Left.Y * mult;
+                    mult += gamePadState.Triggers.Right;
+                    vel.X += gamePadState.ThumbSticks.Left.X;
+                    vel.Y += -gamePadState.ThumbSticks.Left.Y;
                 }
                 else
                 {
-                    bool a = keyState.IsKeyDown(Keys.A);
-                    bool d = keyState.IsKeyDown(Keys.D);
-                    bool w = keyState.IsKeyDown(Keys.W);
-                    bool s = keyState.IsKeyDown(Keys.S);
-
-                    vel.X +=  a ? -1 : 0;
-                    vel.X +=  d ? 1 : 0;
-                    vel.Y +=  w ? -1 : 0;
-                    vel.Y +=  s ? 1 : 0;
-
-                    //Simplified from (a && w) || (w && d) || (d && s) || (s && a), yay boolean algebra
-                    if ((a||d) && (s||w))
-                    {
-                        vel.Normalize();
-                    }
-                    
+                    vel.X += keyState.IsKeyDown(Keys.A) ? -1 : 0;
+                    vel.X += keyState.IsKeyDown(Keys.D) ? 1 : 0;
+                    vel.Y += keyState.IsKeyDown(Keys.W) ? -1 : 0;
+                    vel.Y += keyState.IsKeyDown(Keys.S) ? 1 : 0;
                 }
+                vel.Normalize();
+                vel *= mult;
             }
             Velocity = vel;
 
