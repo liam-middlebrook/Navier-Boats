@@ -60,7 +60,7 @@ namespace Navier_Boats.Engine.Level
             {
                 case TerrainType.Country:
                     
-                    float p = 1-Math.Abs(perlinGen.FBM2D(tileX/3, tileY/3, octaves, Chunk.CHUNK_WIDTH, lacuniarity));
+                    float p = 1-Math.Abs(perlinGen.FBM2D(tileX, tileY, octaves, Chunk.CHUNK_WIDTH, lacuniarity));
                     
                     if (p >= 0.999f)
                         return 0; //Placeholder roads
@@ -82,10 +82,5 @@ namespace Navier_Boats.Engine.Level
             return -1; //Something dun goofed 
             
         }
-
-        
-
-
-        
     }
 }
