@@ -38,8 +38,7 @@ namespace Navier_Boats.Engine.Level
         /// <param name="y">The Y value of the chunk in chunk-coords</param>
         private void CreateChunk(int x, int y)
         {
-            //Currently fills a chunk with a random value between 1 and 4 (exclusive)
-            //PLEASE FIX LATER - a nice grep friendly comment
+            //Fills chunk with tiles generated using Perlin Noise
             rand = new Random();
             short tileVal = (short)rand.Next(6);
 

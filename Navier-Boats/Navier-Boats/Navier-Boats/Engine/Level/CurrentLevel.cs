@@ -18,7 +18,7 @@ namespace Navier_Boats.Engine.Level
     {
         public const int OCTAVES = 4;
         public const float LAC = 2.145634563f;
-        public const int SEED = 1771;
+        public const int SEED = 2; //NYI
         public const int GRID = 32;
 
         private Chunk[,] chunks;
