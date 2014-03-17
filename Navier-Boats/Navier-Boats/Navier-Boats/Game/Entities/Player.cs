@@ -25,11 +25,12 @@ namespace Navier_Boats.Game.Entities
             GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
             if (!ConsoleWindow.GetInstance().IsActive)
             {
+                float mult = 1.0f;
                 if (gamePadState.IsConnected)
                 {
-                    float mult = 1.0f + gamePadState.Triggers.Right;
-                    vel.X += gamePadState.ThumbSticks.Left.X * mult;
-                    vel.Y += -gamePadState.ThumbSticks.Left.Y * mult;
+                    mult += gamePadState.Triggers.Right;
+                    vel.X += gamePadState.ThumbSticks.Left.X;
+                    vel.Y += -gamePadState.ThumbSticks.Left.Y;
                 }
                 else
                 {
@@ -38,6 +39,8 @@ namespace Navier_Boats.Game.Entities
                     vel.Y += keyState.IsKeyDown(Keys.W) ? -1 : 0;
                     vel.Y += keyState.IsKeyDown(Keys.S) ? 1 : 0;
                 }
+                vel.Normalize();
+                vel *= mult;
             }
             Velocity = vel;
 
