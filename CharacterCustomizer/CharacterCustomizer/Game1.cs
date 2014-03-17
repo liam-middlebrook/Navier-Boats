@@ -19,6 +19,11 @@ namespace CharacterCustomizer
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        SpriteFont sf;
+
+        List<Wheel> characterParts;//all the character component wheels
+        bool mouseClicked = false;//checks whether the mouse was clicked the previous frame
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -34,6 +39,13 @@ namespace CharacterCustomizer
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            this.IsMouseVisible = true;
+
+            characterParts = new List<Wheel>();
+            int x = 20;
+            int y = 50;
+            characterParts.Add(new Wheel("Faces", Content, x, y));
+            y += 50;
 
             base.Initialize();
         }
@@ -48,6 +60,7 @@ namespace CharacterCustomizer
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            sf = Content.Load<SpriteFont>("SpriteFont1");
         }
 
         /// <summary>
@@ -71,7 +84,17 @@ namespace CharacterCustomizer
                 this.Exit();
 
             // TODO: Add your update logic here
-
+            if (Mouse.GetState().LeftButton == ButtonState.Released)
+                mouseClicked = false;
+            else
+            {
+                if (!mouseClicked)
+                {
+                    foreach (Wheel characterPart in characterParts)
+                        characterPart.ButtonClick(Mouse.GetState().X, Mouse.GetState().Y);
+                    mouseClicked = true;
+                }
+            }
             base.Update(gameTime);
         }
 
@@ -84,6 +107,12 @@ namespace CharacterCustomizer
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            
+            foreach (Wheel characterPart in characterParts)
+                characterPart.Draw(spriteBatch);
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
