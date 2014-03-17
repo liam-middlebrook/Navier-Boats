@@ -8,6 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Navier_Boats.Engine.Level
 {
+    public enum TileLayer
+    {
+        GROUND_LAYER,
+        ROAD_LAYER,
+        OVER_LAYER,
+        COLLISION_LAYER
+    }
     public class Chunk
     {
         public const int CHUNK_WIDTH = 32;
@@ -56,14 +63,14 @@ namespace Navier_Boats.Engine.Level
                         chunkDataRoadLayer[xIndex, yIndex] = p;
                     else
                         chunkDataGroundLayer[xIndex, yIndex] = p;
-                    
+
 
                 }
             }
 
             #endregion
 
-            
+
 
             #region OverLayer
 
@@ -231,17 +238,46 @@ namespace Navier_Boats.Engine.Level
             {
                 for (int x = 0; x < CHUNK_WIDTH; x++)
                 {
-                    
-                        spriteBatch.Draw(tileTextures[chunkDataGroundLayer[x, y]], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, Color.White);
-                    
-                        spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y]], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, new Color(255,255,255,200));
-                    
-//                     if (chunkDataOverLayer[x, y] > 0)
-//                     {
-//                         spriteBatch.Draw(tileTextures[chunkDataOverLayer[x, y]], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, new Color(255, 255, 255, 100));
-//                     }
+
+                    spriteBatch.Draw(tileTextures[chunkDataGroundLayer[x, y]], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, Color.White);
+
+                    spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y]], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, new Color(255, 255, 255, 200));
+
+                    //if (chunkDataOverLayer[x, y] > 0)
+                    //{
+                    //    spriteBatch.Draw(tileTextures[chunkDataOverLayer[x, y]], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, new Color(255, 255, 255, 100));
+                    //}
                 }
             }
         }
+
+        public short GetDataAtPosition(TileLayer tileLayer, Vector2 position)
+        {
+            switch (tileLayer)
+            {
+                case TileLayer.COLLISION_LAYER:
+                    {
+                        return (short)(chunkDataCollision[(int)position.X, (int)position.Y] ? 1 : 0);
+                    }
+                case TileLayer.GROUND_LAYER:
+                    {
+                        return chunkDataGroundLayer[(int)position.X, (int)position.Y];
+                    }
+                case TileLayer.OVER_LAYER:
+                    {
+                        return chunkDataOverLayer[(int)position.X, (int)position.Y];
+                    }
+                case TileLayer.ROAD_LAYER:
+                    {
+                        return chunkDataRoadLayer[(int)position.X, (int)position.Y];
+                    }
+                default:
+                    {
+                        new Exception("Incorrect Layer Specified");
+                        return -1;
+                    }
+            }
+        }
+
     }
 }

@@ -18,7 +18,7 @@ namespace Navier_Boats.Engine.Level
     {
         public const int OCTAVES = 4;
         public const float LAC = 2.145634563f;
-        public const int SEED = 2; //NYI
+        public const int SEED = 2; //Not Implemented
         public const int GRID = 32;
 
         private Chunk[,] chunks;
@@ -197,6 +197,53 @@ namespace Navier_Boats.Engine.Level
         {
             return new Vector2(Chunk.TILE_WIDTH * Chunk.CHUNK_WIDTH, Chunk.TILE_HEIGHT * Chunk.CHUNK_HEIGHT) * chunkCoords;
         }
+        private Vector2 WorldCoordsToChunkCoords(Vector2 chunkCoords)
+        {
+            return new Vector2(1.0f/(Chunk.TILE_WIDTH * Chunk.CHUNK_WIDTH), 1.0f/(Chunk.TILE_HEIGHT * Chunk.CHUNK_HEIGHT)) * chunkCoords;
+        }
+
+        /// <summary>
+        /// Gets the Chunk Coordinates of the Chunk enclosing the point
+        /// </summary>
+        /// <param name="point">The point to get the chunk coords for</param>
+        /// <returns>The chunk coords of the point given.</returns>
+        private Vector2 GetEnclosingChunk(Vector2 point)
+        {
+            Vector2 scaled = new Vector2((point.X/(Chunk.CHUNK_WIDTH*Chunk.TILE_WIDTH)), (point.Y/(Chunk.CHUNK_HEIGHT*Chunk.TILE_HEIGHT)));
+            scaled.X = (int)Math.Floor(scaled.X);
+            scaled.Y = (int)Math.Floor(scaled.Y);
+            return scaled;
+        }
+
+
+        public short GetTileDataAtPoint(TileLayer tileLayer, Vector2 point)
+        {
+            //Gets the chunk the point is in
+            Vector2 chunkCoord = GetEnclosingChunk(point);
+
+            Vector2 chunkWorldCoord = ChunkCoordsToWorldCoords(chunkCoord);
+
+            Vector2 pointChunkOffset = (point - chunkWorldCoord) / new Vector2(Chunk.TILE_WIDTH, Chunk.TILE_HEIGHT);
+
+            pointChunkOffset.X += pointChunkOffset.X < 0 ? Chunk.CHUNK_WIDTH : 0;
+            pointChunkOffset.Y += pointChunkOffset.Y < 0 ? Chunk.CHUNK_WIDTH : 0;
+
+
+            Chunk chunk = null;
+            foreach (Chunk loadedChunk in chunks)
+            {
+                if(chunkCoord == loadedChunk.Position)
+                {
+                    chunk = loadedChunk;
+                    break;
+                }
+            }
+            if(chunk == null)
+            {
+                chunk = new Chunk(Chunk.CoordsToChunkID(chunkCoord) + ".chunk", chunkSaveDirectory, ref terrainGen);
+            }
+            return chunk.GetDataAtPosition(tileLayer, pointChunkOffset);
+        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -220,7 +267,8 @@ namespace Navier_Boats.Engine.Level
         {
             if (ConsoleVars.GetInstance().DebugDraw)
             {
-                string output = string.Format("Player Position {0}", entities[0].Position);
+                string output = string.Format("Player Position {0}\n"
+                                            + "ChunkData: {1}", entities[0].Position, GetTileDataAtPoint(TileLayer.GROUND_LAYER, entities[0].Position));
                 spriteBatch.DrawString(debugFont, output, new Vector2(1024 - (debugFont.MeasureString(output).X + 10), 10), Color.Black);
             }
         }
