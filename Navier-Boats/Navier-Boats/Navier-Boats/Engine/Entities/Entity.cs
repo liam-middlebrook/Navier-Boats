@@ -17,6 +17,7 @@ namespace Navier_Boats.Engine.Entities
 
         public Rectangle BoundingRectangle()
         {
+            // Use the Texture's Source Rectangle for Width and Height, if it's null just use the Texture's Bounding Rectangle
             Rectangle wh= SourceRectangle ?? Texture.Bounds;
             return new Rectangle((int)Position.X, (int)Position.Y, wh.Width, wh.Height);
         }
