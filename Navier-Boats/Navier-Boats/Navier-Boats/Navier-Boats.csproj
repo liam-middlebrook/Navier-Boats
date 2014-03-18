@@ -95,6 +95,7 @@
     <Compile Include="Engine\Pathfinding\Pathfinder.cs" />
     <Compile Include="Engine\Pathfinding\PathNode.cs" />
     <Compile Include="Engine\Pathfinding\SearchNode.cs" />
+    <Compile Include="Engine\System\Lock.cs" />
     <Compile Include="Game\Entities\Player.cs" />
     <Compile Include="Game\Entities\Wanderer.cs" />
     <Compile Include="Engine\Inventory\IGameItem.cs" />
