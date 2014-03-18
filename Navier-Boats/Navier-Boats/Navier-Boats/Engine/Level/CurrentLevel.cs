@@ -16,6 +16,18 @@ namespace Navier_Boats.Engine.Level
 {
     public class CurrentLevel
     {
+        #region SINGLETON_MEMBERS
+        private static CurrentLevel instance;
+        public static CurrentLevel GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new CurrentLevel();
+            }
+            return instance;
+        }
+        #endregion
+
         public const int OCTAVES = 4;
         public const float LAC = 2.145634563f;
         public const int SEED = 2; //Not Implemented
@@ -35,15 +47,16 @@ namespace Navier_Boats.Engine.Level
 
         private EntityManager entityManager;
 
-        private TerrainGenerator terrainGen = new TerrainGenerator(OCTAVES, LAC, GRID, SEED, TerrainType.Country);
+        private TerrainGenerator terrainGen;
 
-        public CurrentLevel()
+        private CurrentLevel()
         {
             entities = new List<Entity>();
             entityManager = new EntityManager(Path.Combine(chunkSaveDirectory,"entityData"));
-            entities.Add(new Player(new Vector2(300, 300)));
+            entities.Add(new Player(new Vector2(0, 0)));
             randy = new Random();
-            
+
+            terrainGen = new TerrainGenerator(OCTAVES, LAC, GRID, randy.Next(), TerrainType.Country);
         }
 
         public void LoadContent(ContentManager Content)
