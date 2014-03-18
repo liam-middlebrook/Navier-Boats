@@ -87,6 +87,18 @@ namespace Navier_Boats.Engine.Level
                         return 0;
                     }));
 
+            ConsoleWindow.GetInstance().AddCommand(
+                new ConsoleCommand(
+                    "clearleveldata",
+                    (args, logQueue)
+                        =>
+                    {
+                        chunks = null;
+                        Directory.Delete(chunkSaveDirectory, true);
+                        Environment.Exit(0);
+                        return 0;
+                    }));
+
             tileTextures = new List<Texture2D>();
             tileTextures.Add(Content.Load<Texture2D>("tiles\\road"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\green"));
