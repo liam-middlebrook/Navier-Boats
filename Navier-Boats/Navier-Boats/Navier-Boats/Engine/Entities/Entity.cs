@@ -4,21 +4,42 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Navier_Boats.Engine.Graphics;
+using Navier_Boats.Engine.Level;
 
 namespace Navier_Boats.Engine.Entities
 {
     public abstract class Entity : Sprite
     {
+        #region FIELDS
+
         private Vector2 acceleration;
 
         private Vector2 velocity;
 
         private float speed;
 
+        protected float initialSpeed;
+
+        #endregion
+
+        #region Constants
+
+        const float WATER_SPEED_MULT = 0.10f;
+
+        const float SAND_SPEED_MULT = 0.45f;
+
+        const float GRASS_SPEED_MULT = 1.0f;
+
+        const float ROAD_SPEED_MULT = 1.05f;
+
+        #endregion
+
+        #region Properties
+
         public Rectangle BoundingRectangle()
         {
             // Use the Texture's Source Rectangle for Width and Height, if it's null just use the Texture's Bounding Rectangle
-            Rectangle wh= SourceRectangle ?? Texture.Bounds;
+            Rectangle wh = SourceRectangle ?? Texture.Bounds;
             return new Rectangle((int)Position.X, (int)Position.Y, wh.Width, wh.Height);
         }
 

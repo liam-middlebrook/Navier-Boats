@@ -16,7 +16,7 @@ namespace Navier_Boats.Game.Entities
             : base(100, 32)
         {
             Position = position;
-            Speed = 1000;
+            initialSpeed = 1000;
         }
 
         public void HandleInput(KeyboardState keyState, KeyboardState prevKeyState, MouseState mouseState, MouseState prevMouseState)
