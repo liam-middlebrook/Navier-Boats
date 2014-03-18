@@ -12,6 +12,7 @@ using libXNADeveloperConsole;
 using Microsoft.Xna.Framework.Input;
 using Navier_Boats.Engine.Graphics;
 using Navier_Boats.Engine.System;
+using Lock = System.Object;
 
 namespace Navier_Boats.Engine.Level
 {
