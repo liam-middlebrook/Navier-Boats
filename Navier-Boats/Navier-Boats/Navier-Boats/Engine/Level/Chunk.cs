@@ -234,11 +234,11 @@ namespace Navier_Boats.Engine.Level
         /// <param name="position">The position of the chunk in world coordinates</param>
         public void Draw(SpriteBatch spriteBatch, List<Texture2D> tileTextures, Vector2 chunkOffset, Vector2 position)
         {
+            //TODO: make chunks only draw the tiles that appear on screen
             for (int y = 0; y < CHUNK_HEIGHT; y++)
             {
                 for (int x = 0; x < CHUNK_WIDTH; x++)
                 {
-
                     spriteBatch.Draw(tileTextures[chunkDataGroundLayer[x, y]], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, Color.White);
 
                     spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y]], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, new Color(255, 255, 255, 200));
