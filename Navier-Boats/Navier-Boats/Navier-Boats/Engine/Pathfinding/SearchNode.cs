@@ -43,5 +43,10 @@ namespace Navier_Boats.Engine.Pathfinding
             get;
             set;
         }
+
+        public bool Equals(SearchNode obj)
+        {
+            return this.Node.Position.Equals(obj.Node.Position);
+        }
     }
 }

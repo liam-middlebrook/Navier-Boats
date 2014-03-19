@@ -14,6 +14,9 @@ using Navier_Boats.Engine.Entities;
 using Navier_Boats.Engine.Level;
 using Navier_Boats.Engine.Graphics;
 
+// DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
+using Navier_Boats.Engine.Pathfinding;
+
 /**
  * Add your names here once you have completed the Git/SourceTree seminar:
  * 
@@ -22,6 +25,7 @@ using Navier_Boats.Engine.Graphics;
  * Sean Maraia - Completed
  * Thomas Landi - Completed
  * Michael Cohen - Completed
+ * Sam Bloomberg - Completed
  */
 
 namespace Navier_Boats
@@ -38,6 +42,12 @@ namespace Navier_Boats
 
         MouseState mouseState;
         MouseState prevMouseState;
+
+        // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
+        PathThread pathThread = null;
+        bool submitPathing = false;
+        bool showError = false;
+        Texture2D pixel;
 
 
         public Game1()
@@ -85,6 +95,11 @@ namespace Navier_Boats
 
             ConsoleWindow.GetInstance().ConsoleFont = Content.Load<SpriteFont>("consolas");
 
+            // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
+            pixel = Content.Load<Texture2D>("1pix");
+            Pathfinder pathfinder = new Pathfinder(CurrentLevel.GetInstance(), Heuristics.Manhattan);
+            this.pathThread = new PathThread(pathfinder);
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -94,6 +109,8 @@ namespace Navier_Boats
         /// </summary>
         protected override void UnloadContent()
         {
+            if (this.pathThread.Running)
+                this.pathThread.Stop();
             // TODO: Unload any non ContentManager content here
         }
 
@@ -116,6 +133,13 @@ namespace Navier_Boats
 
             CurrentLevel.GetInstance().Update(gameTime, keyHelper.KeyState, keyHelper.PrevKeyState, mouseState, prevMouseState);
 
+            // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
+            if (!this.submitPathing)
+            {
+                this.submitPathing = true;
+                this.pathThread.Run(new Vector2(0, 0), new Vector2(1300, -1300), 10);
+            }
+
             // TODO: Add your update logic here
             
             base.Update(gameTime);
@@ -136,6 +160,13 @@ namespace Navier_Boats
             spriteBatch.Begin();
             ConsoleWindow.GetInstance().Draw(spriteBatch);
             CurrentLevel.GetInstance().DrawGUI(spriteBatch);
+
+            // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
+            if (this.pathThread.Done)
+            {
+                Console.WriteLine("DONE PATHING");
+            }
+
             spriteBatch.End();
             // TODO: Add your drawing code here
 

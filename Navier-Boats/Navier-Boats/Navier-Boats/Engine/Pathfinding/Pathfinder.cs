@@ -7,14 +7,10 @@ using Navier_Boats.Engine.Level;
 
 namespace Navier_Boats.Engine.Pathfinding
 {
+    // if you want to use threading with this, use the PathThread class
     public class Pathfinder
     {
         public delegate float Heuristic(Vector2 a, Vector2 b);
-
-        public static float BasicHeuristic(Vector2 a, Vector2 b)
-        {
-            return Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
-        }
 
         private Dictionary<Vector2, SearchNode> searchNodes = new Dictionary<Vector2, SearchNode>();
         private List<SearchNode> openList = new List<SearchNode>();
@@ -32,44 +28,50 @@ namespace Navier_Boats.Engine.Pathfinding
 
         public PathNode QueryPosition(Vector2 position)
         {
-            // placeholder, needs to query the walkable state from level
-            return null;
+            PathNode node = new PathNode();
+            node.Position = position;
+            short tileData = this.level.GetTileDataAtPoint(TileLayer.COLLISION_LAYER, position);
+            node.Walkable = tileData == 0;
+            return node;
         }
 
         public SearchNode GetNode(Vector2 position)
         {
             SearchNode node = null;
-            if (searchNodes.TryGetValue(position, out node))
-                return node;
+            if (searchNodes.TryGetValue(position, out node)) // if we already built this node
+                return node;                                // return it
 
             node = new SearchNode();
-            node.Node = QueryPosition(position);
+            node.Node = QueryPosition(position); // otherwise, query the position
             return node;
         }
 
-        public List<Vector2> FindPath(Vector2 startPoint, Vector2 endPoint)
+        public List<Vector2> FindPath(Vector2 startPoint, Vector2 endPoint, float size)
         {
-            if (startPoint == endPoint)
+            if (startPoint == endPoint) // don't do any calculations if we aren't going anywhere
                 return new List<Vector2>();
 
-            searchNodes.Clear();
+            searchNodes.Clear(); // clear out everything
             openList.Clear();
             closedList.Clear();
 
-            SearchNode startNode = GetNode(startPoint);
-            SearchNode endNode = GetNode(endPoint);
+            Vector2 newStart = new Vector2(startPoint.X - startPoint.X % size, startPoint.Y - startPoint.Y % size);
+            Vector2 newEnd = new Vector2(endPoint.X - endPoint.X % size, endPoint.Y - endPoint.Y % size);
+
+            SearchNode startNode = GetNode(newStart); // get the start and end nodes
+            SearchNode endNode = GetNode(newEnd);
 
             startNode.InOpenList = true;
             startNode.DistanceToGoal = this.heuristic(startPoint, endPoint);
             startNode.DistanceTraveled = 0;
             openList.Add(startNode);
 
-            Vector2[] neighbors = new Vector2[]
+            Vector2[] neighbors = new Vector2[] // diagonal pathing is not supported right now, might be soon
                 {
-                    new Vector2(1, 0),
-                    new Vector2(-1, 0),
-                    new Vector2(0, 1),
-                    new Vector2(0, -1)
+                    new Vector2(size, 0),
+                    new Vector2(-size, 0),
+                    new Vector2(0, size),
+                    new Vector2(0, -size)
                 };
 
             while (openList.Count > 0)
@@ -78,12 +80,12 @@ namespace Navier_Boats.Engine.Pathfinding
 
                 if (currentNode == null)
                 {
-                    Console.WriteLine("Pathfinder: No path found");
-                    break;
+                    throw new PathException("No path found");
                 }
 
-                if (currentNode == endNode)
+                if (currentNode.Equals(endNode))
                 {
+                    endNode.Parent = currentNode;
                     return FindFinalPath(startNode, endNode);
                 }
 
@@ -120,7 +122,7 @@ namespace Navier_Boats.Engine.Pathfinding
                 currentNode.InClosedList = true;
             }
 
-            return new List<Vector2>();
+            throw new PathException("Open list ended without finding result");
         }
 
         private SearchNode FindBestNode()
