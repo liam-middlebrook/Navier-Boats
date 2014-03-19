@@ -40,9 +40,6 @@ namespace Navier_Boats
         MouseState prevMouseState;
 
 
-
-        CurrentLevel level;
-
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -65,7 +62,6 @@ namespace Navier_Boats
             keyHelper = new KeyboardHelper();
             mouseState = Mouse.GetState();
 
-            level = new CurrentLevel();
             base.Initialize();
         }
 
@@ -78,7 +74,7 @@ namespace Navier_Boats
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            level.LoadContent(Content);
+            CurrentLevel.GetInstance().LoadContent(Content);
             /*for (int i = 1; i < 1; i++)
             {
             entities.Add(new Wanderer(new Vector2(30*i,30*i), randy.Next(int.MaxValue)));
@@ -118,7 +114,7 @@ namespace Navier_Boats
 
             ConsoleWindow.GetInstance().Update(keyHelper);
 
-            level.Update(gameTime, keyHelper.KeyState, keyHelper.PrevKeyState, mouseState, prevMouseState);
+            CurrentLevel.GetInstance().Update(gameTime, keyHelper.KeyState, keyHelper.PrevKeyState, mouseState, prevMouseState);
 
             // TODO: Add your update logic here
             
@@ -135,11 +131,11 @@ namespace Navier_Boats
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.TransformMatrix);
 
-            level.Draw(spriteBatch);
+            CurrentLevel.GetInstance().Draw(spriteBatch);
             spriteBatch.End();
             spriteBatch.Begin();
             ConsoleWindow.GetInstance().Draw(spriteBatch);
-            level.DrawGUI(spriteBatch);
+            CurrentLevel.GetInstance().DrawGUI(spriteBatch);
             spriteBatch.End();
             // TODO: Add your drawing code here
 

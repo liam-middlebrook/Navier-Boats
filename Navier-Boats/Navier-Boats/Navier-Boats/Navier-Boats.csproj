@@ -78,7 +78,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\ConsoleVars.cs" />
+    <Compile Include="Engine\System\ConsoleVars.cs" />
     <Compile Include="Engine\Entities\Entity.cs" />
     <Compile Include="Engine\Entities\EntityManager.cs" />
     <Compile Include="Engine\Entities\HostileLivingEntity.cs" />
@@ -92,6 +92,9 @@
     <Compile Include="Engine\Level\CurrentLevel.cs" />
     <Compile Include="Engine\Level\PerlinGenerator.cs" />
     <Compile Include="Engine\Level\TerrainGenerator.cs" />
+    <Compile Include="Engine\Pathfinding\Pathfinder.cs" />
+    <Compile Include="Engine\Pathfinding\PathNode.cs" />
+    <Compile Include="Engine\Pathfinding\SearchNode.cs" />
     <Compile Include="Game\Entities\Player.cs" />
     <Compile Include="Game\Entities\Wanderer.cs" />
     <Compile Include="Engine\Inventory\IGameItem.cs" />

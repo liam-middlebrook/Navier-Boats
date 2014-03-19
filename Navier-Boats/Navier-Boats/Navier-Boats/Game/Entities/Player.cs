@@ -16,7 +16,7 @@ namespace Navier_Boats.Game.Entities
             : base(100, 32)
         {
             Position = position;
-            Speed = 1000;
+            initialSpeed = 1000;
         }
 
         public void HandleInput(KeyboardState keyState, KeyboardState prevKeyState, MouseState mouseState, MouseState prevMouseState)
@@ -39,7 +39,12 @@ namespace Navier_Boats.Game.Entities
                     vel.Y += keyState.IsKeyDown(Keys.W) ? -1 : 0;
                     vel.Y += keyState.IsKeyDown(Keys.S) ? 1 : 0;
                 }
-                vel.Normalize();
+                if (vel.LengthSquared() != 0)
+                {
+                    vel.X = vel.X / vel.Length();
+                    vel.Y = vel.Y / vel.Length();
+                }
+
                 vel *= mult;
             }
             Velocity = vel;
