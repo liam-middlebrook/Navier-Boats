@@ -40,6 +40,8 @@ namespace CharacterCustomizer
         {
             // TODO: Add your initialization logic here
             this.IsMouseVisible = true;
+            //graphics.PreferMultiSampling = false;
+            //graphics.ApplyChanges();
 
             characterParts = new List<Wheel>();
             int x = 20;
@@ -107,7 +109,10 @@ namespace CharacterCustomizer
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
+            
+            //this overload turns off antialiasing
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Matrix.Identity);
+
             
             foreach (Wheel characterPart in characterParts)
                 characterPart.Draw(spriteBatch);
