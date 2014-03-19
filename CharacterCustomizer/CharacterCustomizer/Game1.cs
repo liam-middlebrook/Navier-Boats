@@ -22,7 +22,8 @@ namespace CharacterCustomizer
         SpriteFont sf;
 
         List<Wheel> characterParts;//all the character component wheels
-        bool mouseClicked = false;//checks whether the mouse was clicked the previous frame
+        Die die;
+        MouseState mouseState, prevMouseState;//current and previous mouse state
 
         public Game1()
         {
@@ -43,11 +44,15 @@ namespace CharacterCustomizer
             //graphics.PreferMultiSampling = false;
             //graphics.ApplyChanges();
 
+            mouseState = Mouse.GetState();
+
             characterParts = new List<Wheel>();
             int x = 20;
             int y = 50;
             characterParts.Add(new Wheel("Faces", Content, x, y));
             y += 50;
+
+            die = new Die(500, 20, Content);
 
             base.Initialize();
         }
@@ -86,16 +91,14 @@ namespace CharacterCustomizer
                 this.Exit();
 
             // TODO: Add your update logic here
-            if (Mouse.GetState().LeftButton == ButtonState.Released)
-                mouseClicked = false;
-            else
+            prevMouseState = mouseState;
+            mouseState = Mouse.GetState();
+
+            if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
             {
-                if (!mouseClicked)
-                {
-                    foreach (Wheel characterPart in characterParts)
-                        characterPart.ButtonClick(Mouse.GetState().X, Mouse.GetState().Y);
-                    mouseClicked = true;
-                }
+                foreach (Wheel characterPart in characterParts)
+                    characterPart.ButtonClick(mouseState.X, mouseState.Y);
+                die.ButtonClick(mouseState.X, mouseState.Y);
             }
             base.Update(gameTime);
         }
@@ -116,6 +119,7 @@ namespace CharacterCustomizer
             
             foreach (Wheel characterPart in characterParts)
                 characterPart.Draw(spriteBatch);
+            die.Draw(spriteBatch);
 
             spriteBatch.End();
 
