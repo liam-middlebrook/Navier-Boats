@@ -39,6 +39,9 @@ namespace Navier_Boats.Engine.Pathfinding
         {
             get
             {
+                if (this.thread == null)
+                    return false;
+
                 return this.thread.ThreadState == ThreadState.Running;
             }
         }

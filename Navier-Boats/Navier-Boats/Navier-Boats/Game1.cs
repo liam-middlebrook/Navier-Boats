@@ -47,7 +47,6 @@ namespace Navier_Boats
         PathThread pathThread = null;
         bool submitPathing = false;
         bool showError = false;
-        Texture2D pixel;
 
 
         public Game1()
@@ -96,7 +95,6 @@ namespace Navier_Boats
             ConsoleWindow.GetInstance().ConsoleFont = Content.Load<SpriteFont>("consolas");
 
             // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
-            pixel = Content.Load<Texture2D>("1pix");
             Pathfinder pathfinder = new Pathfinder(CurrentLevel.GetInstance(), Heuristics.Manhattan);
             this.pathThread = new PathThread(pathfinder);
 
@@ -137,7 +135,7 @@ namespace Navier_Boats
             if (!this.submitPathing)
             {
                 this.submitPathing = true;
-                this.pathThread.Run(new Vector2(0, 0), new Vector2(1300, -1300), 10);
+                this.pathThread.Run(new Vector2(0, 0), new Vector2(-450, -550), 10);
             }
 
             // TODO: Add your update logic here
