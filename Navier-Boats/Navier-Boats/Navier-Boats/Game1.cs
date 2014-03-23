@@ -157,7 +157,7 @@ namespace Navier_Boats
             spriteBatch.End();
             spriteBatch.Begin();
             ConsoleWindow.GetInstance().Draw(spriteBatch);
-            CurrentLevel.GetInstance().DrawGUI(spriteBatch);
+            CurrentLevel.GetInstance().DrawGUI(spriteBatch, GraphicsDevice);
 
             // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
             if (this.pathThread.Done)

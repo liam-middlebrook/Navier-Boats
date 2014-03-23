@@ -309,7 +309,7 @@ namespace Navier_Boats.Engine.Level
             }
         }
 
-        public void DrawGUI(SpriteBatch spriteBatch)
+        public void DrawGUI(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
         {
             if (ConsoleVars.GetInstance().DebugDraw)
             {
@@ -317,6 +317,10 @@ namespace Navier_Boats.Engine.Level
                                             + "ChunkData: {1}", entities[0].Position, GetTileDataAtPoint(TileLayer.GROUND_LAYER, entities[0].Position));
                 spriteBatch.DrawString(debugFont, output, new Vector2(1024 - (debugFont.MeasureString(output).X + 10), 10), Color.Black);
             }
+
+
+            Player temp = entities[0] as Player;
+            temp.DrawGUI(spriteBatch, graphicsDevice);
         }
 
         private void InitLevel()
