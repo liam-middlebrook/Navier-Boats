@@ -90,6 +90,16 @@ namespace Navier_Boats.Game.Entities
             spriteBatch.Draw(TextureManager.GetInstance()["HealthTexture"], new Rectangle(50, 900, 200, 75), Color.Black);
             spriteBatch.Draw(TextureManager.GetInstance()["HealthTexture"], new Rectangle(51, 901, (int)(2 * Health) - 2, 73), Color.White);
             spriteBatch.Draw(TextureManager.GetInstance()["CompassTexture"], CompassRect, Color.White);
+
+            //Draw text indicating precise value of player health
+            SpriteFont drawFont = FontManager.GetInstance()["Console Font"];
+
+            // Get how large the text will be when drawn
+            Vector2 fontSize = drawFont.MeasureString(string.Format("{0:00.00}", Health));
+            
+            //Get the position to draw the text to
+            Vector2 healthTextPos = new Vector2(150, 938) - fontSize / 2;
+            spriteBatch.DrawString(drawFont, string.Format("{0:00.00}", Health), healthTextPos, Color.White);
         }
     }
 }
