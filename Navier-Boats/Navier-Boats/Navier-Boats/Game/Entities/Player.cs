@@ -15,14 +15,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Navier_Boats.Game.Entities
 {
-    public class Player : LivingEntity, IInputControllable
+    public class Player : LivingEntity, IInputControllable, IDrawableGUI
     {
         #region HUD Textures and Rectangles
-        //Textures for the HUD elements
-        private Texture2D CompassTexture;
-        private Texture2D HealthTexture;
-        private Texture2D HUDItemBoxTexture;
-
         //Locations for the HUD elements
         private Rectangle HUDItemBoxRectOne;
         private Rectangle HUDItemBoxRectTwo;
@@ -44,7 +39,7 @@ namespace Navier_Boats.Game.Entities
 
             health = 100;
 
-            #region HUD Rectangle Initiation\
+            #region HUD Rectangle Initiation
             HUDItemBoxRectOne = new Rectangle(100, 50, 100, 100);
             HUDItemBoxRectTwo = new Rectangle(220, 50, 100, 100);
             HUDItemBoxRectThree = new Rectangle(340, 50, 100, 100);

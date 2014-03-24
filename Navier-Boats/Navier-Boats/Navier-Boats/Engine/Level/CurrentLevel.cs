@@ -319,8 +319,13 @@ namespace Navier_Boats.Engine.Level
             }
 
 
-            Player temp = entities[0] as Player;
-            temp.DrawGUI(spriteBatch, graphicsDevice);
+            foreach (LivingEntity entity in entities)
+            {
+                if (entity is IDrawableGUI)
+                {
+                    ((IDrawableGUI)entity).DrawGUI(spriteBatch);
+                }
+            }
         }
 
         private void InitLevel()
