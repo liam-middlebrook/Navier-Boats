@@ -40,12 +40,12 @@ namespace Navier_Boats.Engine.Graphics
                 {
                     return loadedFonts[index];
                 }
-                return loadedFonts[""];
+                return null;
             }
             set { loadedFonts[index] = value; }
         }
 
-        public FontManager()
+        private FontManager()
         {
             loadedFonts = new Dictionary<string, SpriteFont>();
         }
