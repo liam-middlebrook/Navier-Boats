@@ -126,6 +126,7 @@ namespace Navier_Boats.Engine.Level
             tileTextures.Add(Content.Load<Texture2D>("tiles\\sand"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\blue"));
 
+            FontManager.GetInstance().LoadFont(Content.Load<SpriteFont>("consolas"), "Console Font");
 
             debugFont = Content.Load<SpriteFont>("consolas");
 
