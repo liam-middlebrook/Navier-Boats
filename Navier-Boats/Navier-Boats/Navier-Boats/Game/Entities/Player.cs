@@ -17,7 +17,7 @@ namespace Navier_Boats.Game.Entities
 {
     public class Player : LivingEntity, IInputControllable, IDrawableGUI
     {
-        #region HUD Textures and Rectangles
+        #region HUD Element Rectangles
         //Locations for the HUD elements
         private Rectangle HUDItemBoxRectOne;
         private Rectangle HUDItemBoxRectTwo;
