@@ -84,6 +84,8 @@ namespace Navier_Boats
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             CurrentLevel.GetInstance().LoadContent(Content);
+
+            TextureManager.GetInstance().GenerateTextures(GraphicsDevice);
             /*for (int i = 1; i < 1; i++)
             {
             entities.Add(new Wanderer(new Vector2(30*i,30*i), randy.Next(int.MaxValue)));
