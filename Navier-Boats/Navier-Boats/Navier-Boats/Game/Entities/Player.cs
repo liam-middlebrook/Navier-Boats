@@ -24,7 +24,6 @@ namespace Navier_Boats.Game.Entities
         private Rectangle HUDItemBoxRectThree;
         private Rectangle HUDItemBoxRectFour;
         private Rectangle HUDItemBoxRectFive;
-        private Rectangle HealthRect;
         private Rectangle CompassRect;
         #endregion
 
@@ -40,12 +39,12 @@ namespace Navier_Boats.Game.Entities
             health = 100;
 
             #region HUD Rectangle Initiation
-            HUDItemBoxRectOne = new Rectangle(100, 50, 100, 100);
-            HUDItemBoxRectTwo = new Rectangle(220, 50, 100, 100);
-            HUDItemBoxRectThree = new Rectangle(340, 50, 100, 100);
-            HUDItemBoxRectFour = new Rectangle(410, 50, 100, 100);
-            HUDItemBoxRectFive = new Rectangle(52, 50, 100, 100);
-            CompassRect = new Rectangle(900, 50, 100, 100);
+            HUDItemBoxRectOne = new Rectangle(300, 900, 75, 75);
+            HUDItemBoxRectTwo = new Rectangle(420, 900, 75, 75);
+            HUDItemBoxRectThree = new Rectangle(540, 900, 75, 75);
+            HUDItemBoxRectFour = new Rectangle(660, 900, 75, 75);
+            HUDItemBoxRectFive = new Rectangle(780, 900, 75, 75);
+            CompassRect = new Rectangle(900, 50, 75, 75);
             #endregion
         }
 
@@ -92,7 +91,7 @@ namespace Navier_Boats.Game.Entities
             spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectThree, Color.White);
             spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectFour, Color.White);
             spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectFive, Color.White);
-            spriteBatch.Draw(TextureManager.GetInstance()["HealthTexture"], new Rectangle(10, health, 100, 100), Color.White);
+            spriteBatch.Draw(TextureManager.GetInstance()["HealthTexture"], new Rectangle(50, 900, 2 * health, 75), Color.White);
             spriteBatch.Draw(TextureManager.GetInstance()["CompassTexture"], CompassRect, Color.White);
         }
     }

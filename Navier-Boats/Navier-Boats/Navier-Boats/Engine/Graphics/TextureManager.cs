@@ -94,7 +94,7 @@ namespace Navier_Boats.Engine.Graphics
             Color[] colorOne = new Color[25];
             for (int i = 0; i < colorOne.Length; i++)
             {
-                color[i] = Color.Black;
+                colorOne[i] = Color.Black;
             }
             HUDItemBoxTexture.SetData(colorOne);
 
@@ -108,7 +108,7 @@ namespace Navier_Boats.Engine.Graphics
             Color[] colorTwo = new Color[25];
             for (int i = 0; i < colorTwo.Length; i++)
             {
-                color[i] = Color.Red;
+                colorTwo[i] = Color.Red;
             }
             HealthTexture.SetData(colorTwo);
 
