@@ -11,8 +11,15 @@ namespace Navier_Boats.Engine.Graphics
     {
         #region SINGLETON_MEMBERS
 
+        /// <summary>
+        /// The instance of TextureManager
+        /// </summary>
         private static TextureManager _instance;
 
+        /// <summary>
+        /// Gets the instance of TextureManager
+        /// </summary>
+        /// <returns>The instance of TextureManager</returns>
         public static TextureManager GetInstance()
         {
             if (_instance == null)
@@ -24,8 +31,16 @@ namespace Navier_Boats.Engine.Graphics
 
         #endregion
 
+        /// <summary>
+        /// A dictionary containg the textures loaded into TextureManager
+        /// </summary>
         private Dictionary<string, Texture2D> loadedTextures;
 
+        /// <summary>
+        /// An Indexer Property that exposes loaded textures in a dictionary like format
+        /// </summary>
+        /// <param name="index">The name of the texture</param>
+        /// <returns>The texture at the specified name</returns>
         public Texture2D this[string index]
         {
             get
@@ -39,11 +54,18 @@ namespace Navier_Boats.Engine.Graphics
             set { loadedTextures[index] = value; }
         }
 
+        /// <summary>
+        /// Creates the TextureManager instance
+        /// </summary>
         private TextureManager()
         {
             loadedTextures = new Dictionary<string, Texture2D>();
         }
 
+        /// <summary>
+        /// Generates textures into TextureManager
+        /// </summary>
+        /// <param name="graphicsDevice">The Graphics Device to use to generate the texture with</param>
         public void GenerateTextures(GraphicsDevice graphicsDevice)
         {
             loadedTextures[""] = new Texture2D(graphicsDevice, 1, 1);
