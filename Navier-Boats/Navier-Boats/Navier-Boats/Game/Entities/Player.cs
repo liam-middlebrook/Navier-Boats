@@ -90,41 +90,15 @@ namespace Navier_Boats.Game.Entities
             headSprite.Rotation = MathHelper.SmoothStep(headSprite.Rotation, angle, 0.97f);
         }
 
-        public void DrawGUI(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
+        public void DrawGUI(SpriteBatch spriteBatch)
         {
-            CompassTexture = new Texture2D(graphicsDevice, 5, 5, false, SurfaceFormat.Color);
-            Color[] color = new Color[25];
-            for (int i = 0; i < color.Length; i++)
-            {
-                color[i] = Color.Purple;
-            }
-            CompassTexture.SetData(color);
-
-            HUDItemBoxTexture = new Texture2D(graphicsDevice, 5, 5, false, SurfaceFormat.Color);
-            Color[] colorOne = new Color[25];
-            for (int i = 0; i < colorOne.Length; i++)
-            {
-                color[i] = Color.Black;
-            }
-            HUDItemBoxTexture.SetData(colorOne);
-
-            HealthTexture = new Texture2D(graphicsDevice, 5, 5, false, SurfaceFormat.Color);
-            Color[] colorTwo = new Color[25];
-            for (int i = 0; i < colorTwo.Length; i++)
-            {
-                color[i] = Color.Red;
-            }
-            HealthTexture.SetData(colorTwo);
-
-            spriteBatch.Draw(HUDItemBoxTexture, HUDItemBoxRectOne, Color.White);
-            spriteBatch.Draw(HUDItemBoxTexture, HUDItemBoxRectTwo, Color.White);
-            spriteBatch.Draw(HUDItemBoxTexture, HUDItemBoxRectThree, Color.White);
-            spriteBatch.Draw(HUDItemBoxTexture, HUDItemBoxRectFour, Color.White);
-            spriteBatch.Draw(HUDItemBoxTexture, HUDItemBoxRectFive, Color.White);
-            spriteBatch.Draw(HealthTexture, new Rectangle(10, health, 100, 100), Color.White);
-            spriteBatch.Draw(CompassTexture, CompassRect, Color.White);
-
-
+            spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectOne, Color.White);
+            spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectTwo, Color.White);
+            spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectThree, Color.White);
+            spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectFour, Color.White);
+            spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectFive, Color.White);
+            spriteBatch.Draw(TextureManager.GetInstance()["HealthTexture"], new Rectangle(10, health, 100, 100), Color.White);
+            spriteBatch.Draw(TextureManager.GetInstance()["CompassTexture"], CompassRect, Color.White);
         }
     }
 }

@@ -78,6 +78,8 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\Graphics\IDrawableGUI.cs" />
+    <Compile Include="Engine\Graphics\TextureManager.cs" />
     <Compile Include="Engine\Pathfinding\Heuristics.cs" />
     <Compile Include="Engine\Pathfinding\PathException.cs" />
     <Compile Include="Engine\Pathfinding\PathThread.cs" />
