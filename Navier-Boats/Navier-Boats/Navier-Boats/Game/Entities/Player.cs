@@ -27,16 +27,12 @@ namespace Navier_Boats.Game.Entities
         private Rectangle CompassRect;
         #endregion
 
-        //Playes current health
-        private int health;
 
         public Player(Vector2 position)
             : base(100, 32)
         {
             Position = position;
             initialSpeed = 1000;
-
-            health = 100;
 
             #region HUD Rectangle Initiation
             HUDItemBoxRectOne = new Rectangle(300, 900, 75, 75);
@@ -91,7 +87,8 @@ namespace Navier_Boats.Game.Entities
             spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectThree, Color.White);
             spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectFour, Color.White);
             spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectFive, Color.White);
-            spriteBatch.Draw(TextureManager.GetInstance()["HealthTexture"], new Rectangle(50, 900, 2 * health, 75), Color.White);
+            spriteBatch.Draw(TextureManager.GetInstance()["HealthTexture"], new Rectangle(50, 900, 200, 75), Color.Black);
+            spriteBatch.Draw(TextureManager.GetInstance()["HealthTexture"], new Rectangle(51, 901, (int)(2 * Health) - 2, 73), Color.White);
             spriteBatch.Draw(TextureManager.GetInstance()["CompassTexture"], CompassRect, Color.White);
         }
     }
