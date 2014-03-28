@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
+using Navier_Boats.Engine.Inventory;
 
 namespace Navier_Boats.Game.Entities
 {
@@ -27,12 +28,15 @@ namespace Navier_Boats.Game.Entities
         private Rectangle CompassRect;
         #endregion
 
+        Inventory playerInv;
 
         public Player(Vector2 position)
             : base(100, 32)
         {
             Position = position;
             initialSpeed = 1000;
+
+            playerInv = new Inventory(64);
 
             #region HUD Rectangle Initiation
             HUDItemBoxRectOne = new Rectangle(300, 900, 75, 75);
@@ -100,6 +104,62 @@ namespace Navier_Boats.Game.Entities
             //Get the position to draw the text to
             Vector2 healthTextPos = new Vector2(150, 938) - fontSize / 2;
             spriteBatch.DrawString(drawFont, string.Format("{0:00.00}", Health), healthTextPos, Color.White);
+
+
+
+            //Draw text indicating the number of items in the stack of items this appears over
+            SpriteFont itemFont = FontManager.GetInstance()["Console Font"];
+
+
+            //Get the position to draw the text for the five on screen item stacks
+            Vector2 itemTextPosOne = new Vector2(350, 940);
+            Vector2 itemTextPosTwo = new Vector2(470, 940);
+            Vector2 itemTextPosThree = new Vector2(590, 940);
+            Vector2 itemTextPosFour = new Vector2(710, 940);
+            Vector2 itemTextPosFive = new Vector2(830, 940);
+            #region HUD Item Number Drawing
+            if (playerInv.Items[0] == null)
+            {
+                spriteBatch.DrawString(itemFont, "0", itemTextPosOne, Color.White);
+            }
+            else
+            {
+                spriteBatch.DrawString(itemFont, playerInv.Items[0].Amount.ToString(), itemTextPosOne, Color.White);
+            }
+            if (playerInv.Items[1] == null)
+            {
+                spriteBatch.DrawString(itemFont, "0", itemTextPosTwo, Color.White);
+            }
+            else
+            {
+                spriteBatch.DrawString(itemFont, playerInv.Items[1].Amount.ToString(), itemTextPosTwo, Color.White);
+            } 
+            if (playerInv.Items[2] == null)
+            {
+                spriteBatch.DrawString(itemFont, "0", itemTextPosThree, Color.White);
+            }
+            else
+            {
+                spriteBatch.DrawString(itemFont, playerInv.Items[2].Amount.ToString(), itemTextPosThree, Color.White);
+            } 
+            if (playerInv.Items[3] == null)
+            {
+                spriteBatch.DrawString(itemFont, "0", itemTextPosFour, Color.White);
+            }
+            else
+            {
+                spriteBatch.DrawString(itemFont, playerInv.Items[3].Amount.ToString(), itemTextPosFour, Color.White);
+            } 
+            if (playerInv.Items[4] == null)
+            {
+                spriteBatch.DrawString(itemFont, "0", itemTextPosFive, Color.White);
+            }
+            else
+            {
+                spriteBatch.DrawString(itemFont, playerInv.Items[4].Amount.ToString(), itemTextPosFive, Color.White);
+            }
+            #endregion
+
         }
     }
 }
