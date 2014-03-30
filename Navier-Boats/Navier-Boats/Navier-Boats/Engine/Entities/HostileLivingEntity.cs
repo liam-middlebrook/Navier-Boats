@@ -17,10 +17,9 @@ namespace Navier_Boats.Engine.Entities
 
         public override void Interact(IInteractable interactor)
         {
-            TakeDamage(1);
             if (interactor is LivingEntity && !(interactor is HostileLivingEntity))
             {
-                (interactor as LivingEntity).TakeDamage(0.1);
+                (interactor as LivingEntity).TakeDamage(1);
             }
         }
     }

@@ -27,6 +27,8 @@ namespace Navier_Boats.Game.Entities
 
         private PathResult path = null;
 
+        private PathJob lastJob = null;
+
         private int currentNodeIndex = 0;
 
         public Wanderer(Vector2 position)
@@ -43,6 +45,12 @@ namespace Navier_Boats.Game.Entities
             switch(currentState)
             {
                 case AIState.Wandering:
+                    if (lastJob != null)
+                    {
+                        lastJob.Cancelled = true;
+                        lastJob = null;
+                    }
+
                     if (Vector2.DistanceSquared(this.Position, EntityManager.GetInstance().Player.Position) <= 230400)
                     {
                         currentState = AIState.Following;
@@ -72,7 +80,7 @@ namespace Navier_Boats.Game.Entities
                         job.Start = this.Position;
                         job.End = EntityManager.GetInstance().Player.Position;
                         job.NodeSize = 32;
-                        job.MaxTime = 10f;
+                        job.MaxTime = 0.5f;
                         job.Heuristic = Heuristics.Manhattan;
                         job.Callback = (result) =>
                             {
@@ -82,6 +90,7 @@ namespace Navier_Boats.Game.Entities
                                 currentNodeIndex = 0;
                                 timeUntilNewAccel = 1f;
                             };
+                        lastJob = job;
                         PathThreadPool.GetInstance().SubmitJob(job);
                         submitJob = true;
                     }

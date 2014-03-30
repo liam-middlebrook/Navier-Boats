@@ -47,8 +47,20 @@ namespace Navier_Boats.Engine.Pathfinding.Threading
 
         public void Update()
         {
+            foreach (PathJob job in jobQueue)
+            {
+                if (job.Cancelled)
+                    jobQueue.Remove(job);
+            }
+
             foreach (PathThread thread in threads)
             {
+                if (thread.CurrentJob != null && thread.CurrentJob.Cancelled == true && thread.Running)
+                {
+                    thread.Stop();
+                    thread.Reset();
+                }
+
                 if (!thread.Running)
                 {
                     if (thread.Done)

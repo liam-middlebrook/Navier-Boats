@@ -43,5 +43,11 @@ namespace Navier_Boats.Engine.Pathfinding.Threading
             get;
             set;
         }
+
+        public bool Cancelled
+        {
+            get;
+            set;
+        }
     }
 }
