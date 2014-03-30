@@ -100,6 +100,7 @@ namespace Navier_Boats
             // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
             pathSquare = Content.Load<Texture2D>("debug/path");
             Pathfinder pathfinder = new Pathfinder(CurrentLevel.GetInstance(), Heuristics.Manhattan);
+            pathSquare = Content.Load<Texture2D>("debugTextures/path");
             this.pathThread = new PathThread(pathfinder);
             ConsoleVars.GetInstance().DebugPathing = true;
 

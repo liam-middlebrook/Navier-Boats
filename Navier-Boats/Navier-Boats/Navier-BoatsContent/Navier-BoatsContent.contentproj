@@ -72,7 +72,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="debug\path.png">
+    <Compile Include="debugTextures\path.png">
       <Name>path</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
