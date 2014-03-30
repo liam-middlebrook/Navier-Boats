@@ -41,7 +41,7 @@ namespace CharacterCustomizer
         /// </summary>
         public void Roll()
         {
-            int roll = roller.Next(1, 7);
+            int roll = roller.Next(1, 6);
             currRoll = rolls[roll];
         }
 
