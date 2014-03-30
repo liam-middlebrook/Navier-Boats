@@ -83,7 +83,10 @@
     <Compile Include="Engine\Graphics\TextureManager.cs" />
     <Compile Include="Engine\Pathfinding\Heuristics.cs" />
     <Compile Include="Engine\Pathfinding\PathException.cs" />
-    <Compile Include="Engine\Pathfinding\PathThread.cs" />
+    <Compile Include="Engine\Pathfinding\Threading\PathJob.cs" />
+    <Compile Include="Engine\Pathfinding\Threading\PathResult.cs" />
+    <Compile Include="Engine\Pathfinding\Threading\PathThread.cs" />
+    <Compile Include="Engine\Pathfinding\Threading\PathThreadPool.cs" />
     <Compile Include="Engine\System\ConsoleVars.cs" />
     <Compile Include="Engine\Entities\Entity.cs" />
     <Compile Include="Engine\Entities\EntityManager.cs" />
