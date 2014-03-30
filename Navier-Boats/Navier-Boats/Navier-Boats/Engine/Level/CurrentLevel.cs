@@ -99,7 +99,7 @@ namespace Navier_Boats.Engine.Level
                         =>
                     {
                         int i = entities.Count;
-                        entities.Add(new Wanderer(new Vector2(250, 250), randy.Next(int.MaxValue)));
+                        entities.Add(new Wanderer(new Vector2(250, 250)));
                         entities[i].Texture = Content.Load<Texture2D>("playerTexture");
                         ((LivingEntity)entities[i]).HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
                         ; return 0;
