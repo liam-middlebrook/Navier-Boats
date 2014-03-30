@@ -17,6 +17,7 @@ using Navier_Boats.Engine.System;
 
 // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
 using Navier_Boats.Engine.Pathfinding;
+using Navier_Boats.Engine.Pathfinding.Threading;
 
 /**
  * Add your names here once you have completed the Git/SourceTree seminar:
@@ -45,8 +46,6 @@ namespace Navier_Boats
         MouseState prevMouseState;
 
         // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
-        PathThread pathThread = null;
-        bool submitPathing = false;
         Texture2D pathSquare = null;
 
         public Game1()
@@ -97,10 +96,60 @@ namespace Navier_Boats
             ConsoleWindow.GetInstance().ConsoleFont = Content.Load<SpriteFont>("consolas");
 
             // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
-            Pathfinder pathfinder = new Pathfinder(CurrentLevel.GetInstance());
             pathSquare = Content.Load<Texture2D>("debugTextures/path");
-            this.pathThread = new PathThread(pathfinder);
             ConsoleVars.GetInstance().DebugPathing = true;
+            PathJob job = new PathJob()
+            {
+                Start = new Vector2(0, 0),
+                End = new Vector2(3000, 3000),
+                MaxTime = float.PositiveInfinity,
+                NodeSize = 32,
+                Heuristic = Heuristics.Distance,
+                Callback = (result) =>
+                    {
+                        Console.WriteLine("Finished pathing");
+                    }
+            };
+            PathThreadPool.GetInstance().AddJob(job);
+            job = new PathJob()
+            {
+                Start = new Vector2(0, 0),
+                End = new Vector2(-3000, -3000),
+                MaxTime = float.PositiveInfinity,
+                NodeSize = 32,
+                Heuristic = Heuristics.Distance,
+                Callback = (result) =>
+                {
+                    Console.WriteLine("Finished pathing");
+                }
+            };
+            PathThreadPool.GetInstance().AddJob(job);
+            job = new PathJob()
+            {
+                Start = new Vector2(0, 0),
+                End = new Vector2(3000, -3000),
+                MaxTime = float.PositiveInfinity,
+                NodeSize = 32,
+                Heuristic = Heuristics.Distance,
+                Callback = (result) =>
+                {
+                    Console.WriteLine("Finished pathing");
+                }
+            };
+            PathThreadPool.GetInstance().AddJob(job);
+            job = new PathJob()
+            {
+                Start = new Vector2(0, 0),
+                End = new Vector2(-3000, 3000),
+                MaxTime = float.PositiveInfinity,
+                NodeSize = 32,
+                Heuristic = Heuristics.Distance,
+                Callback = (result) =>
+                {
+                    Console.WriteLine("Finished pathing");
+                }
+            };
+            PathThreadPool.GetInstance().AddJob(job);
 
             // TODO: use this.Content to load your game content here
         }
@@ -111,8 +160,6 @@ namespace Navier_Boats
         /// </summary>
         protected override void UnloadContent()
         {
-            if (this.pathThread.Running)
-                this.pathThread.Stop();
             // TODO: Unload any non ContentManager content here
         }
 
@@ -135,12 +182,7 @@ namespace Navier_Boats
 
             CurrentLevel.GetInstance().Update(gameTime, keyHelper.KeyState, keyHelper.PrevKeyState, mouseState, prevMouseState);
 
-            // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
-            if (!this.submitPathing)
-            {
-                this.submitPathing = true;
-                this.pathThread.Run(new Vector2(0, 0), new Vector2(-2000, -1000), Heuristics.Distance, 32, float.PositiveInfinity);
-            }
+            PathThreadPool.GetInstance().Update();
 
             // TODO: Add your update logic here
             
@@ -159,35 +201,12 @@ namespace Navier_Boats
 
             CurrentLevel.GetInstance().Draw(spriteBatch);
 
-            if (ConsoleVars.GetInstance().DebugPathing)
-            {
-                foreach (KeyValuePair<Vector2, SearchNode> entry in pathThread.Pathing.SearchNodes)
-                {
-                    Color color = Color.Red;
-                    if (entry.Value.InFinalPath)
-                        color = Color.LimeGreen;
-                    else if (entry.Value.InClosedList)
-                        color = Color.Blue;
-                    else if (entry.Value.InOpenList)
-                        color = Color.White;
-                    spriteBatch.Draw(pathSquare, entry.Key, color);
-                }
-            }
+            PathThreadPool.GetInstance().Draw(spriteBatch, pathSquare);
 
             spriteBatch.End();
             spriteBatch.Begin();
             ConsoleWindow.GetInstance().Draw(spriteBatch);
             CurrentLevel.GetInstance().DrawGUI(spriteBatch, GraphicsDevice);
-
-            // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
-            if (this.pathThread.Done && ConsoleVars.GetInstance().DebugPathing)
-            {
-                spriteBatch.DrawString(ConsoleWindow.GetInstance().ConsoleFont, "PATH DONE: " + pathThread.Pathing.Timer.Elapsed.TotalSeconds, new Vector2(20, 30), Color.Red);
-                if (this.pathThread.Error != null)
-                {
-                    spriteBatch.DrawString(ConsoleWindow.GetInstance().ConsoleFont, "ERR: " + pathThread.Error, new Vector2(20, 50), Color.Red);
-                }
-            }
 
             spriteBatch.End();
             // TODO: Add your drawing code here

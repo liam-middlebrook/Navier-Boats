@@ -14,16 +14,12 @@ namespace Navier_Boats.Engine.Pathfinding.Threading
         private Pathfinder pathfinder = null;
         private Thread thread = null;
 
-        private Vector2 start;
-        private Vector2 end;
-        private Pathfinder.Heuristic heuristic;
-        private float size;
-        private float maxTime;
+        private PathJob job = null;
 
         public bool Done
         {
             get;
-            protected set;
+            set;
         }
 
         public PathException Error
@@ -46,6 +42,14 @@ namespace Navier_Boats.Engine.Pathfinding.Threading
             }
         }
 
+        public PathJob CurrentJob
+        {
+            get
+            {
+                return job;
+            }
+        }
+
         public bool Running
         {
             get
@@ -63,20 +67,19 @@ namespace Navier_Boats.Engine.Pathfinding.Threading
             this.Done = false;
             this.Error = null;
             this.Result = null;
+            this.thread = new Thread(new ThreadStart(this.PathfinderTask));
         }
 
-        public void Run(Vector2 start, Vector2 end, Pathfinder.Heuristic heuristic, float size, float maxTime)
+        public void Run(PathJob job)
         {
+            if (Running)
+                throw new PathException("Path thread already running");
+
             this.Done = false;
             this.Result = null;
             this.Error = null;
-            this.start = start;
-            this.end = end;
-            this.heuristic = heuristic;
-            this.size = size;
-            this.maxTime = maxTime;
+            this.job = job;
 
-            this.thread = new Thread(new ThreadStart(this.PathfinderTask));
             this.thread.Start();
         }
 
@@ -85,11 +88,18 @@ namespace Navier_Boats.Engine.Pathfinding.Threading
             this.thread.Abort();
         }
 
+        public void Reset()
+        {
+            this.Done = false;
+            this.Result = null;
+            this.Error = null;
+        }
+
         protected void PathfinderTask()
         {
             try
             {
-                this.Result = this.pathfinder.FindPath(this.start, this.end, this.heuristic, this.size, this.maxTime);
+                this.Result = this.pathfinder.FindPath(job.Start, job.End, job.Heuristic, job.NodeSize, job.MaxTime);
             }
             catch (PathException e)
             {

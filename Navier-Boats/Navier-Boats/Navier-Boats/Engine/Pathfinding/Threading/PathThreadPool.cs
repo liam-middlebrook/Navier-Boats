@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Navier_Boats.Engine;
 using Navier_Boats.Engine.Level;
+using Navier_Boats.Engine.System;
 
 namespace Navier_Boats.Engine.Pathfinding.Threading
 {
@@ -25,8 +30,6 @@ namespace Navier_Boats.Engine.Pathfinding.Threading
 
         private LinkedList<PathJob> jobQueue = new LinkedList<PathJob>();
 
-        private LinkedList<PathThread> workingThreads = new LinkedList<PathThread>();
-
         public PathThreadPool(int threadCount)
         {
             threads = new PathThread[threadCount];
@@ -35,6 +38,67 @@ namespace Navier_Boats.Engine.Pathfinding.Threading
                 Pathfinder pathfinder = new Pathfinder(CurrentLevel.GetInstance());
                 threads[i] = new PathThread(pathfinder);
             }
+        }
+
+        public void AddJob(PathJob job)
+        {
+            jobQueue.AddLast(job);
+        }
+
+        public void Update()
+        {
+            foreach (PathThread thread in threads)
+            {
+                if (!thread.Running)
+                {
+                    if (thread.Done)
+                    {
+                        PathResult result = BuildResult(thread);
+                        PathJob job = thread.CurrentJob;
+                        job.Callback(result);
+                        thread.Done = false;
+                    }
+
+                    if (jobQueue.Count > 0)
+                    {
+                        PathJob job = jobQueue.First.Value;
+                        jobQueue.RemoveFirst();
+                        thread.Reset();
+                        thread.Run(job);
+                    }
+                }
+            }
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Texture2D texture)
+        {
+            if (ConsoleVars.GetInstance().DebugPathing)
+            {
+                foreach (PathThread thread in threads)
+                {
+                    foreach (KeyValuePair<Vector2, SearchNode> entry in thread.Pathing.SearchNodes)
+                    {
+                        Color color = Color.Red;
+                        if (entry.Value.InFinalPath)
+                            color = Color.LimeGreen;
+                        else if (entry.Value.InClosedList)
+                            color = Color.Blue;
+                        else if (entry.Value.InOpenList)
+                            color = Color.White;
+                        spriteBatch.Draw(texture, entry.Key, color);
+                    }
+                }
+            }
+        }
+
+        protected PathResult BuildResult(PathThread thread)
+        {
+            PathResult result = new PathResult();
+            result.Path = thread.Result;
+            result.SearchNodes = thread.Pathing.SearchNodes;
+            result.Error = thread.Error;
+            result.ExecuteTime = thread.Pathing.Timer.Elapsed;
+            return result;
         }
     }
 }

@@ -69,9 +69,9 @@ namespace Navier_Boats.Engine.Pathfinding
                 if (startPoint == endPoint) // don't do any calculations if we aren't going anywhere
                     return new List<Vector2>();
 
-                searchNodes.Clear(); // clear out everything
-                openList.Clear();
-                closedList.Clear();
+                searchNodes = new ConcurrentDictionary<Vector2, SearchNode>(); // clear out everything
+                openList = new List<SearchNode>();
+                closedList = new List<SearchNode>();
 
                 Vector2 newStart = new Vector2(startPoint.X - startPoint.X % size, startPoint.Y - startPoint.Y % size);
                 Vector2 newEnd = new Vector2(endPoint.X - endPoint.X % size, endPoint.Y - endPoint.Y % size);
