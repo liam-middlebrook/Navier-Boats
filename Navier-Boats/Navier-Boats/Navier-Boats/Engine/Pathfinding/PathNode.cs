@@ -19,5 +19,11 @@ namespace Navier_Boats.Engine.Pathfinding
             get;
             set;
         }
+
+        public short Resistance
+        {
+            get;
+            set;
+        }
     }
 }
