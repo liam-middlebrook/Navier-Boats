@@ -6,7 +6,7 @@ using System.Threading;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
-namespace Navier_Boats.Engine.Pathfinding
+namespace Navier_Boats.Engine.Pathfinding.Threading
 {
     // not actually a thread, just a class that manages threads
     public class PathThread
@@ -16,6 +16,7 @@ namespace Navier_Boats.Engine.Pathfinding
 
         private Vector2 start;
         private Vector2 end;
+        private Pathfinder.Heuristic heuristic;
         private float size;
         private float maxTime;
 
@@ -64,13 +65,14 @@ namespace Navier_Boats.Engine.Pathfinding
             this.Result = null;
         }
 
-        public void Run(Vector2 start, Vector2 end, float size, float maxTime)
+        public void Run(Vector2 start, Vector2 end, Pathfinder.Heuristic heuristic, float size, float maxTime)
         {
             this.Done = false;
             this.Result = null;
             this.Error = null;
             this.start = start;
             this.end = end;
+            this.heuristic = heuristic;
             this.size = size;
             this.maxTime = maxTime;
 
@@ -87,7 +89,7 @@ namespace Navier_Boats.Engine.Pathfinding
         {
             try
             {
-                this.Result = this.pathfinder.FindPath(this.start, this.end, size, this.maxTime);
+                this.Result = this.pathfinder.FindPath(this.start, this.end, this.heuristic, this.size, this.maxTime);
             }
             catch (PathException e)
             {

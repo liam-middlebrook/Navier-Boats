@@ -47,7 +47,6 @@ namespace Navier_Boats
         // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
         PathThread pathThread = null;
         bool submitPathing = false;
-        bool showError = false;
         Texture2D pathSquare = null;
 
         public Game1()
@@ -98,8 +97,7 @@ namespace Navier_Boats
             ConsoleWindow.GetInstance().ConsoleFont = Content.Load<SpriteFont>("consolas");
 
             // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
-            pathSquare = Content.Load<Texture2D>("debug/path");
-            Pathfinder pathfinder = new Pathfinder(CurrentLevel.GetInstance(), Heuristics.Manhattan);
+            Pathfinder pathfinder = new Pathfinder(CurrentLevel.GetInstance());
             pathSquare = Content.Load<Texture2D>("debugTextures/path");
             this.pathThread = new PathThread(pathfinder);
             ConsoleVars.GetInstance().DebugPathing = true;
@@ -141,7 +139,7 @@ namespace Navier_Boats
             if (!this.submitPathing)
             {
                 this.submitPathing = true;
-                this.pathThread.Run(new Vector2(0, 0), new Vector2(30000, 30000), 32, 2f);
+                this.pathThread.Run(new Vector2(0, 0), new Vector2(-2000, -1000), Heuristics.Distance, 32, float.PositiveInfinity);
             }
 
             // TODO: Add your update logic here

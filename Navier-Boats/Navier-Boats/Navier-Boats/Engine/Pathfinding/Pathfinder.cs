@@ -20,8 +20,6 @@ namespace Navier_Boats.Engine.Pathfinding
 
         private CurrentLevel level = null;
 
-        private Heuristic heuristic = null;
-
         public ConcurrentDictionary<Vector2, SearchNode> SearchNodes
         {
             get
@@ -36,10 +34,9 @@ namespace Navier_Boats.Engine.Pathfinding
             protected set;
         }
 
-        public Pathfinder(CurrentLevel level, Heuristic heuristic)
+        public Pathfinder(CurrentLevel level)
         {
             this.level = level;
-            this.heuristic = heuristic;
             this.Timer = new Stopwatch();
         }
 
@@ -64,7 +61,7 @@ namespace Navier_Boats.Engine.Pathfinding
             return node;
         }
 
-        public List<Vector2> FindPath(Vector2 startPoint, Vector2 endPoint, float size, float maxTime)
+        public List<Vector2> FindPath(Vector2 startPoint, Vector2 endPoint, Heuristic heuristic, float size, float maxTime)
         {
             try
             {
@@ -83,7 +80,7 @@ namespace Navier_Boats.Engine.Pathfinding
                 SearchNode endNode = GetNode(newEnd);
 
                 startNode.InOpenList = true;
-                startNode.DistanceToGoal = this.heuristic(startPoint, endPoint);
+                startNode.DistanceToGoal = heuristic(startPoint, endPoint);
                 startNode.DistanceTraveled = 0;
                 openList.Add(startNode);
 
@@ -126,12 +123,12 @@ namespace Navier_Boats.Engine.Pathfinding
                             continue;
 
                         float distanceTraveled = currentNode.DistanceTraveled + 1;
-                        float heuristic = this.heuristic(neighbor.Node.Position, endPoint);
+                        float h = heuristic(neighbor.Node.Position, endPoint);
 
                         if (!neighbor.InOpenList && !neighbor.InClosedList)
                         {
                             neighbor.DistanceTraveled = distanceTraveled;
-                            neighbor.DistanceToGoal = distanceTraveled + heuristic;
+                            neighbor.DistanceToGoal = distanceTraveled + h;
                             neighbor.Parent = currentNode;
                             neighbor.InOpenList = true;
                             openList.Add(neighbor);
@@ -141,7 +138,7 @@ namespace Navier_Boats.Engine.Pathfinding
                             if (neighbor.DistanceTraveled > distanceTraveled)
                             {
                                 neighbor.DistanceTraveled = distanceTraveled;
-                                neighbor.DistanceToGoal = distanceTraveled + heuristic;
+                                neighbor.DistanceToGoal = distanceTraveled + h;
                                 neighbor.Parent = currentNode;
                             }
                         }
