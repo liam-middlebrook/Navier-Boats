@@ -96,7 +96,7 @@ namespace Navier_Boats.Engine.Level
                         =>
                     {
                         int i = entities.Count;
-                        entities.Add(new Wanderer(new Vector2(250, 250)));
+                        entities.Add(new Wanderer(new Vector2(0, 0)));
                         entities[i].Texture = Content.Load<Texture2D>("playerTexture");
                         ((LivingEntity)entities[i]).HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
                         ; return 0;
@@ -285,8 +285,8 @@ namespace Navier_Boats.Engine.Level
 
             Vector2 pointChunkOffset = (point - chunkWorldCoord) / new Vector2(Chunk.TILE_WIDTH, Chunk.TILE_HEIGHT);
 
-            pointChunkOffset.X += pointChunkOffset.X < 0 ? Chunk.CHUNK_WIDTH : 0;
-            pointChunkOffset.Y += pointChunkOffset.Y < 0 ? Chunk.CHUNK_WIDTH : 0;
+            pointChunkOffset.X += pointChunkOffset.X < 0 ? Chunk.CHUNK_WIDTH - 1 : 0;
+            pointChunkOffset.Y += pointChunkOffset.Y < 0 ? Chunk.CHUNK_HEIGHT - 1 : 0;
 
 
             Chunk chunk = null;

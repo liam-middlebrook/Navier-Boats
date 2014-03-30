@@ -17,7 +17,7 @@ namespace Navier_Boats.Game.Entities
             : base(100)
         {
             Position = position;
-            Speed = 50;
+            initialSpeed = 50;
         }
 
         public override void Update(GameTime gameTime)
@@ -25,7 +25,7 @@ namespace Navier_Boats.Game.Entities
             timeUntilNewAccel -= gameTime.ElapsedGameTime.TotalSeconds;
             if (timeUntilNewAccel <= 0)
             {
-                Acceleration = new Vector2((float)(CurrentLevel.GetRandom().NextDouble() - 0.5) * 1.0f, (float)(CurrentLevel.GetRandom().NextDouble() - 0.5) * 1.0f);
+                Velocity = new Vector2((float)(CurrentLevel.GetRandom().NextDouble() - 0.5) * 5.0f, (float)(CurrentLevel.GetRandom().NextDouble() - 0.5) * 5.0f);
                 timeUntilNewAccel = CurrentLevel.GetRandom().NextDouble() * 3.0;
             }
 
