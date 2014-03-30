@@ -28,7 +28,7 @@ namespace Navier_Boats.Engine.Level
         private short[,] chunkDataGroundLayer;
         private short[,] chunkDataRoadLayer;
         private short[,] chunkDataOverLayer;
-        private bool[,] chunkDataCollision;
+        private short[,] chunkDataCollision;
 
         public readonly string CHUNK_ID; //format 1(xIndex-sign)1(yIndex-sign)15(xIndex-value)15(yIndex-value)
         public readonly Vector2 Position;
@@ -87,12 +87,12 @@ namespace Navier_Boats.Engine.Level
 
             #region CollisionLayer
 
-            chunkDataCollision = new bool[CHUNK_WIDTH, CHUNK_HEIGHT];
+            chunkDataCollision = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
             for (int yIndex = 0; yIndex < CHUNK_HEIGHT; yIndex++)
             {
                 for (int xIndex = 0; xIndex < CHUNK_WIDTH; xIndex++)
                 {
-                    chunkDataCollision[xIndex, yIndex] = chunkDataGroundLayer[xIndex, yIndex] != 1;
+                    chunkDataCollision[xIndex, yIndex] = chunkDataGroundLayer[xIndex, yIndex];
                 }
             }
 
@@ -113,7 +113,7 @@ namespace Navier_Boats.Engine.Level
             chunkDataGroundLayer = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
             chunkDataRoadLayer = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
             chunkDataOverLayer = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
-            chunkDataCollision = new bool[CHUNK_WIDTH, CHUNK_HEIGHT];
+            chunkDataCollision = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
 
             //Parse data to position
             CHUNK_ID = fileName.Remove(fileName.Length - 6);
@@ -138,7 +138,7 @@ namespace Navier_Boats.Engine.Level
                             chunkDataGroundLayer[x, y] = br.ReadInt16();
                             chunkDataRoadLayer[x, y] = br.ReadInt16();
                             chunkDataOverLayer[x, y] = br.ReadInt16();
-                            chunkDataCollision[x, y] = br.ReadBoolean();
+                            chunkDataCollision[x, y] = br.ReadInt16();
                         }
                     }
                 }
@@ -257,7 +257,7 @@ namespace Navier_Boats.Engine.Level
             {
                 case TileLayer.COLLISION_LAYER:
                     {
-                        return (short)(chunkDataCollision[(int)position.X, (int)position.Y] ? 1 : 0);
+                        return chunkDataCollision[(int)position.X, (int)position.Y];
                     }
                 case TileLayer.GROUND_LAYER:
                     {
