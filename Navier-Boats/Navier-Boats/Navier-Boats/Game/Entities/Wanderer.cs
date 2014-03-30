@@ -77,14 +77,17 @@ namespace Navier_Boats.Game.Entities
                         job.Heuristic = Heuristics.Manhattan;
                         job.Callback = (result) =>
                             {
+                                if (currentState != AIState.Following)
+                                    return;
                                 path = result;
+                                currentNode = 0;
+                                submitJob = false;
                             };
-                        path = null;
-                        currentNode = 0;
                         PathThreadPool.GetInstance().SubmitJob(job);
                         submitJob = true;
                     }
-                    else if (path != null)
+
+                    if (path != null)
                     {
                         if (path.Error != null)
                         {
