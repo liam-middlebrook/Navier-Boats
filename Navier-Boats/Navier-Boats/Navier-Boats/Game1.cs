@@ -95,68 +95,7 @@ namespace Navier_Boats
 
             ConsoleWindow.GetInstance().ConsoleFont = Content.Load<SpriteFont>("consolas");
 
-            // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
             pathSquare = Content.Load<Texture2D>("debugTextures/path");
-            PathJob job = new PathJob()
-            {
-                Start = new Vector2(0, 0),
-                End = new Vector2(559, -280),
-                MaxTime = float.PositiveInfinity,
-                NodeSize = 32,
-                Heuristic = Heuristics.Distance,
-                Callback = (result) =>
-                    {
-                        Console.WriteLine("Finished pathing");
-                        if (result.Error != null)
-                            Console.WriteLine("Error pathing: " + result.Error);
-                    }
-            };
-            PathThreadPool.GetInstance().AddJob(job);
-            job = new PathJob()
-            {
-                Start = new Vector2(0, 0),
-                End = new Vector2(-3000, -3000),
-                MaxTime = float.PositiveInfinity,
-                NodeSize = 32,
-                Heuristic = Heuristics.Distance,
-                Callback = (result) =>
-                {
-                    Console.WriteLine("Finished pathing");
-                    if (result.Error != null)
-                        Console.WriteLine("Error pathing: " + result.Error);
-                }
-            };
-            PathThreadPool.GetInstance().AddJob(job);
-            job = new PathJob()
-            {
-                Start = new Vector2(0, 0),
-                End = new Vector2(3000, -3000),
-                MaxTime = float.PositiveInfinity,
-                NodeSize = 32,
-                Heuristic = Heuristics.Distance,
-                Callback = (result) =>
-                {
-                    Console.WriteLine("Finished pathing");
-                    if (result.Error != null)
-                        Console.WriteLine("Error pathing: " + result.Error);
-                }
-            };
-            PathThreadPool.GetInstance().AddJob(job);
-            job = new PathJob()
-            {
-                Start = new Vector2(0, 0),
-                End = new Vector2(-3000, 3000),
-                MaxTime = float.PositiveInfinity,
-                NodeSize = 32,
-                Heuristic = Heuristics.Distance,
-                Callback = (result) =>
-                {
-                    Console.WriteLine("Finished pathing");
-                    if (result.Error != null)
-                        Console.WriteLine("Error pathing: " + result.Error);
-                }
-            };
-            PathThreadPool.GetInstance().AddJob(job);
 
             // TODO: use this.Content to load your game content here
         }
