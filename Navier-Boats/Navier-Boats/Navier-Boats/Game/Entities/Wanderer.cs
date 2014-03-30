@@ -11,6 +11,8 @@ namespace Navier_Boats.Game.Entities
 {
     public class Wanderer : HostileLivingEntity
     {
+        private double timeUntilNewAccel = 0f;
+
         public Wanderer(Vector2 position)
             : base(100)
         {
@@ -20,7 +22,12 @@ namespace Navier_Boats.Game.Entities
 
         public override void Update(GameTime gameTime)
         {
-            Acceleration = new Vector2((float)(CurrentLevel.GetRandom().NextDouble() - 0.5) * 1.0f, (float)(CurrentLevel.GetRandom().NextDouble() - 0.5) * 1.0f); 
+            timeUntilNewAccel -= gameTime.ElapsedGameTime.TotalSeconds;
+            if (timeUntilNewAccel <= 0)
+            {
+                Acceleration = new Vector2((float)(CurrentLevel.GetRandom().NextDouble() - 0.5) * 1.0f, (float)(CurrentLevel.GetRandom().NextDouble() - 0.5) * 1.0f);
+                timeUntilNewAccel = CurrentLevel.GetRandom().NextDouble() * 3.0;
+            }
 
             // Make the Head look at the mouse
             headSprite.Rotation = Rotation;
