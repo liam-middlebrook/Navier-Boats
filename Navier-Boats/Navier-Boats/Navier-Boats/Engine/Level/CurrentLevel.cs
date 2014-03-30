@@ -30,6 +30,13 @@ namespace Navier_Boats.Engine.Level
         }
         #endregion
 
+        private static Random random = new Random();
+
+        public static Random GetRandom()
+        {
+            return random;
+        }
+
         public const int OCTAVES = 4;
         public const float LAC = 2.145634563f;
         public const int SEED = 2; //Not Implemented

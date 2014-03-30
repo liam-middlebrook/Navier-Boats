@@ -108,6 +108,8 @@ namespace Navier_Boats
                 Callback = (result) =>
                     {
                         Console.WriteLine("Finished pathing");
+                        if (result.Error != null)
+                            Console.WriteLine("Error pathing: " + result.Error);
                     }
             };
             PathThreadPool.GetInstance().AddJob(job);
@@ -121,6 +123,8 @@ namespace Navier_Boats
                 Callback = (result) =>
                 {
                     Console.WriteLine("Finished pathing");
+                    if (result.Error != null)
+                        Console.WriteLine("Error pathing: " + result.Error);
                 }
             };
             PathThreadPool.GetInstance().AddJob(job);
@@ -134,6 +138,8 @@ namespace Navier_Boats
                 Callback = (result) =>
                 {
                     Console.WriteLine("Finished pathing");
+                    if (result.Error != null)
+                        Console.WriteLine("Error pathing: " + result.Error);
                 }
             };
             PathThreadPool.GetInstance().AddJob(job);
@@ -147,6 +153,8 @@ namespace Navier_Boats
                 Callback = (result) =>
                 {
                     Console.WriteLine("Finished pathing");
+                    if (result.Error != null)
+                        Console.WriteLine("Error pathing: " + result.Error);
                 }
             };
             PathThreadPool.GetInstance().AddJob(job);
