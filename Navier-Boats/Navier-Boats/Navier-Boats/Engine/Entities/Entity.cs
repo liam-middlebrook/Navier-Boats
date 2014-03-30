@@ -24,9 +24,9 @@ namespace Navier_Boats.Engine.Entities
 
         #region Constants
 
-        public const float WATER_SPEED_MULT = 0.10f;
+        public const float WATER_SPEED_MULT = 0.25f;
 
-        public const float SAND_SPEED_MULT = 0.45f;
+        public const float SAND_SPEED_MULT = 0.6f;
 
         public const float GRASS_SPEED_MULT = 1.0f;
 

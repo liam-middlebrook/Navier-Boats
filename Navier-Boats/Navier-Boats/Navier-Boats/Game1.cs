@@ -97,7 +97,6 @@ namespace Navier_Boats
 
             // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
             pathSquare = Content.Load<Texture2D>("debugTextures/path");
-            ConsoleVars.GetInstance().DebugPathing = true;
             PathJob job = new PathJob()
             {
                 Start = new Vector2(0, 0),
