@@ -65,8 +65,6 @@ namespace Navier_Boats.Engine.Level
 
         private List<Texture2D> tileTextures;
 
-        private Random randy;
-
         private List<Entity> entities;
 
         private SpriteFont debugFont;
@@ -82,9 +80,8 @@ namespace Navier_Boats.Engine.Level
             entities = new List<Entity>();
             entityManager = new EntityManager(Path.Combine(chunkSaveDirectory, "entityData"));
             entities.Add(new Player(new Vector2(0, 0)));
-            randy = new Random();
 
-            terrainGen = new TerrainGenerator(OCTAVES, LAC, GRID, randy.Next(), TerrainType.Country);
+            terrainGen = new TerrainGenerator(OCTAVES, LAC, GRID, random.Next(), TerrainType.Country);
         }
 
         public void LoadContent(ContentManager Content)

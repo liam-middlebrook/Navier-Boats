@@ -46,7 +46,7 @@ namespace Navier_Boats.Engine.Level
         private void CreateChunk(int x, int y)
         {
             //Fills chunk with tiles generated using Perlin Noise
-            rand = new Random();
+            rand = CurrentLevel.GetRandom();
             short tileVal = (short)rand.Next(6);
 
             #region GroundAndRoadLayer
