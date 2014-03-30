@@ -27,7 +27,7 @@ namespace Navier_Boats.Game.Entities
 
         private PathResult path = null;
 
-        private int currentNode = 0;
+        private int currentNodeIndex = 0;
 
         public Wanderer(Vector2 position)
             : base(100)
@@ -38,19 +38,20 @@ namespace Navier_Boats.Game.Entities
 
         public override void Update(GameTime gameTime)
         {
+            timeUntilNewAccel -= gameTime.ElapsedGameTime.TotalSeconds;
+
             switch(currentState)
             {
                 case AIState.Wandering:
-                    if (Vector2.DistanceSquared(this.Position, EntityManager.GetInstance().Player.Position) <= 76800)
+                    if (Vector2.DistanceSquared(this.Position, EntityManager.GetInstance().Player.Position) <= 230400)
                     {
                         currentState = AIState.Following;
                         submitJob = false;
                         path = null;
-                        currentNode = 0;
+                        currentNodeIndex = 0;
                         break;
                     }
 
-                    timeUntilNewAccel -= gameTime.ElapsedGameTime.TotalSeconds;
                     if (timeUntilNewAccel <= 0)
                     {
                         Velocity = new Vector2((float)(CurrentLevel.GetRandom().NextDouble() - 0.5) * 5.0f, (float)(CurrentLevel.GetRandom().NextDouble() - 0.5) * 5.0f);
@@ -59,9 +60,7 @@ namespace Navier_Boats.Game.Entities
                     break;
 
                 case AIState.Following:
-                    timeUntilNewAccel = 0f;
-
-                    if (Vector2.DistanceSquared(this.Position, EntityManager.GetInstance().Player.Position) > 76800)
+                    if (Vector2.DistanceSquared(this.Position, EntityManager.GetInstance().Player.Position) > 230400)
                     {
                         currentState = AIState.Wandering;
                         break;
@@ -80,8 +79,8 @@ namespace Navier_Boats.Game.Entities
                                 if (currentState != AIState.Following)
                                     return;
                                 path = result;
-                                currentNode = 0;
-                                submitJob = false;
+                                currentNodeIndex = 0;
+                                timeUntilNewAccel = 1f;
                             };
                         PathThreadPool.GetInstance().SubmitJob(job);
                         submitJob = true;
@@ -89,11 +88,31 @@ namespace Navier_Boats.Game.Entities
 
                     if (path != null)
                     {
-                        if (path.Error != null)
+                        if (path.Error == null)
                         {
-                            path = null;
+                            if (currentNodeIndex < path.Path.Count)
+                            {
+                                Vector2 currentNode = path.Path[currentNodeIndex];
+                                Vector2 modPos = new Vector2(Position.X - Position.X % 32, Position.Y - Position.Y % 32);
+                                if (currentNode.Equals(modPos))
+                                {
+                                    currentNodeIndex++;
+                                }
+                                else
+                                {
+                                    Rotation = (float)Math.Atan2(currentNode.Y - Position.Y, currentNode.X - Position.X);
+                                    Velocity = new Vector2((float)Math.Cos(Rotation) * 2, (float)Math.Sin(Rotation) * 2);
+                                }
+                            }
+                            else
+                            {
+                                Velocity = Vector2.Zero;
+                            }
+                        }
+
+                        if (timeUntilNewAccel <= 0)
+                        {
                             submitJob = false;
-                            break;
                         }
                     }
                     break;

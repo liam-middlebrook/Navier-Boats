@@ -201,6 +201,9 @@ namespace Navier_Boats.Engine.Pathfinding
             SearchNode parent = endNode.Parent;
             while (parent != startNode)
             {
+                if (parent == null)
+                    throw new PathException("Unable to find final path (node parent is null)");
+
                 closedList.Add(parent);
                 parent = parent.Parent;
                 if (parent == null)
