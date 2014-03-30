@@ -72,8 +72,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="debugsquare.png">
-      <Name>debugsquare</Name>
+    <Compile Include="debug\path.png">
+      <Name>path</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

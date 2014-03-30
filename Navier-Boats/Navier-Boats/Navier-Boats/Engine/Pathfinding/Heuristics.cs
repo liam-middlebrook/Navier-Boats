@@ -26,5 +26,12 @@ namespace Navier_Boats.Engine.Pathfinding
         {
             return Vector2.DistanceSquared(a, b);
         }
+
+        // Dijkstra's, or: let's be lazy and return 0
+        // Do not actually use this one, as it simply flood-fills everything until it finds the end node.
+        public static float Dijkstras(Vector2 a, Vector2 b)
+        {
+            return 0;
+        }
     }
 }

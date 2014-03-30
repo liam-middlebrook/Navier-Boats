@@ -98,7 +98,7 @@ namespace Navier_Boats
             ConsoleWindow.GetInstance().ConsoleFont = Content.Load<SpriteFont>("consolas");
 
             // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
-            pathSquare = Content.Load<Texture2D>("debugsquare");
+            pathSquare = Content.Load<Texture2D>("debug/path");
             Pathfinder pathfinder = new Pathfinder(CurrentLevel.GetInstance(), Heuristics.Manhattan);
             this.pathThread = new PathThread(pathfinder);
             ConsoleVars.GetInstance().DebugPathing = true;
@@ -140,7 +140,7 @@ namespace Navier_Boats
             if (!this.submitPathing)
             {
                 this.submitPathing = true;
-                this.pathThread.Run(new Vector2(0, 0), new Vector2(-449, -196), 32, 2f);
+                this.pathThread.Run(new Vector2(0, 0), new Vector2(30000, 30000), 32, 2f);
             }
 
             // TODO: Add your update logic here
@@ -164,13 +164,13 @@ namespace Navier_Boats
             {
                 foreach (KeyValuePair<Vector2, SearchNode> entry in pathThread.Pathing.SearchNodes)
                 {
-                    Color color = Color.White;
+                    Color color = Color.Red;
                     if (entry.Value.InFinalPath)
                         color = Color.LimeGreen;
                     else if (entry.Value.InClosedList)
                         color = Color.Blue;
                     else if (entry.Value.InOpenList)
-                        color = Color.Red;
+                        color = Color.White;
                     spriteBatch.Draw(pathSquare, entry.Key, color);
                 }
             }
