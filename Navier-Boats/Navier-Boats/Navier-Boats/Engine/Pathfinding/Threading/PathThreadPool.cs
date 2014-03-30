@@ -40,7 +40,7 @@ namespace Navier_Boats.Engine.Pathfinding.Threading
             }
         }
 
-        public void AddJob(PathJob job)
+        public void SubmitJob(PathJob job)
         {
             jobQueue.AddLast(job);
         }

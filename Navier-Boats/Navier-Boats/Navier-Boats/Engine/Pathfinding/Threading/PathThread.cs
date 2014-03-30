@@ -67,7 +67,6 @@ namespace Navier_Boats.Engine.Pathfinding.Threading
             this.Done = false;
             this.Error = null;
             this.Result = null;
-            this.thread = new Thread(new ThreadStart(this.PathfinderTask));
         }
 
         public void Run(PathJob job)
@@ -79,7 +78,7 @@ namespace Navier_Boats.Engine.Pathfinding.Threading
             this.Result = null;
             this.Error = null;
             this.job = job;
-
+            this.thread = new Thread(new ThreadStart(this.PathfinderTask));
             this.thread.Start();
         }
 
