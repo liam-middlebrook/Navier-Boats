@@ -16,9 +16,15 @@ namespace Navier_Boats.Engine.Pathfinding
 
         // real distance
         // WARNING: very slow due to square root
-        public static float Real(Vector2 a, Vector2 b)
+        public static float Distance(Vector2 a, Vector2 b)
         {
-            return (float)Math.Sqrt(Math.Pow(a.X + b.X, 2) + Math.Pow(a.Y + b.Y, 2));
+            return Vector2.Distance(a, b);
+        }
+
+        // squared distance
+        public static float DistanceSquared(Vector2 a, Vector2 b)
+        {
+            return Vector2.DistanceSquared(a, b);
         }
     }
 }

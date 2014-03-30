@@ -11,6 +11,8 @@ namespace Navier_Boats.Engine.System
 
         public bool DebugDraw { get { return debugDraw; } set { debugDraw = value; } }
 
+        public bool DebugPathing { get; set; }
+
         #region SINGLETON_MEMBERS
 
         private static ConsoleVars _instance;

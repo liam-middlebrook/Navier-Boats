@@ -13,6 +13,7 @@ using Navier_Boats.Game.Entities;
 using Navier_Boats.Engine.Entities;
 using Navier_Boats.Engine.Level;
 using Navier_Boats.Engine.Graphics;
+using Navier_Boats.Engine.System;
 
 // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
 using Navier_Boats.Engine.Pathfinding;
@@ -47,7 +48,7 @@ namespace Navier_Boats
         PathThread pathThread = null;
         bool submitPathing = false;
         bool showError = false;
-
+        Texture2D pathSquare = null;
 
         public Game1()
         {
@@ -97,8 +98,10 @@ namespace Navier_Boats
             ConsoleWindow.GetInstance().ConsoleFont = Content.Load<SpriteFont>("consolas");
 
             // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
+            pathSquare = Content.Load<Texture2D>("debugsquare");
             Pathfinder pathfinder = new Pathfinder(CurrentLevel.GetInstance(), Heuristics.Manhattan);
             this.pathThread = new PathThread(pathfinder);
+            ConsoleVars.GetInstance().DebugPathing = true;
 
             // TODO: use this.Content to load your game content here
         }
@@ -137,7 +140,7 @@ namespace Navier_Boats
             if (!this.submitPathing)
             {
                 this.submitPathing = true;
-                this.pathThread.Run(new Vector2(0, 0), new Vector2(-450, -550), 10);
+                this.pathThread.Run(new Vector2(0, 0), new Vector2(-449, -196), 32, 2f);
             }
 
             // TODO: Add your update logic here
@@ -156,15 +159,35 @@ namespace Navier_Boats
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.TransformMatrix);
 
             CurrentLevel.GetInstance().Draw(spriteBatch);
+
+            if (ConsoleVars.GetInstance().DebugPathing)
+            {
+                foreach (KeyValuePair<Vector2, SearchNode> entry in pathThread.Pathing.SearchNodes)
+                {
+                    Color color = Color.White;
+                    if (entry.Value.InFinalPath)
+                        color = Color.LimeGreen;
+                    else if (entry.Value.InClosedList)
+                        color = Color.Blue;
+                    else if (entry.Value.InOpenList)
+                        color = Color.Red;
+                    spriteBatch.Draw(pathSquare, entry.Key, color);
+                }
+            }
+
             spriteBatch.End();
             spriteBatch.Begin();
             ConsoleWindow.GetInstance().Draw(spriteBatch);
             CurrentLevel.GetInstance().DrawGUI(spriteBatch, GraphicsDevice);
 
             // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
-            if (this.pathThread.Done)
+            if (this.pathThread.Done && ConsoleVars.GetInstance().DebugPathing)
             {
-                Console.WriteLine("DONE PATHING");
+                spriteBatch.DrawString(ConsoleWindow.GetInstance().ConsoleFont, "PATH DONE: " + pathThread.Pathing.Timer.Elapsed.TotalSeconds, new Vector2(20, 30), Color.Red);
+                if (this.pathThread.Error != null)
+                {
+                    spriteBatch.DrawString(ConsoleWindow.GetInstance().ConsoleFont, "ERR: " + pathThread.Error, new Vector2(20, 50), Color.Red);
+                }
             }
 
             spriteBatch.End();

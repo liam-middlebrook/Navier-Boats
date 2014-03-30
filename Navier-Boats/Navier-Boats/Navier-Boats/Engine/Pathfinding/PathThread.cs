@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
 namespace Navier_Boats.Engine.Pathfinding
@@ -16,6 +17,7 @@ namespace Navier_Boats.Engine.Pathfinding
         private Vector2 start;
         private Vector2 end;
         private float size;
+        private float maxTime;
 
         public bool Done
         {
@@ -35,6 +37,14 @@ namespace Navier_Boats.Engine.Pathfinding
             protected set;
         }
 
+        public Pathfinder Pathing
+        {
+            get
+            {
+                return pathfinder;
+            }
+        }
+
         public bool Running
         {
             get
@@ -42,7 +52,7 @@ namespace Navier_Boats.Engine.Pathfinding
                 if (this.thread == null)
                     return false;
 
-                return this.thread.ThreadState == ThreadState.Running;
+                return this.thread.ThreadState == global::System.Threading.ThreadState.Running;
             }
         }
 
@@ -54,13 +64,15 @@ namespace Navier_Boats.Engine.Pathfinding
             this.Result = null;
         }
 
-        public void Run(Vector2 start, Vector2 end, float size)
+        public void Run(Vector2 start, Vector2 end, float size, float maxTime)
         {
             this.Done = false;
             this.Result = null;
+            this.Error = null;
             this.start = start;
             this.end = end;
             this.size = size;
+            this.maxTime = maxTime;
 
             this.thread = new Thread(new ThreadStart(this.PathfinderTask));
             this.thread.Start();
@@ -75,7 +87,7 @@ namespace Navier_Boats.Engine.Pathfinding
         {
             try
             {
-                this.Result = this.pathfinder.FindPath(this.start, this.end, size);
+                this.Result = this.pathfinder.FindPath(this.start, this.end, size, this.maxTime);
             }
             catch (PathException e)
             {

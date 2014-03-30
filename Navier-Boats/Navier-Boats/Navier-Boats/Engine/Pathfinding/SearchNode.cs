@@ -32,6 +32,12 @@ namespace Navier_Boats.Engine.Pathfinding
             set;
         }
 
+        public bool InFinalPath
+        {
+            get;
+            set;
+        }
+
         public float DistanceToGoal
         {
             get;

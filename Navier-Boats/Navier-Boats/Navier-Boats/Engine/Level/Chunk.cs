@@ -92,7 +92,7 @@ namespace Navier_Boats.Engine.Level
             {
                 for (int xIndex = 0; xIndex < CHUNK_WIDTH; xIndex++)
                 {
-                    chunkDataCollision[xIndex, yIndex] = false;
+                    chunkDataCollision[xIndex, yIndex] = chunkDataGroundLayer[xIndex, yIndex] != 1;
                 }
             }
 

@@ -119,6 +119,15 @@ namespace Navier_Boats.Engine.Level
                         Environment.Exit(0);
                         return 0;
                     }));
+            ConsoleWindow.GetInstance().AddCommand(
+                new ConsoleCommand(
+                    "debugpaths",
+                    (args, logQueue)
+                        =>
+                    {
+                        ConsoleVars.GetInstance().DebugPathing = !ConsoleVars.GetInstance().DebugPathing;
+                        return 0;
+                    }));
 
             tileTextures = new List<Texture2D>();
             tileTextures.Add(Content.Load<Texture2D>("tiles\\road"));
