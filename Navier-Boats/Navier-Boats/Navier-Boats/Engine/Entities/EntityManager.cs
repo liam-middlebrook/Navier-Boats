@@ -5,38 +5,90 @@ using System.Text;
 using Navier_Boats.Engine.Level;
 using Microsoft.Xna.Framework;
 using System.IO;
+using Microsoft.Xna.Framework.Graphics;
+using Navier_Boats.Engine.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Navier_Boats.Game.Entities;
 
 namespace Navier_Boats.Engine.Entities
 {
     public class EntityManager
     {
-        private List<Entity>[,] entityChunks;
-        private string entitySaveDir;
-
-        public EntityManager(string saveDir)
+        private static EntityManager _instance;
+        public static EntityManager GetInstance()
         {
-            this.entitySaveDir = saveDir;
-
-            entityChunks = new List<Entity>[2, 2];
-            for (int y = 0; y < entityChunks.GetLength(1); y++)
+            if (_instance == null)
             {
-                for (int x = 0; x < entityChunks.GetLength(0); x++)
+                _instance = new EntityManager();
+            }
+            return _instance;
+        }
+
+
+        private List<Entity> entities;
+
+        public Player Player{ get { return (Player)entities[0];}}
+
+        private EntityManager()
+        {
+            entities = new List<Entity>();
+        }
+
+        public void AddEntity(Entity e)
+        {
+            entities.Add(e);
+        }
+
+        public void Update(GameTime gameTime, KeyboardState keyState, KeyboardState prevKeyState, MouseState mouseState, MouseState prevMouseState)
+        {
+
+            for (int i = 0; i < entities.Count; i++)
+            {
+                entities[i].Update(gameTime);
+                if (entities[i] is IInputControllable)
                 {
-                    entityChunks[y, x] = new List<Entity>();
+                    ((IInputControllable)entities[i]).HandleInput(keyState, prevKeyState, mouseState, prevMouseState);
+                }
+                if (entities[i] is IInteractable)
+                {
+                    ((IInteractable)entities[i]).CheckInteractions(entities);
+                }
+                if (((LivingEntity)entities[i]).Health < 0)
+                {
+                    entities.RemoveAt(i);
+                    --i;
                 }
             }
         }
 
-        public void LoadChunk(Vector2 arraySlot, string newChunkID)
+        public void LateUpdate(GameTime gameTime)
         {
-            entityChunks[(int)arraySlot.X, (int)arraySlot.Y] = LoadEntityData(newChunkID);
+            foreach (Entity entity in entities)
+            {
+                if (entity is ILateUpdateable)
+                {
+                    (entity as ILateUpdateable).LateUpdate(gameTime);
+                }
+            }
         }
 
-        private List<Entity> LoadEntityData(string chunkID)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            string fileLocation = Path.Combine(entitySaveDir, chunkID + ".entities");
-            Console.WriteLine(fileLocation);
-            return new List<Entity>();
+            foreach (Entity e in entities)
+            {
+                e.Draw(spriteBatch);
+            }
+        }
+
+        public void DrawGUI(SpriteBatch spriteBatch)
+        {
+            foreach (Entity e in entities)
+            {
+                if (e is IDrawableGUI)
+                {
+                    ((IDrawableGUI)e).DrawGUI(spriteBatch);
+                }
+            }
         }
     }
 }
