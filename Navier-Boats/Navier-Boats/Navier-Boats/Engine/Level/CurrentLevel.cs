@@ -65,8 +65,6 @@ namespace Navier_Boats.Engine.Level
 
         private List<Texture2D> tileTextures;
 
-        private List<Entity> entities;
-
         private SpriteFont debugFont;
 
         private string chunkSaveDirectory = "./LevelData";
@@ -75,17 +73,16 @@ namespace Navier_Boats.Engine.Level
 
         private CurrentLevel()
         {
-            entities = new List<Entity>();
             //EntityManager.GetInstance().EntitySaveDir = Path.Combine(chunkSaveDirectory, "entityData");
-            entities.Add(new Player(new Vector2(0, 0)));
+            EntityManager.GetInstance().AddEntity(new Player(new Vector2(0, 0)));
 
             terrainGen = new TerrainGenerator(OCTAVES, LAC, GRID, random.Next(), TerrainType.Country);
         }
 
         public void LoadContent(ContentManager Content)
         {
-            entities[0].Texture = Content.Load<Texture2D>("playerTexture");
-            ((LivingEntity)entities[0]).HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
+            EntityManager.GetInstance().Player.Texture = Content.Load<Texture2D>("playerTexture");
+            EntityManager.GetInstance().Player.HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
 
             ConsoleWindow.GetInstance().AddCommand(
                 new ConsoleCommand(
@@ -93,11 +90,12 @@ namespace Navier_Boats.Engine.Level
                     (args, logQueue)
                         =>
                     {
-                        int i = entities.Count;
-                        entities.Add(new Wanderer(new Vector2(0, 0)));
-                        entities[i].Texture = Content.Load<Texture2D>("playerTexture");
-                        ((LivingEntity)entities[i]).HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
-                        ; return 0;
+                        Wanderer wanderer;
+                        wanderer = new Wanderer(new Vector2(0, 0));
+                        wanderer.Texture = Content.Load<Texture2D>("playerTexture");
+                        wanderer.HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
+                        EntityManager.GetInstance().AddEntity(wanderer);
+                        return 0;
                     }));
 
             ConsoleWindow.GetInstance().AddCommand(
@@ -154,12 +152,12 @@ namespace Navier_Boats.Engine.Level
             UpdateChunks();
 
             //Center camera on player
-            Camera.Focus(entities[0].Position);
+            Camera.Focus(EntityManager.GetInstance().Player.Position);
         }
 
         private void UpdateChunks()
         {
-            Vector2 playerPos = entities[0].Position;
+            Vector2 playerPos = EntityManager.GetInstance().Player.Position;
             Vector2 upperLeftBound = GetChunkCenterWorldCoords(ChunkCoordsToWorldCoords(LoadedChunks[0, 0].Position));
             Vector2 lowerRightBound = GetChunkCenterWorldCoords(ChunkCoordsToWorldCoords(LoadedChunks[1, 1].Position));
 
@@ -299,7 +297,7 @@ namespace Navier_Boats.Engine.Level
             if (ConsoleVars.GetInstance().DebugDraw)
             {
                 string output = string.Format("Player Position {0}\n"
-                                            + "ChunkData: {1}", entities[0].Position, GetTileDataAtPoint(TileLayer.GROUND_LAYER, entities[0].Position));
+                                            + "ChunkData: {1}", EntityManager.GetInstance().Player.Position, GetTileDataAtPoint(TileLayer.GROUND_LAYER, EntityManager.GetInstance().Player.Position));
                 spriteBatch.DrawString(debugFont, output, new Vector2(1024 - (debugFont.MeasureString(output).X + 10), 10), Color.Black);
             }
 
