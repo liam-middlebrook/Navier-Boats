@@ -101,7 +101,7 @@ namespace Navier_Boats
             PathJob job = new PathJob()
             {
                 Start = new Vector2(0, 0),
-                End = new Vector2(3000, 3000),
+                End = new Vector2(559, -280),
                 MaxTime = float.PositiveInfinity,
                 NodeSize = 32,
                 Heuristic = Heuristics.Distance,

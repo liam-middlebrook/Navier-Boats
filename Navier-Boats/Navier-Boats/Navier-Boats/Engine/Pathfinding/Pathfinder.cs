@@ -6,13 +6,34 @@ using System.Text;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Navier_Boats.Engine.Level;
+using Navier_Boats.Engine.Entities;
 
 namespace Navier_Boats.Engine.Pathfinding
 {
     // if you want to use threading with this, use the PathThread class
     public class Pathfinder
     {
-        public delegate float Heuristic(Vector2 a, Vector2 b);
+        public delegate float Heuristic(Vector2 current, Vector2 end, short resistance);
+
+        public static float GetTileWalkSpeed(short collisionData)
+        {
+            switch(collisionData)
+            {
+                case 0:
+                    return Entity.ROAD_SPEED_MULT;
+
+                case 1:
+                    return Entity.GRASS_SPEED_MULT;
+
+                case 2:
+                    return Entity.SAND_SPEED_MULT;
+
+                case 3:
+                    return Entity.WATER_SPEED_MULT;
+            }
+
+            return float.PositiveInfinity;
+        }
 
         private ConcurrentDictionary<Vector2, SearchNode> searchNodes = new ConcurrentDictionary<Vector2, SearchNode>();
         private List<SearchNode> openList = new List<SearchNode>();
@@ -45,7 +66,8 @@ namespace Navier_Boats.Engine.Pathfinding
             PathNode node = new PathNode();
             node.Position = position;
             short tileData = this.level.GetTileDataAtPoint(TileLayer.COLLISION_LAYER, position);
-            node.Walkable = tileData == 0;
+            node.Walkable = GetTileWalkSpeed(tileData) != float.PositiveInfinity;
+            node.Resistance = tileData;
             return node;
         }
 
@@ -80,7 +102,7 @@ namespace Navier_Boats.Engine.Pathfinding
                 SearchNode endNode = GetNode(newEnd);
 
                 startNode.InOpenList = true;
-                startNode.DistanceToGoal = heuristic(startPoint, endPoint);
+                startNode.DistanceToGoal = heuristic(startPoint, endPoint, startNode.Node.Resistance);
                 startNode.DistanceTraveled = 0;
                 openList.Add(startNode);
 
@@ -123,7 +145,7 @@ namespace Navier_Boats.Engine.Pathfinding
                             continue;
 
                         float distanceTraveled = currentNode.DistanceTraveled + 1;
-                        float h = heuristic(neighbor.Node.Position, endPoint);
+                        float h = heuristic(neighbor.Node.Position, endPoint, neighbor.Node.Resistance);
 
                         if (!neighbor.InOpenList && !neighbor.InClosedList)
                         {
