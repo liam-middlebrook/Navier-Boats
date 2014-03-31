@@ -33,6 +33,8 @@ namespace Navier_Boats.Game.Entities
 
         private int currentNodeIndex = 0;
 
+        private bool canSubmit = false;
+
         public Wanderer(Vector2 position)
             : base(100)
         {
@@ -93,6 +95,7 @@ namespace Navier_Boats.Game.Entities
                                 currentNodeIndex = 0;
                                 currentState = AIState.Following;
                                 timeUntilNextPath = 1f;
+                                canSubmit = true;
                             }
                     };
                     currentState = AIState.Pathing;
@@ -143,8 +146,10 @@ namespace Navier_Boats.Game.Entities
                         }
                     }
 
-                    timeUntilNextPath -= gameTime.ElapsedGameTime.TotalSeconds;
-                    if (timeUntilNextPath <= 0)
+                    if(canSubmit)
+                        timeUntilNextPath -= gameTime.ElapsedGameTime.TotalSeconds;
+
+                    if (timeUntilNextPath <= 0 && canSubmit)
                     {
                         currentJob = new PathJob()
                         {
@@ -161,10 +166,11 @@ namespace Navier_Boats.Game.Entities
                                 path = result;
                                 currentNodeIndex = 0;
                                 currentState = AIState.Following;
-                                timeUntilNextPath = 1f;
+                                canSubmit = true;
                             }
                         };
-                        timeUntilNextPath = 10f;
+                        canSubmit = false;
+                        timeUntilNextPath = 1f;
                         PathThreadPool.GetInstance().SubmitJob(currentJob);
                     }
                     break;
