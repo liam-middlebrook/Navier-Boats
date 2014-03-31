@@ -38,5 +38,13 @@ namespace Navier_Boats.Engine.Pathfinding
         {
             return 0;
         }
+
+        public static Pathfinder.Heuristic MultiplyResistance(float multiplier, Pathfinder.Heuristic heuristic)
+        {
+            return (current, end, resistance) =>
+                {
+                    return heuristic(current, end, resistance * multiplier);
+                };
+        }
     }
 }
