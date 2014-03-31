@@ -131,8 +131,8 @@ namespace Navier_Boats.Game.Entities
                         {
                             if (currentNodeIndex < path.Path.Count)
                             {
-                                Vector2 currentNode = path.Path[currentNodeIndex];
-                                Rectangle validRect = new Rectangle((int)this.Position.X - 10, (int)this.Position.Y - 10, 20, 20);
+                                Vector2 currentNode = path.Path[currentNodeIndex] + new Vector2(16, 16);
+                                Rectangle validRect = new Rectangle((int)this.Position.X - 20, (int)this.Position.Y - 20, 40, 40);
                                 if (validRect.Contains((int)currentNode.X, (int)currentNode.Y))
                                 {
                                     currentNodeIndex++;
@@ -145,6 +145,11 @@ namespace Navier_Boats.Game.Entities
                             {
                                 Velocity = Vector2.Zero;
                             }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Path error: " + path.Error);
+                            path = null;
                         }
                     }
 

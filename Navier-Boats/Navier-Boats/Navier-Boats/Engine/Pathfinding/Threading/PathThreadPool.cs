@@ -45,6 +45,17 @@ namespace Navier_Boats.Engine.Pathfinding.Threading
             jobQueue.AddLast(job);
         }
 
+        public void CancelAll()
+        {
+            foreach (PathThread thread in threads)
+            {
+                if (thread.Running)
+                    thread.Stop();
+            }
+
+            jobQueue.Clear();
+        }
+
         public void Update()
         {
             foreach (PathJob job in jobQueue)

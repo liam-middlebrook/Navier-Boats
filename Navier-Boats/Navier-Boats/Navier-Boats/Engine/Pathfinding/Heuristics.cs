@@ -34,7 +34,7 @@ namespace Navier_Boats.Engine.Pathfinding
         // Do not actually use this one, as it simply flood-fills everything until it finds the end node.
         // There are uses for this heuristic, but the current pathfinder implementation does not lend itself
         // to them.
-        public static float Dijkstras(Vector2 current, Vector2 end, short resistance)
+        public static float Dijkstras(Vector2 current, Vector2 end, float resistance)
         {
             return 0;
         }

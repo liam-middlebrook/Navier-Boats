@@ -106,6 +106,7 @@ namespace Navier_Boats
         /// </summary>
         protected override void UnloadContent()
         {
+            PathThreadPool.GetInstance().CancelAll();
             // TODO: Unload any non ContentManager content here
         }
 

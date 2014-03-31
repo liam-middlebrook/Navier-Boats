@@ -34,7 +34,7 @@ namespace Navier_Boats.Game.Entities
             : base(100, 32)
         {
             Position = position;
-            initialSpeed = 1000;
+            initialSpeed = 300;
 
             playerInv = new Inventory(64);
 
