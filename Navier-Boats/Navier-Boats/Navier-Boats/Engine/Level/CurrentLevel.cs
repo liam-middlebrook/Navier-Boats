@@ -252,14 +252,14 @@ namespace Navier_Boats.Engine.Level
         public short GetTileDataAtPoint(TileLayer tileLayer, Vector2 point)
         {
             //Gets the chunk the point is in
-            Vector2 chunkCoord = GetEnclosingChunk(point);
+            Vector2 chunkCoord = GetEnclosingChunk(new Vector2((int)point.X, (int)point.Y));
 
             Vector2 chunkWorldCoord = ChunkCoordsToWorldCoords(chunkCoord);
 
             Vector2 pointChunkOffset = (point - chunkWorldCoord) / new Vector2(Chunk.TILE_WIDTH, Chunk.TILE_HEIGHT);
 
-            pointChunkOffset.X += pointChunkOffset.X < 0 ? Chunk.CHUNK_WIDTH : 0;
-            pointChunkOffset.Y += pointChunkOffset.Y < 0 ? Chunk.CHUNK_HEIGHT : 0;
+            pointChunkOffset.X += pointChunkOffset.X < 0 ? Chunk.CHUNK_WIDTH-1 : 0;
+            pointChunkOffset.Y += pointChunkOffset.Y < 0 ? Chunk.CHUNK_HEIGHT-1 : 0;
 
 
             Chunk chunk = null;
