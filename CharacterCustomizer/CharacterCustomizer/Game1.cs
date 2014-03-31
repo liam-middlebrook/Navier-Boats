@@ -49,10 +49,10 @@ namespace CharacterCustomizer
             characterParts = new List<Wheel>();
             int x = 20;
             int y = 50;
-            characterParts.Add(new Wheel("Faces", Content, x, y));
+            characterParts.Add(new Wheel(8, "Faces", Content, x, y));
             y += 50;
 
-            die = new Die(500, 20, Content);
+            die = new Die(8, 500, 20, Content);
 
             base.Initialize();
         }

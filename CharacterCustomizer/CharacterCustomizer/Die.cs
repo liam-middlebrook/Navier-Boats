@@ -15,7 +15,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace CharacterCustomizer
 {
-    class Die
+    class Die : CustomizeElement
     {
         List<Texture2D> rolls;
         Texture2D currRoll;
@@ -23,8 +23,9 @@ namespace CharacterCustomizer
         Vector2 dieLoc;
         Rectangle rollButtonLoc;
         Random roller = new Random();
+        int rollsLeft = 0;// this is just for the graphical rolling effect
 
-        public Die(int x, int y, ContentManager content)
+        public Die(int s, int x, int y, ContentManager content) : base(s)
         {
             rolls = new List<Texture2D>();
             for (int i = 1; i < 7; i++)
@@ -48,13 +49,21 @@ namespace CharacterCustomizer
         public void ButtonClick(int mouseX, int mouseY)
         {
             if (rollButtonLoc.Contains(mouseX, mouseY))
+            {
+                rollsLeft = 5;
                 Roll();
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(currRoll, dieLoc, Color.White);
             spriteBatch.Draw(rollButton, rollButtonLoc, Color.White);
+            if (rollsLeft > 0)
+            {
+                rollsLeft--;
+                Roll();
+            }
         }
     }
 }

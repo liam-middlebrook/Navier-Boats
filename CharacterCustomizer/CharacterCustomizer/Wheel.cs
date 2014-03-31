@@ -15,7 +15,7 @@ using System.IO;
 
 namespace CharacterCustomizer
 {
-    class Wheel
+    class Wheel : CustomizeElement
     {
         Texture2D rightButton, leftButton, display, currOption;
         Rectangle rBSize, lBSize, dispSize, currOptSize;
@@ -25,24 +25,38 @@ namespace CharacterCustomizer
         //const string ImageLoc = "../../../../CharacterCustomizerContent/";
 
         //Displacements for each wheel item's x position
-        const int Scale = 8;
-        const int LeftDisp = 0;
-        const int DisplayDisp = LeftDisp + 25 * Scale / 2;
-        const int RightDisp = DisplayDisp + 25 * Scale / 2;
-        const int OptionDisp = (int)(DisplayDisp + Scale * 1.85);
+        int leftDisp,rightDisp,displayDisp,optionDisp;
 
-        public Wheel(string dir, ContentManager content, int x, int y)
+        public Wheel(int s, string dir, ContentManager content, int x, int y) : base(s)
         {
+            leftDisp = 0;
+            displayDisp = leftDisp + 3;
+            rightDisp = displayDisp + 3;
+            optionDisp = displayDisp + 2;
+
             options = new List<Texture2D>();
-            rightButton = content.Load<Texture2D>("Buttons/Right");
-            rBSize = new Rectangle(x + RightDisp, y, rightButton.Width * Scale, rightButton.Height * Scale);
-            leftButton = content.Load<Texture2D>("Buttons/Left");
-            lBSize = new Rectangle(x + LeftDisp, y, leftButton.Width * Scale, leftButton.Height * Scale);
-            display = content.Load<Texture2D>("Buttons/Display");
-            dispSize = new Rectangle(x + DisplayDisp, y - leftButton.Height * Scale / 6, display.Width * Scale, display.Height * Scale);
+            int extraDisp = 0;
             LoadTextures(dir, content);
+
+            leftButton = content.Load<Texture2D>("Buttons/Left");
+            leftDisp = ConvertPixelsToScale(leftDisp) + extraDisp;
+            lBSize = new Rectangle(x + leftDisp, y, leftButton.Width * Scale, leftButton.Height * Scale);
+
+            extraDisp += lBSize.Width;
+
+            display = content.Load<Texture2D>("Buttons/Display");
+            displayDisp = ConvertPixelsToScale(displayDisp) + extraDisp;
+            dispSize = new Rectangle(x + displayDisp, y - ConvertPixelsToScale(leftButton.Height / 4), display.Width * Scale, display.Height * Scale);
+            
             currOption = options[0];
-            currOptSize = new Rectangle(x + OptionDisp, y - leftButton.Height * Scale / 6 + Scale * 2, currOption.Width * Scale / 4, currOption.Height * Scale / 4);
+            optionDisp = ConvertPixelsToScale(optionDisp) + extraDisp;
+            currOptSize = new Rectangle(x + optionDisp, y - ConvertPixelsToScale(leftButton.Height / 4 + 2), currOption.Width * Scale / 4, currOption.Height * Scale / 4);
+
+            extraDisp += dispSize.Width;
+
+            rightButton = content.Load<Texture2D>("Buttons/Right");
+            rightDisp = ConvertPixelsToScale(rightDisp) + extraDisp;
+            rBSize = new Rectangle(x + rightDisp, y, rightButton.Width * Scale, rightButton.Height * Scale);
         }
 
         /// <summary>
