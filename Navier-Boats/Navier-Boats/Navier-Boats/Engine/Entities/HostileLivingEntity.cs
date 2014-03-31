@@ -19,7 +19,8 @@ namespace Navier_Boats.Engine.Entities
         {
             if (interactor is LivingEntity && !(interactor is HostileLivingEntity))
             {
-                (interactor as LivingEntity).TakeDamage(1);
+                // removed for now
+                //(interactor as LivingEntity).TakeDamage(1);
             }
         }
     }

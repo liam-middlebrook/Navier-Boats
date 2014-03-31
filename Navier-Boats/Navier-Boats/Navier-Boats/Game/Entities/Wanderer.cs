@@ -16,18 +16,20 @@ namespace Navier_Boats.Game.Entities
         private enum AIState
         {
             Wandering,
+            SubmitPathing,
+            Pathing,
             Following
         }
 
         private double timeUntilNewAccel = 0f;
 
-        private AIState currentState = AIState.Wandering;
+        private double timeUntilNextPath = 1f;
 
-        private bool submitJob = false;
+        private AIState currentState = AIState.Wandering;
 
         private PathResult path = null;
 
-        private PathJob lastJob = null;
+        private PathJob currentJob = null;
 
         private int currentNodeIndex = 0;
 
@@ -40,23 +42,21 @@ namespace Navier_Boats.Game.Entities
 
         public override void Update(GameTime gameTime)
         {
-            timeUntilNewAccel -= gameTime.ElapsedGameTime.TotalSeconds;
-
             switch(currentState)
             {
                 case AIState.Wandering:
-                    if (lastJob != null)
+                    timeUntilNewAccel -= gameTime.ElapsedGameTime.TotalSeconds;
+
+                    if (currentJob != null)
                     {
-                        lastJob.Cancelled = true;
-                        lastJob = null;
+                        currentJob.Cancelled = true;
+                        currentJob = null;
                     }
 
                     if (Vector2.DistanceSquared(this.Position, EntityManager.GetInstance().Player.Position) <= 230400)
                     {
-                        currentState = AIState.Following;
-                        submitJob = false;
-                        path = null;
-                        currentNodeIndex = 0;
+                        Velocity = Vector2.Zero;
+                        currentState = AIState.SubmitPathing;
                         break;
                     }
 
@@ -67,32 +67,57 @@ namespace Navier_Boats.Game.Entities
                     }
                     break;
 
-                case AIState.Following:
+                case AIState.SubmitPathing:
                     if (Vector2.DistanceSquared(this.Position, EntityManager.GetInstance().Player.Position) > 230400)
                     {
                         currentState = AIState.Wandering;
                         break;
                     }
 
-                    if (!submitJob)
+                    Velocity = Vector2.Zero;
+                    path = null;
+                    currentNodeIndex = 0;
+                    currentJob = new PathJob()
                     {
-                        PathJob job = new PathJob();
-                        job.Start = this.Position;
-                        job.End = EntityManager.GetInstance().Player.Position;
-                        job.NodeSize = 32;
-                        job.MaxTime = 0.5f;
-                        job.Heuristic = Heuristics.Manhattan;
-                        job.Callback = (result) =>
+                        Start = this.Position,
+                        End = EntityManager.GetInstance().Player.Position,
+                        NodeSize = 32,
+                        MaxTime = 0.5f,
+                        Heuristic = Heuristics.Distance,
+                        Callback = (result) =>
                             {
-                                if (currentState != AIState.Following)
+                                if (currentState != AIState.Pathing)
                                     return;
+
                                 path = result;
                                 currentNodeIndex = 0;
-                                timeUntilNewAccel = 1f;
-                            };
-                        lastJob = job;
-                        PathThreadPool.GetInstance().SubmitJob(job);
-                        submitJob = true;
+                                currentState = AIState.Following;
+                                timeUntilNextPath = 1f;
+                            }
+                    };
+                    currentState = AIState.Pathing;
+                    PathThreadPool.GetInstance().SubmitJob(currentJob);
+                    break;
+
+                case AIState.Pathing:
+                    if (Vector2.DistanceSquared(this.Position, EntityManager.GetInstance().Player.Position) > 230400)
+                    {
+                        currentState = AIState.Wandering;
+                        currentJob.Cancelled = true;
+                        currentJob = null;
+                        break;
+                    }
+
+                    Velocity = Vector2.Zero;
+                    break;
+
+                case AIState.Following:
+                    if (Vector2.DistanceSquared(this.Position, EntityManager.GetInstance().Player.Position) > 230400)
+                    {
+                        currentState = AIState.Wandering;
+                        currentJob.Cancelled = true;
+                        currentJob = null;
+                        break;
                     }
 
                     if (path != null)
@@ -102,27 +127,45 @@ namespace Navier_Boats.Game.Entities
                             if (currentNodeIndex < path.Path.Count)
                             {
                                 Vector2 currentNode = path.Path[currentNodeIndex];
-                                Vector2 modPos = new Vector2(Position.X - Position.X % 32, Position.Y - Position.Y % 32);
-                                if (currentNode.Equals(modPos))
+                                Rectangle validRect = new Rectangle((int)this.Position.X - 10, (int)this.Position.Y - 10, 20, 20);
+                                if (validRect.Contains((int)currentNode.X, (int)currentNode.Y))
                                 {
                                     currentNodeIndex++;
                                 }
-                                else
-                                {
-                                    Rotation = (float)Math.Atan2(currentNode.Y - Position.Y, currentNode.X - Position.X);
-                                    Velocity = new Vector2((float)Math.Cos(Rotation) * 2, (float)Math.Sin(Rotation) * 2);
-                                }
+
+                                Rotation = (float)Math.Atan2(currentNode.Y - Position.Y, currentNode.X - Position.X);
+                                Velocity = new Vector2((float)Math.Cos(Rotation) * 2, (float)Math.Sin(Rotation) * 2);
                             }
                             else
                             {
                                 Velocity = Vector2.Zero;
                             }
                         }
+                    }
 
-                        if (timeUntilNewAccel <= 0)
+                    timeUntilNextPath -= gameTime.ElapsedGameTime.TotalSeconds;
+                    if (timeUntilNextPath <= 0)
+                    {
+                        currentJob = new PathJob()
                         {
-                            submitJob = false;
-                        }
+                            Start = this.Position,
+                            End = EntityManager.GetInstance().Player.Position,
+                            NodeSize = 32,
+                            MaxTime = 0.5f,
+                            Heuristic = Heuristics.Distance,
+                            Callback = (result) =>
+                            {
+                                if (currentState != AIState.Following)
+                                    return;
+
+                                path = result;
+                                currentNodeIndex = 0;
+                                currentState = AIState.Following;
+                                timeUntilNextPath = 1f;
+                            }
+                        };
+                        timeUntilNextPath = 10f;
+                        PathThreadPool.GetInstance().SubmitJob(currentJob);
                     }
                     break;
             }
