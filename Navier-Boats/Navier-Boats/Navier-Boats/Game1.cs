@@ -69,7 +69,7 @@ namespace Navier_Boats
             mouseState = Mouse.GetState();
 
             ConsoleVars.GetInstance().WindowWidth = 1024;
-            ConsoleVars.GetInstance().WindowHeight = 1024;
+            ConsoleVars.GetInstance().WindowHeight = 768;
 
             graphics.PreferredBackBufferWidth = ConsoleVars.GetInstance().WindowWidth;
             graphics.PreferredBackBufferHeight = ConsoleVars.GetInstance().WindowHeight;

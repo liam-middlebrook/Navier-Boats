@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Inventory;
 using Navier_Boats.Engine.System;
+using Navier_Boats.Engine.Level;
 
 namespace Navier_Boats.Game.Entities
 {
@@ -42,9 +43,11 @@ namespace Navier_Boats.Game.Entities
             HUDItemBoxRectThree = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 484,ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
             HUDItemBoxRectFour = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 364,ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
             HUDItemBoxRectFive = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 244,ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
-            CompassRect = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 124,ConsoleVars.GetInstance().WindowHeight -  974, 75, 75);
+            CompassRect = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 124, 50, 75, 75);
             #endregion
         }
+
+
 
         public void HandleInput(KeyboardState keyState, KeyboardState prevKeyState, MouseState mouseState, MouseState prevMouseState)
         {
@@ -100,7 +103,7 @@ namespace Navier_Boats.Game.Entities
             Vector2 fontSize = drawFont.MeasureString(string.Format("{0:00.00}", Health));
             
             //Get the position to draw the text to
-            Vector2 healthTextPos = new Vector2(ConsoleVars.GetInstance().WindowWidth - 874, 938) - fontSize / 2;
+            Vector2 healthTextPos = new Vector2(ConsoleVars.GetInstance().WindowWidth - 874, ConsoleVars.GetInstance().WindowHeight - 86) - fontSize / 2;
             spriteBatch.DrawString(drawFont, string.Format("{0:00.00}", Health), healthTextPos, Color.White);
 
 
