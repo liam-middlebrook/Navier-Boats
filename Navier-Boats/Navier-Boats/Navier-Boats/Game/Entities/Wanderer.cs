@@ -13,6 +13,8 @@ namespace Navier_Boats.Game.Entities
 {
     public class Wanderer : HostileLivingEntity
     {
+        private static Pathfinder.Heuristic Heuristic = Heuristics.Distance;
+
         private enum AIState
         {
             Wandering,
@@ -85,7 +87,7 @@ namespace Navier_Boats.Game.Entities
                         End = EntityManager.GetInstance().Player.Position,
                         NodeSize = 32,
                         MaxTime = 0.5f,
-                        Heuristic = Heuristics.Distance,
+                        Heuristic = Heuristic,
                         Callback = (result) =>
                             {
                                 if (currentState != AIState.Pathing)
@@ -157,7 +159,7 @@ namespace Navier_Boats.Game.Entities
                             End = EntityManager.GetInstance().Player.Position,
                             NodeSize = 32,
                             MaxTime = 0.5f,
-                            Heuristic = Heuristics.Distance,
+                            Heuristic = Heuristic,
                             Callback = (result) =>
                             {
                                 if (currentState != AIState.Following)

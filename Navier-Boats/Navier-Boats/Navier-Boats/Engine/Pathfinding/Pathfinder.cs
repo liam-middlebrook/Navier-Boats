@@ -13,7 +13,7 @@ namespace Navier_Boats.Engine.Pathfinding
     // if you want to use threading with this, use the PathThread class
     public class Pathfinder
     {
-        public delegate float Heuristic(Vector2 current, Vector2 end, short resistance);
+        public delegate float Heuristic(Vector2 current, Vector2 end, float resistance);
 
         public static float GetTileWalkSpeed(short collisionData)
         {
@@ -67,7 +67,7 @@ namespace Navier_Boats.Engine.Pathfinding
             node.Position = position;
             short tileData = this.level.GetTileDataAtPoint(TileLayer.COLLISION_LAYER, position);
             node.Walkable = GetTileWalkSpeed(tileData) != float.PositiveInfinity;
-            node.Resistance = tileData;
+            node.Resistance = GetTileWalkSpeed(tileData);
             return node;
         }
 

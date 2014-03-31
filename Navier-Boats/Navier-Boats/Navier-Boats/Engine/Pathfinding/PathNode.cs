@@ -20,7 +20,7 @@ namespace Navier_Boats.Engine.Pathfinding
             set;
         }
 
-        public short Resistance
+        public float Resistance
         {
             get;
             set;
