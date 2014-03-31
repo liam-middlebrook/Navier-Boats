@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Inventory;
+using Navier_Boats.Engine.System;
 
 namespace Navier_Boats.Game.Entities
 {
@@ -28,23 +29,20 @@ namespace Navier_Boats.Game.Entities
         private Rectangle CompassRect;
         #endregion
 
-        Inventory playerInv;
-
         public Player(Vector2 position)
             : base(100, 32)
         {
             Position = position;
             initialSpeed = 300;
 
-            playerInv = new Inventory(64);
 
             #region HUD Rectangle Initiation
-            HUDItemBoxRectOne = new Rectangle(300, 900, 75, 75);
-            HUDItemBoxRectTwo = new Rectangle(420, 900, 75, 75);
-            HUDItemBoxRectThree = new Rectangle(540, 900, 75, 75);
-            HUDItemBoxRectFour = new Rectangle(660, 900, 75, 75);
-            HUDItemBoxRectFive = new Rectangle(780, 900, 75, 75);
-            CompassRect = new Rectangle(900, 50, 75, 75);
+            HUDItemBoxRectOne = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 724,ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
+            HUDItemBoxRectTwo = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 604,ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
+            HUDItemBoxRectThree = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 484,ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
+            HUDItemBoxRectFour = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 364,ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
+            HUDItemBoxRectFive = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 244,ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
+            CompassRect = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 124,ConsoleVars.GetInstance().WindowHeight -  974, 75, 75);
             #endregion
         }
 
@@ -91,8 +89,8 @@ namespace Navier_Boats.Game.Entities
             spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectThree, Color.White);
             spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectFour, Color.White);
             spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectFive, Color.White);
-            spriteBatch.Draw(TextureManager.GetInstance()["HealthTexture"], new Rectangle(50, 900, 200, 75), Color.Black);
-            spriteBatch.Draw(TextureManager.GetInstance()["HealthTexture"], new Rectangle(51, 901, (int)(2 * Health) - 2, 73), Color.White);
+            spriteBatch.Draw(TextureManager.GetInstance()["HealthTexture"], new Rectangle(ConsoleVars.GetInstance().WindowWidth - 974, ConsoleVars.GetInstance().WindowHeight - 124, 200, 75), Color.Black);
+            spriteBatch.Draw(TextureManager.GetInstance()["HealthTexture"], new Rectangle(ConsoleVars.GetInstance().WindowWidth - 973, ConsoleVars.GetInstance().WindowHeight - 123, (int)(2 * Health) - 2, 73), Color.White);
             spriteBatch.Draw(TextureManager.GetInstance()["CompassTexture"], CompassRect, Color.White);
 
             //Draw text indicating precise value of player health
@@ -102,7 +100,7 @@ namespace Navier_Boats.Game.Entities
             Vector2 fontSize = drawFont.MeasureString(string.Format("{0:00.00}", Health));
             
             //Get the position to draw the text to
-            Vector2 healthTextPos = new Vector2(150, 938) - fontSize / 2;
+            Vector2 healthTextPos = new Vector2(ConsoleVars.GetInstance().WindowWidth - 874, 938) - fontSize / 2;
             spriteBatch.DrawString(drawFont, string.Format("{0:00.00}", Health), healthTextPos, Color.White);
 
 
@@ -112,51 +110,51 @@ namespace Navier_Boats.Game.Entities
 
 
             //Get the position to draw the text for the five on screen item stacks
-            Vector2 itemTextPosOne = new Vector2(350, 940);
-            Vector2 itemTextPosTwo = new Vector2(470, 940);
-            Vector2 itemTextPosThree = new Vector2(590, 940);
-            Vector2 itemTextPosFour = new Vector2(710, 940);
-            Vector2 itemTextPosFive = new Vector2(830, 940);
+            Vector2 itemTextPosOne = new Vector2(ConsoleVars.GetInstance().WindowWidth - 674, ConsoleVars.GetInstance().WindowHeight - 84);
+            Vector2 itemTextPosTwo = new Vector2(ConsoleVars.GetInstance().WindowWidth - 554, ConsoleVars.GetInstance().WindowHeight - 84);
+            Vector2 itemTextPosThree = new Vector2(ConsoleVars.GetInstance().WindowWidth - 434, ConsoleVars.GetInstance().WindowHeight - 84);
+            Vector2 itemTextPosFour = new Vector2(ConsoleVars.GetInstance().WindowWidth - 314, ConsoleVars.GetInstance().WindowHeight - 84);
+            Vector2 itemTextPosFive = new Vector2(ConsoleVars.GetInstance().WindowWidth - 194, ConsoleVars.GetInstance().WindowHeight - 84);
             #region HUD Item Number Drawing
-            if (playerInv.Items[0] == null)
+            if (Items.Items[0] == null)
             {
                 spriteBatch.DrawString(itemFont, "0", itemTextPosOne, Color.White);
             }
             else
             {
-                spriteBatch.DrawString(itemFont, playerInv.Items[0].Amount.ToString(), itemTextPosOne, Color.White);
+                spriteBatch.DrawString(itemFont, Items.Items[0].Amount.ToString(), itemTextPosOne, Color.White);
             }
-            if (playerInv.Items[1] == null)
+            if (Items.Items[1] == null)
             {
                 spriteBatch.DrawString(itemFont, "0", itemTextPosTwo, Color.White);
             }
             else
             {
-                spriteBatch.DrawString(itemFont, playerInv.Items[1].Amount.ToString(), itemTextPosTwo, Color.White);
+                spriteBatch.DrawString(itemFont, Items.Items[1].Amount.ToString(), itemTextPosTwo, Color.White);
             } 
-            if (playerInv.Items[2] == null)
+            if (Items.Items[2] == null)
             {
                 spriteBatch.DrawString(itemFont, "0", itemTextPosThree, Color.White);
             }
             else
             {
-                spriteBatch.DrawString(itemFont, playerInv.Items[2].Amount.ToString(), itemTextPosThree, Color.White);
+                spriteBatch.DrawString(itemFont, Items.Items[2].Amount.ToString(), itemTextPosThree, Color.White);
             } 
-            if (playerInv.Items[3] == null)
+            if (Items.Items[3] == null)
             {
                 spriteBatch.DrawString(itemFont, "0", itemTextPosFour, Color.White);
             }
             else
             {
-                spriteBatch.DrawString(itemFont, playerInv.Items[3].Amount.ToString(), itemTextPosFour, Color.White);
+                spriteBatch.DrawString(itemFont, Items.Items[3].Amount.ToString(), itemTextPosFour, Color.White);
             } 
-            if (playerInv.Items[4] == null)
+            if (Items.Items[4] == null)
             {
                 spriteBatch.DrawString(itemFont, "0", itemTextPosFive, Color.White);
             }
             else
             {
-                spriteBatch.DrawString(itemFont, playerInv.Items[4].Amount.ToString(), itemTextPosFive, Color.White);
+                spriteBatch.DrawString(itemFont, Items.Items[4].Amount.ToString(), itemTextPosFive, Color.White);
             }
             #endregion
 

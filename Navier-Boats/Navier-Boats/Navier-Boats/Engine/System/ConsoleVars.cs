@@ -7,7 +7,15 @@ namespace Navier_Boats.Engine.System
 {
     public class ConsoleVars
     {
+        private int windowHeight;
+
+        private int windowWidth;
+
         private bool debugDraw;
+
+        public int WindowHeight { get { return windowHeight; } set { windowHeight = value; } }
+       
+        public int WindowWidth { get { return windowWidth; } set { windowWidth = value; } }
 
         public bool DebugDraw { get { return debugDraw; } set { debugDraw = value; } }
 

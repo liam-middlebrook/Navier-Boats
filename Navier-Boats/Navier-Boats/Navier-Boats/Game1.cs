@@ -51,8 +51,6 @@ namespace Navier_Boats
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 1024;
-            graphics.PreferredBackBufferHeight = 1024;
             Content.RootDirectory = "Content";
         }
 
@@ -69,6 +67,13 @@ namespace Navier_Boats
 
             keyHelper = new KeyboardHelper();
             mouseState = Mouse.GetState();
+
+            ConsoleVars.GetInstance().WindowWidth = 1024;
+            ConsoleVars.GetInstance().WindowHeight = 1024;
+
+            graphics.PreferredBackBufferWidth = ConsoleVars.GetInstance().WindowWidth;
+            graphics.PreferredBackBufferHeight = ConsoleVars.GetInstance().WindowHeight;
+            graphics.ApplyChanges();
 
             base.Initialize();
         }
