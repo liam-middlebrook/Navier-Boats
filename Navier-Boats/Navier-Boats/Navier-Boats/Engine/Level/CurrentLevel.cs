@@ -76,7 +76,7 @@ namespace Navier_Boats.Engine.Level
             //EntityManager.GetInstance().EntitySaveDir = Path.Combine(chunkSaveDirectory, "entityData");
             EntityManager.GetInstance().AddEntity(new Player(new Vector2(0, 0)));
 
-            terrainGen = new TerrainGenerator(OCTAVES, LAC, GRID, random.Next(), TerrainType.Country);
+            terrainGen = new TerrainGenerator(OCTAVES, LAC, GRID, random.Next());
         }
 
         public void LoadContent(ContentManager Content)
