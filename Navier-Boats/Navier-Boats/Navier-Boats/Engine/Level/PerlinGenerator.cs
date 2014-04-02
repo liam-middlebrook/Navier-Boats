@@ -135,7 +135,7 @@ namespace Navier_Boats.Engine.Level
         /// <param name="x">X-Coord, must have a decimal component</param>
         /// <param name="y">X-Coord, must have a decimal component</param>
         /// <returns>Scalar value between -1 and 1 at (x,y)</returns>
-        private float Perlin2D(float x, float y)
+        public float Perlin2D(float x, float y)
         {
             float xN = x; 
             float yN = y; 
@@ -162,10 +162,10 @@ namespace Navier_Boats.Engine.Level
             float d3 = dot(grads[g3], xF - 1, yF);
             float d4 = dot(grads[g4], xF - 1, yF - 1);
 
-            float xL1 = MathHelper.Lerp(d1, d3, xC);
-            float xL2 = MathHelper.Lerp(d2, d4, xC);
+            float xL1 = MathHelper.SmoothStep(d1, d3, xC);
+            float xL2 = MathHelper.SmoothStep(d2, d4, xC);
 
-            return MathHelper.Lerp(xL1, xL2, yC);
+            return MathHelper.SmoothStep(xL1, xL2, yC);
         }
 
         /// <summary>
