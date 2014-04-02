@@ -17,7 +17,6 @@ namespace Navier_Boats.Engine.Level
     /// </summary>
     public class TerrainGenerator
     {
-        private TerrainType type;
         private PerlinGenerator perlinGen;
         private float lacuniarity;
         private int octaves;
@@ -33,9 +32,8 @@ namespace Navier_Boats.Engine.Level
         /// <param name="grid">Width of area to generate noise for</param>
         /// <param name="seed">Integer unique to each world</param>
         /// <param name="type">Type of generation to perform, defaults to Intracity if none is given</param>
-        public TerrainGenerator(int oct, float lac, int grid, int seed, TerrainType type = TerrainType.Country)
+        public TerrainGenerator(int oct, float lac, int grid, int seed)
         {
-            this.type = type;
             this.octaves = oct;
             this.lacuniarity = lac;
             this.gridWidth = grid;
@@ -51,7 +49,7 @@ namespace Navier_Boats.Engine.Level
         /// <param name="yPos">Tile Y-Coord</param>
         /// <param name="chunkPos">Chunk position vector</param>
         /// <returns></returns>
-        public short GenerateTile(int xPos, int yPos, Vector2 chunkPos)
+        public short GenerateTile(int xPos, int yPos, Vector2 chunkPos, TerrainType type)
         {
             int tileX = xPos + ((int)chunkPos.X * Chunk.CHUNK_WIDTH);
             int tileY = yPos + ((int)chunkPos.Y * Chunk.CHUNK_HEIGHT);
