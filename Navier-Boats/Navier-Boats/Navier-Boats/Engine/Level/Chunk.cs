@@ -57,7 +57,7 @@ namespace Navier_Boats.Engine.Level
             {
                 for (int xIndex = 0; xIndex < CHUNK_WIDTH; xIndex++)
                 {
-                    short p = terrainGen.GenerateTile(xIndex, yIndex, Position);
+                    short p = terrainGen.GenerateTile(xIndex, yIndex, Position, TerrainType.Country);
 
                     if (p == 0)
                         chunkDataRoadLayer[xIndex, yIndex] = p;
