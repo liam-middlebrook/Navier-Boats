@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Navier_Boats.Engine.Level;
 
 namespace Navier_Boats.Engine.Pathfinding
 {
@@ -44,6 +45,15 @@ namespace Navier_Boats.Engine.Pathfinding
             return (current, end, resistance) =>
                 {
                     return heuristic(current, end, resistance * multiplier);
+                };
+        }
+
+        public static Pathfinder.Heuristic ResistanceRandomness(double min, double max, Pathfinder.Heuristic heuristic)
+        {
+            return (current, end, resistance) =>
+                {
+                    float res = (float)(CurrentLevel.GetRandom().NextDouble() * (max - min) + min) + resistance;
+                    return heuristic(current, end, res);
                 };
         }
     }
