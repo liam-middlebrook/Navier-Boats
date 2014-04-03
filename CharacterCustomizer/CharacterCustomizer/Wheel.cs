@@ -27,6 +27,8 @@ namespace CharacterCustomizer
         //Displacements for each wheel item's x position
         protected int leftDisp,rightDisp,displayDisp,optionDisp;
 
+        protected bool rBClicked = false, lBClicked = false;
+
         public Wheel(int s, string dir, ContentManager content, int x, int y) : base(s)
         {
             leftDisp = 0;
@@ -87,9 +89,24 @@ namespace CharacterCustomizer
         public void ButtonClick(int mouseX, int mouseY)
         {
             if (rBSize.Contains(mouseX, mouseY))
+            {
                 CycleOption(true);
+                rBClicked = true;
+            }
             else if (lBSize.Contains(mouseX, mouseY))
+            {
                 CycleOption(false);
+                lBClicked = true;
+            }
+        }
+
+        /// <summary>
+        /// "Unclicks" the buttons i.e. changes their clicked variable.
+        /// </summary>
+        public void ButtonUnClick()
+        {
+            rBClicked = false;
+            lBClicked = false;
         }
 
         /// <summary>
@@ -108,8 +125,8 @@ namespace CharacterCustomizer
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(leftButton, lBSize, Color.White);
-            spriteBatch.Draw(rightButton, rBSize, Color.White);
+            spriteBatch.Draw(leftButton, lBSize, lBClicked ? Color.CadetBlue : Color.White);
+            spriteBatch.Draw(rightButton, rBSize, rBClicked ? Color.CadetBlue : Color.White);
             spriteBatch.Draw(display, dispSize, Color.White);
             spriteBatch.Draw(currOption, currOptSize, Color.White);
         }

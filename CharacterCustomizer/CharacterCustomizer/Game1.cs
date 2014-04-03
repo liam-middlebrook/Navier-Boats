@@ -25,7 +25,7 @@ namespace CharacterCustomizer
         Die die;
         MouseState mouseState, prevMouseState;//current and previous mouse state
 
-        const int WHEEL_SCALE = 8;
+        const int WHEEL_SCALE = 5;
         const int DIE_SCALE = 4;
 
         public Game1()
@@ -54,7 +54,9 @@ namespace CharacterCustomizer
             int y = 50;
             characterParts.Add(new Wheel(WHEEL_SCALE, "Faces", Content, x, y));
             y += 20 * WHEEL_SCALE;
-            characterParts.Add(new LongWheel(WHEEL_SCALE, "Bodies", Content, x, y, 2, 1.5));
+            characterParts.Add(new LongWheel(WHEEL_SCALE, "Bodies", Content, x, y, 2, 1.5, 1));
+            y += 20 * WHEEL_SCALE;
+            characterParts.Add(new LongWheel(WHEEL_SCALE, "Legs", Content, x, y, 1.5, 1.5, 1.5));
 
             die = new Die(DIE_SCALE, 500, 20, Content);
 
@@ -72,6 +74,7 @@ namespace CharacterCustomizer
 
             // TODO: use this.Content to load your game content here
             sf = Content.Load<SpriteFont>("SpriteFont1");
+            die.StatText = sf;
         }
 
         /// <summary>
@@ -104,6 +107,12 @@ namespace CharacterCustomizer
                     characterPart.ButtonClick(mouseState.X, mouseState.Y);
                 die.ButtonClick(mouseState.X, mouseState.Y);
             }
+            else if (mouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
+            {
+                foreach (Wheel characterPart in characterParts)
+                    characterPart.ButtonUnClick();
+                die.ButtonUnClick();
+            }
             base.Update(gameTime);
         }
 
@@ -113,7 +122,7 @@ namespace CharacterCustomizer
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.MediumPurple);
 
             // TODO: Add your drawing code here
             

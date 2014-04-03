@@ -19,15 +19,15 @@ namespace CharacterCustomizer
     {
         //meant for longer parts of the character
 
-        public LongWheel(int s, string dir, ContentManager content, int x, int y, double width, double height)
+        public LongWheel(int s, string dir, ContentManager content, int x, int y, double width, double height, double contentScale)
             : base(s, dir, content, x, y)
         {
             dispSize = new Rectangle(x + displayDisp, y - ConvertPixelsToScale(leftButton.Height / 4), (int)(display.Width * Scale * width), (int)(display.Height * Scale * height));
 
             optionDisp += (int)(display.Width * Scale * width / 30);
-            currOptSize = new Rectangle(x + optionDisp, y + (int)(display.Height * Scale * height / 10), currOption.Width * Scale / 4, currOption.Height * Scale / 4);
+            currOptSize = new Rectangle(x + optionDisp, y + (int)(display.Height * Scale * height / 10), (int)(currOption.Width * Scale / 4 * contentScale), (int)(currOption.Height * Scale / 4 * contentScale));
 
-            rightDisp += (int)(display.Width * Scale * width / 2);
+            rightDisp += dispSize.Width - displayDisp + ConvertPixelsToScale(3);
             rBSize = new Rectangle(x + rightDisp, y, rightButton.Width * Scale, rightButton.Height * Scale);
         }
     }
