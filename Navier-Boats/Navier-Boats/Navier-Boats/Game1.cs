@@ -75,6 +75,8 @@ namespace Navier_Boats
             graphics.PreferredBackBufferHeight = ConsoleVars.GetInstance().WindowHeight;
             graphics.ApplyChanges();
 
+            IsMouseVisible = true;
+
             base.Initialize();
         }
 
