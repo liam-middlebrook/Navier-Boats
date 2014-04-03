@@ -17,15 +17,15 @@ namespace CharacterCustomizer
 {
     class Wheel : CustomizeElement
     {
-        Texture2D rightButton, leftButton, display, currOption;
-        Rectangle rBSize, lBSize, dispSize, currOptSize;
-        int currIndex = 0;
-        List<Texture2D> options;
+        protected Texture2D rightButton, leftButton, display, currOption;
+        protected Rectangle rBSize, lBSize, dispSize, currOptSize;
+        protected int currIndex = 0;
+        protected List<Texture2D> options;
 
         //const string ImageLoc = "../../../../CharacterCustomizerContent/";
 
         //Displacements for each wheel item's x position
-        int leftDisp,rightDisp,displayDisp,optionDisp;
+        protected int leftDisp,rightDisp,displayDisp,optionDisp;
 
         public Wheel(int s, string dir, ContentManager content, int x, int y) : base(s)
         {
@@ -50,7 +50,7 @@ namespace CharacterCustomizer
             
             currOption = options[0];
             optionDisp = ConvertPixelsToScale(optionDisp) + extraDisp;
-            currOptSize = new Rectangle(x + optionDisp, y - ConvertPixelsToScale(leftButton.Height / 4 + 2), currOption.Width * Scale / 4, currOption.Height * Scale / 4);
+            currOptSize = new Rectangle(x + optionDisp, y - ConvertPixelsToScale(leftButton.Height / 4 - 2), currOption.Width * Scale / 4, currOption.Height * Scale / 4);
 
             extraDisp += dispSize.Width;
 

@@ -25,6 +25,9 @@ namespace CharacterCustomizer
         Die die;
         MouseState mouseState, prevMouseState;//current and previous mouse state
 
+        const int WHEEL_SCALE = 8;
+        const int DIE_SCALE = 4;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -49,10 +52,11 @@ namespace CharacterCustomizer
             characterParts = new List<Wheel>();
             int x = 20;
             int y = 50;
-            characterParts.Add(new Wheel(8, "Faces", Content, x, y));
-            y += 50;
+            characterParts.Add(new Wheel(WHEEL_SCALE, "Faces", Content, x, y));
+            y += 20 * WHEEL_SCALE;
+            characterParts.Add(new LongWheel(WHEEL_SCALE, "Bodies", Content, x, y, 2, 1.5));
 
-            die = new Die(8, 500, 20, Content);
+            die = new Die(DIE_SCALE, 500, 20, Content);
 
             base.Initialize();
         }
