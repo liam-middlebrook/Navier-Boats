@@ -20,7 +20,7 @@ namespace CharacterCustomizer
         List<Texture2D> rolls;
         Texture2D currRoll;
         Texture2D rollButton;
-        Vector2 dieLoc;
+        Rectangle dieLoc;
         Rectangle rollButtonLoc;
         Random roller = new Random();
         int rollsLeft = 0;// this is just for the graphical rolling effect
@@ -33,8 +33,8 @@ namespace CharacterCustomizer
             currRoll = rolls[0];
             rollButton = content.Load<Texture2D>("Buttons/Die/Roll");
 
-            dieLoc = new Vector2(x, y);
-            rollButtonLoc = new Rectangle(x, y + 20, rollButton.Width, rollButton.Height);
+            dieLoc = new Rectangle(x, y, currRoll.Width * Scale, currRoll.Height * Scale);
+            rollButtonLoc = new Rectangle(x - ConvertPixelsToScale(1), y + ConvertPixelsToScale(20), rollButton.Width * Scale, rollButton.Height * Scale);
         }
 
         /// <summary>
