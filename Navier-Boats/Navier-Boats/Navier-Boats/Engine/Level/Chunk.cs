@@ -17,8 +17,8 @@ namespace Navier_Boats.Engine.Level
     }
     public class Chunk
     {
-        public const int CHUNK_WIDTH = 32;
-        public const int CHUNK_HEIGHT = 32;
+        public const int CHUNK_WIDTH = 48;
+        public const int CHUNK_HEIGHT = 48;
 
         public const int TILE_WIDTH = 32;
         public const int TILE_HEIGHT = 32;
