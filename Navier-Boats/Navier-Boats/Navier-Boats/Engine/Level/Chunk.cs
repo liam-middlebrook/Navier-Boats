@@ -60,11 +60,31 @@ namespace Navier_Boats.Engine.Level
                     short p = terrainGen.GenerateTile(xIndex, yIndex, Position, TerrainType.Country);
 
                     if (p == 0)
-                        chunkDataRoadLayer[xIndex, yIndex] = p;
+                    {
+                        chunkDataRoadLayer[xIndex, yIndex] = (short)TileType.Road;
+                    }
                     else
+                    {
                         chunkDataGroundLayer[xIndex, yIndex] = p;
+                    }
 
+                }
+            }
 
+            for (int yIndex = 1; yIndex < CHUNK_HEIGHT-1; yIndex++)
+            {
+                for (int xIndex = 1; xIndex < CHUNK_WIDTH-1; xIndex++)
+                {
+                    if ((chunkDataGroundLayer[xIndex - 1, yIndex] == 1
+                            || chunkDataGroundLayer[xIndex, yIndex - 1] == 1
+                            || chunkDataGroundLayer[xIndex + 1, yIndex] == 1
+                            || chunkDataGroundLayer[xIndex, yIndex + 1] == 1
+                        )
+                    && chunkDataGroundLayer[xIndex, yIndex] == (short)TileType.Water
+                    )
+                    {
+                        chunkDataGroundLayer[xIndex, yIndex] = (short)TileType.Sand;
+                    }
                 }
             }
 
