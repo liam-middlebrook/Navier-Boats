@@ -2,10 +2,18 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Design;
 
-
 namespace Navier_Boats.Engine.Level
 {
-    
+    public enum TileType
+    {
+        Road = 0,
+        Grass = 1,
+        Sand = 2,
+        Water = 3,
+        City = 4,
+    }
+
+
     public enum TerrainType
     {
         Country, //For lack of a better term
@@ -18,7 +26,8 @@ namespace Navier_Boats.Engine.Level
     public class TerrainGenerator
     {
         private PerlinGenerator perlinGen;
-        private float lacuniarity;
+        private float groundLacuniarity;
+        private float waterLacuniarity;
         private int octaves;
         private int gridWidth;
         ColorConverter colorConv;
@@ -32,10 +41,11 @@ namespace Navier_Boats.Engine.Level
         /// <param name="grid">Width of area to generate noise for</param>
         /// <param name="seed">Integer unique to each world</param>
         /// <param name="type">Type of generation to perform, defaults to Intracity if none is given</param>
-        public TerrainGenerator(int oct, float lac, int grid, int seed)
+        public TerrainGenerator(int oct, float gLac, float wLac, int grid, int seed)
         {
             this.octaves = oct;
-            this.lacuniarity = lac;
+            this.groundLacuniarity = gLac;
+            this.waterLacuniarity = wLac;
             this.gridWidth = grid;
             perlinGen = new PerlinGenerator(seed);
             colorConv = new ColorConverter();
@@ -58,20 +68,24 @@ namespace Navier_Boats.Engine.Level
             {
                 case TerrainType.Country:
                     
-                    //float p = Math.Abs(perlinGen.FBM2D(tileX, tileY, octaves, Chunk.CHUNK_WIDTH, lacuniarity));
+                    //float groundMap = 1-Math.Abs(perlinGen.FBM2D(tileX, tileY, octaves, Chunk.CHUNK_WIDTH, groundLacuniarity));
 
-                    float p = 1-Math.Abs(perlinGen.Perlin2D(tileX/(float)Chunk.CHUNK_WIDTH, tileY/(float)Chunk.CHUNK_HEIGHT));
+                    float groundMap = 1-Math.Abs(perlinGen.Perlin2D(tileX/((float)Chunk.CHUNK_WIDTH*2), tileY/((float)Chunk.CHUNK_HEIGHT*2)));
+                    float lakeMap = fRound(1-Math.Abs(perlinGen.FBM2D(tileX, tileY, octaves, Chunk.CHUNK_WIDTH, waterLacuniarity)));
 
-                    if (p >= 0.95f)
-                        return 0; //Placeholder roads
-                    else if (p < 0.95f && p >= 0.64)
-                        return 1; //Bright green grass
-                    else if (p < 0.64f && p >= 0.6f)
-                        return 2; //sand around lakes
+                    if (groundMap >= 0.95f)
+                        return (short)TileType.Road; //Placeholder roads
+                    else if (groundMap < 0.95f && groundMap >= 0.7)
+                        return (short)TileType.Grass; //Bright green grass
+                    else if (lakeMap == 1)
+                        return (short)TileType.Water;
                     else
-                        return 3; //lakes & small bodies of water
-                    
-                 
+                        return 1;
+
+
+
+
+
                 case TerrainType.City:
                     //City generation goes here
                     return 4; //Placeholder
@@ -81,6 +95,11 @@ namespace Navier_Boats.Engine.Level
             //constructor unless something goes horribly wrong
             return -1; //Something dun goofed 
             
+        }
+
+        private float fRound(float f)
+        {
+            return f >= 0.9 ? 1 : 0;
         }
     }
 }

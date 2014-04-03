@@ -38,7 +38,8 @@ namespace Navier_Boats.Engine.Level
         }
 
         public const int OCTAVES = 4;
-        public const float LAC = 2.145634563f;
+        public const float GROUNDLAC = 2.145634563f;
+        public const float WATERLAC = 2.17832f;
         public const int SEED = 2; //Not Implemented
         public const int GRID = 32;
 
@@ -76,7 +77,7 @@ namespace Navier_Boats.Engine.Level
             //EntityManager.GetInstance().EntitySaveDir = Path.Combine(chunkSaveDirectory, "entityData");
             EntityManager.GetInstance().AddEntity(new Player(new Vector2(0, 0)));
 
-            terrainGen = new TerrainGenerator(OCTAVES, LAC, GRID, random.Next(), TerrainType.Country);
+            terrainGen = new TerrainGenerator(OCTAVES, GROUNDLAC, WATERLAC, GRID, random.Next());
         }
 
         public void LoadContent(ContentManager Content)
