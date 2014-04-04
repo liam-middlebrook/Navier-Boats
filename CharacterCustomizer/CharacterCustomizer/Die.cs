@@ -55,7 +55,7 @@ namespace CharacterCustomizer
             stats.Add(0);
 
             dieLoc = new Rectangle(x, y, currRoll.Width * Scale, currRoll.Height * Scale);
-            rollButtonLoc = new Rectangle(x - ConvertPixelsToScale(1), y + dieLoc.Height + ConvertPixelsToScale(10 * stats.Count), rollButton.Width * Scale, rollButton.Height * Scale);
+            rollButtonLoc = new Rectangle(x - ConvertPixelsToScale(1), y + dieLoc.Height + ConvertPixelsToScale(5), rollButton.Width * Scale, rollButton.Height * Scale);
         }
 
         /// <summary>
@@ -63,19 +63,28 @@ namespace CharacterCustomizer
         /// </summary>
         public void Roll()
         {
-            int roll = roller.Next(1, 6);
+            int roll = roller.Next(0, 6);
             currRoll = rolls[roll];
 
+            int totalStats = stats.Count * 50;
+            List<int> unsetStats = new List<int>();
             for (int i = 0; i < stats.Count; i++)
-                stats[i] = roller.Next(10, 51);
+                unsetStats.Add(i);
+            int index = 0;
+            for (int i = 0; i < stats.Count; i++)
+            {
+                index = unsetStats[roller.Next(0, unsetStats.Count)];
+                unsetStats.Remove(index);
+                stats[index] = roller.Next(1, totalStats/(stats.Count-i));
+                totalStats -= stats[index];
+            }
+            stats[index] += totalStats;
         }
 
         public void ButtonClick(int mouseX, int mouseY)
         {
             if (rollButtonLoc.Contains(mouseX, mouseY))
             {
-                rollsLeft = 5;
-                Roll();
                 rollClicked = true;
             }
         }
@@ -85,7 +94,12 @@ namespace CharacterCustomizer
         /// </summary>
         public void ButtonUnClick()
         {
-            rollClicked = false;
+            if (rollClicked)
+            {
+                rollsLeft = 5;
+                Roll();
+                rollClicked = false;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -93,8 +107,8 @@ namespace CharacterCustomizer
             spriteBatch.Draw(currRoll, dieLoc, Color.White);
             for (int i = 0; i < stats.Count; i++)
             {
-                spriteBatch.DrawString(statText, statNames[i] + ":", new Vector2(dieLoc.X, dieLoc.Y + dieLoc.Height + ConvertPixelsToScale(10 * i)), Color.Blue);
-                spriteBatch.DrawString(statText, stats[i] + "", new Vector2(dieLoc.X + ConvertPixelsToScale(30), dieLoc.Y + dieLoc.Height + ConvertPixelsToScale(10 * i)), Color.Blue);
+                spriteBatch.DrawString(statText, statNames[i] + ":", new Vector2(dieLoc.X + rollButtonLoc.Width + ConvertPixelsToScale(5), dieLoc.Y - dieLoc.Height / 4 + ConvertPixelsToScale(10 * i)), new Color(69,18,216));
+                spriteBatch.DrawString(statText, stats[i] + "", new Vector2(dieLoc.X + rollButtonLoc.Width + ConvertPixelsToScale(40), dieLoc.Y + -dieLoc.Height / 4 + ConvertPixelsToScale(10 * i)), new Color(69, 18, 216));
             }
             spriteBatch.Draw(rollButton, rollButtonLoc, rollClicked ? Color.CadetBlue : Color.White);
             if (rollsLeft > 0)

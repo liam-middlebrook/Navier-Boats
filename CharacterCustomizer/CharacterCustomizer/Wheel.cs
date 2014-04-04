@@ -34,7 +34,7 @@ namespace CharacterCustomizer
             leftDisp = 0;
             displayDisp = leftDisp + 3;
             rightDisp = displayDisp + 3;
-            optionDisp = displayDisp + 2;
+            optionDisp = displayDisp;
 
             options = new List<Texture2D>();
             int extraDisp = 0;
@@ -51,8 +51,8 @@ namespace CharacterCustomizer
             dispSize = new Rectangle(x + displayDisp, y - ConvertPixelsToScale(leftButton.Height / 4), display.Width * Scale, display.Height * Scale);
             
             currOption = options[0];
-            optionDisp = ConvertPixelsToScale(optionDisp) + extraDisp;
-            currOptSize = new Rectangle(x + optionDisp, y - ConvertPixelsToScale(leftButton.Height / 4 - 2), currOption.Width * Scale / 4, currOption.Height * Scale / 4);
+            optionDisp = ConvertPixelsToScale(optionDisp) + extraDisp + dispSize.Width / 2 - currOption.Width * Scale / 4 / 2;
+            currOptSize = new Rectangle(x + optionDisp, dispSize.Y + dispSize.Height / 2 - currOption.Height * Scale / 4 / 2, currOption.Width * Scale / 4, currOption.Height * Scale / 4);
 
             extraDisp += dispSize.Width;
 
@@ -105,8 +105,10 @@ namespace CharacterCustomizer
         /// </summary>
         public void ButtonUnClick()
         {
-            rBClicked = false;
-            lBClicked = false;
+            if(rBClicked)
+                rBClicked = false;
+            if(lBClicked)
+                lBClicked = false;
         }
 
         /// <summary>

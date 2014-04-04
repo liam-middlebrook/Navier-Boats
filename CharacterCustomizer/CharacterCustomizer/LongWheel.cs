@@ -24,8 +24,8 @@ namespace CharacterCustomizer
         {
             dispSize = new Rectangle(x + displayDisp, y - ConvertPixelsToScale(leftButton.Height / 4), (int)(display.Width * Scale * width), (int)(display.Height * Scale * height));
 
-            optionDisp += (int)(display.Width * Scale * width / 30);
-            currOptSize = new Rectangle(x + optionDisp, y + (int)(display.Height * Scale * height / 10), (int)(currOption.Width * Scale / 4 * contentScale), (int)(currOption.Height * Scale / 4 * contentScale));
+            optionDisp = (int)(displayDisp + dispSize.Width / 2 - currOption.Width * Scale / 4 * contentScale / 2);
+            currOptSize = new Rectangle(x + optionDisp, (int)(y + (dispSize.Height - currOption.Height * Scale / 3 * contentScale) / 2), (int)(currOption.Width * Scale / 4 * contentScale), (int)(currOption.Height * Scale / 4 * contentScale));
 
             rightDisp += dispSize.Width - displayDisp + ConvertPixelsToScale(3);
             rBSize = new Rectangle(x + rightDisp, y, rightButton.Width * Scale, rightButton.Height * Scale);
