@@ -7,24 +7,27 @@ using Navier_Boats.Engine.Entities;
 
 namespace Navier_Boats.Engine.Inventory
 {
-    public interface IGameItem : IInteractable
+    public interface IGameItem
     {
+        /// <summary>
+        /// Texture in the inventory
+        /// </summary>
         Texture2D InventoryTexture
         {
             get;
-            set;
         }
 
+        /// <summary>
+        /// Texture when held
+        /// </summary>
         Texture2D ItemTexture
         {
             get;
-            set;
         }
 
         int MaxStack
         {
             get;
-            set;
         }
     }
 }
