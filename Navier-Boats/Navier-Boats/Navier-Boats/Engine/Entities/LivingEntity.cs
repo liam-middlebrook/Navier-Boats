@@ -24,6 +24,8 @@ namespace Navier_Boats.Engine.Entities
 
         public double Health { get { return health; } }
 
+        public double Money { get; set; }
+
         public Inventory.Inventory Items
         {
             get;
