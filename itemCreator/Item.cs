@@ -13,6 +13,7 @@ namespace WindowsFormsApplication1
     {
         string itemName;
         string imgName;
+        string type;
         string inventoryImgName;
         string descripton;
         int maxStackValue;
@@ -23,6 +24,13 @@ namespace WindowsFormsApplication1
         {
             get { return locationFolder; }
             set { locationFolder = value; }
+        }
+
+        [JsonProperty]
+        public string Type
+        {
+            get { return type; }
+            set { type = value; }
         }
 
         [JsonProperty]
