@@ -69,10 +69,11 @@ namespace Navier_Boats.Engine.Graphics
         public void GenerateTextures(GraphicsDevice graphicsDevice)
         {
             loadedTextures[""] = new Texture2D(graphicsDevice, 1, 1);
-
+            loadedTextures[""].SetData<Color>(new[] { Color.White });
             Texture2D CompassTexture;
             Texture2D HealthTexture;
             Texture2D HUDItemBoxTexture;
+            Texture2D MoneyTexture;
 
             #region Generate_Compass_Texture
 
@@ -115,6 +116,19 @@ namespace Navier_Boats.Engine.Graphics
             #endregion
 
             loadedTextures["HealthTexture"] = HealthTexture;
+
+            #region MoneyTexture
+            MoneyTexture = new Texture2D(graphicsDevice, 5, 5, false, SurfaceFormat.Color);
+            Color[] colorMoney = new Color[25];
+            for (int i = 0; i < colorMoney.Length; i++)
+            {
+                colorMoney[i] = Color.Gold;
+            }
+            MoneyTexture.SetData(colorMoney);
+            #endregion
+
+            loadedTextures["MoneyTexture"] = MoneyTexture;
+
         }
     }
 }
