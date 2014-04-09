@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 
 namespace WindowsFormsApplication1
 {
+    [JsonObject(MemberSerialization.OptIn)]
     class Item
     {
         string itemName;
@@ -15,39 +16,47 @@ namespace WindowsFormsApplication1
         string inventoryImgName;
         string descripton;
         int maxStackValue;
-        double cost;
+        int cost;
+        string locationFolder;
+        
+        public string Folder
+        {
+            get { return locationFolder; }
+            set { locationFolder = value; }
+        }
 
+        [JsonProperty]
         public string Name
         {
             get{return itemName;}
             set{itemName = value;}
         }
-
+        [JsonProperty]
         public string Image
         {
             get { return imgName; }
             set { imgName = value; }
         }
-
+        [JsonProperty]
         public string inventoryImage
         {
             get { return inventoryImgName; }
             set { inventoryImgName = value; }
         }
-
+        [JsonProperty]
         public string Description
         {
             get { return descripton; }
             set { descripton = value; }
         }
-
+        [JsonProperty]
         public int Stack
         {
             get { return maxStackValue; }
             set { maxStackValue = value; }
         }
-
-        public double Cost
+        [JsonProperty]
+        public int Cost
         {
             get { return cost; }
             set { cost = value; }
@@ -55,7 +64,9 @@ namespace WindowsFormsApplication1
 
         public Item()
         {
-
+            locationFolder = null;
+            cost = 0;
+            maxStackValue = 64;
         }
 
         public void Save()
@@ -63,7 +74,7 @@ namespace WindowsFormsApplication1
             StreamWriter infoDump = null;
             try
             {
-                infoDump = new StreamWriter( itemName + ".itm");
+                infoDump = new StreamWriter( Folder + "/" + itemName + ".itm");
                 string output = JsonConvert.SerializeObject(this, Formatting.Indented);
 
                 infoDump.WriteLine(output);
