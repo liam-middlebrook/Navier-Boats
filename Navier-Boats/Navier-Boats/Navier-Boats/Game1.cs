@@ -75,7 +75,7 @@ namespace Navier_Boats
             graphics.PreferredBackBufferHeight = ConsoleVars.GetInstance().WindowHeight;
             graphics.ApplyChanges();
 
-            IsMouseVisible = true;
+            IsMouseVisible = false;
 
             base.Initialize();
         }
@@ -92,6 +92,10 @@ namespace Navier_Boats
             CurrentLevel.GetInstance().LoadContent(Content);
 
             TextureManager.GetInstance().GenerateTextures(GraphicsDevice);
+
+            //Load boat mouse cursor
+            TextureManager.GetInstance()["cursor"] = Content.Load<Texture2D>("cursor");
+            
             /*for (int i = 1; i < 1; i++)
             {
             entities.Add(new Wanderer(new Vector2(30*i,30*i), randy.Next(int.MaxValue)));
