@@ -46,6 +46,7 @@
             this.textureNameBox = new System.Windows.Forms.TextBox();
             this.itemNameBox = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown1)).BeginInit();
@@ -256,6 +257,7 @@
         internal System.Windows.Forms.TextBox textureNameBox;
         internal System.Windows.Forms.TextBox itemNameBox;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }
 
