@@ -167,5 +167,10 @@ namespace Navier_Boats.Game.Entities
             Vector2 mousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
             spriteBatch.Draw(TextureManager.GetInstance()["cursor"], mousePos, Color.White);
         }
+
+        public override void Interact(IInteractable interactor)
+        {
+            //not yet implemented
+        }
     }
 }
