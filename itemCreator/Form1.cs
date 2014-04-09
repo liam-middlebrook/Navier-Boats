@@ -21,12 +21,20 @@ namespace WindowsFormsApplication1
 
         private void saveInfo_Click(object sender, EventArgs e)
         {
+            folderBrowserDialog1.ShowDialog();
+
+            string folderLoc = folderBrowserDialog1.SelectedPath;
+
+            
+
             saveInfo.Enabled = false;
 
             int tempStack;
-            double tempCost;
+            int tempCost;
 
             Item newItem = new Item();
+
+            newItem.Folder = folderLoc;
 
             newItem.Name = itemNameBox.Text;
             newItem.Image = textureNameBox.Text;
@@ -36,12 +44,19 @@ namespace WindowsFormsApplication1
             int.TryParse(maxStackBox.Text, out tempStack);
             newItem.Stack = tempStack;
 
-            double.TryParse(itemCostBox.Text, out tempCost);
+            int.TryParse(itemCostBox.Text, out tempCost);
             newItem.Cost = tempCost;
 
             newItem.Save();
 
             this.Close();
         }
+
+        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+
+        }
+
+
     }
 }
