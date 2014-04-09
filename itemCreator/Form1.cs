@@ -47,6 +47,9 @@ namespace WindowsFormsApplication1
             int.TryParse(itemCostBox.Text, out tempCost);
             newItem.Cost = tempCost;
 
+            newItem.Type = domainUpDown1.Text;
+
+
             newItem.Save();
 
             this.Close();
