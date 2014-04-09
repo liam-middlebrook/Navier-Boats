@@ -78,6 +78,7 @@
     <Compile Include="Engine\Graphics\FontManager.cs" />
     <Compile Include="Engine\Graphics\IDrawableGUI.cs" />
     <Compile Include="Engine\Graphics\TextureManager.cs" />
+    <Compile Include="Engine\Inventory\CustomGameItem.cs" />
     <Compile Include="Engine\Pathfinding\Heuristics.cs" />
     <Compile Include="Engine\Pathfinding\PathException.cs" />
     <Compile Include="Engine\Pathfinding\Threading\PathJob.cs" />
