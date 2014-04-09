@@ -161,6 +161,9 @@ namespace Navier_Boats.Game.Entities
             }
             #endregion
 
+            // Draw Mouse Cursor
+            Vector2 mousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+            spriteBatch.Draw(TextureManager.GetInstance()["cursor"], mousePos, Color.White);
         }
     }
 }
