@@ -92,8 +92,9 @@ namespace Navier_Boats.Game.Entities
             spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectThree, Color.White);
             spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectFour, Color.White);
             spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectFive, Color.White);
-            spriteBatch.Draw(TextureManager.GetInstance()["HealthTexture"], new Rectangle(ConsoleVars.GetInstance().WindowWidth - 974, ConsoleVars.GetInstance().WindowHeight - 124, 200, 75), Color.Black);
-            spriteBatch.Draw(TextureManager.GetInstance()["HealthTexture"], new Rectangle(ConsoleVars.GetInstance().WindowWidth - 973, ConsoleVars.GetInstance().WindowHeight - 123, (int)(2 * Health) - 2, 73), Color.White);
+            spriteBatch.Draw(TextureManager.GetInstance()["HealthTexture"], new Rectangle(ConsoleVars.GetInstance().WindowWidth - 974, ConsoleVars.GetInstance().WindowHeight - 99, 200, 50), Color.Black);
+            spriteBatch.Draw(TextureManager.GetInstance()["HealthTexture"], new Rectangle(ConsoleVars.GetInstance().WindowWidth - 973, ConsoleVars.GetInstance().WindowHeight - 98, (int)(2 * Health) - 2, 48), Color.White);
+            spriteBatch.Draw(TextureManager.GetInstance()["MoneyTexture"], new Rectangle(ConsoleVars.GetInstance().WindowWidth - 974, ConsoleVars.GetInstance().WindowHeight - 134, 200 , 35), Color.White);
             spriteBatch.Draw(TextureManager.GetInstance()["CompassTexture"], CompassRect, Color.White);
 
             //Draw text indicating precise value of player health
@@ -103,10 +104,11 @@ namespace Navier_Boats.Game.Entities
             Vector2 fontSize = drawFont.MeasureString(string.Format("{0:00.00}", Health));
             
             //Get the position to draw the text to
-            Vector2 healthTextPos = new Vector2(ConsoleVars.GetInstance().WindowWidth - 874, ConsoleVars.GetInstance().WindowHeight - 86) - fontSize / 2;
+            Vector2 healthTextPos = new Vector2(ConsoleVars.GetInstance().WindowWidth - 874, ConsoleVars.GetInstance().WindowHeight - 76) - fontSize / 2;
             spriteBatch.DrawString(drawFont, string.Format("{0:00.00}", Health), healthTextPos, Color.White);
 
-
+            Vector2 moneyTextPos = new Vector2(ConsoleVars.GetInstance().WindowWidth - 874, ConsoleVars.GetInstance().WindowHeight - 111) - fontSize / 2;
+            spriteBatch.DrawString(drawFont, this.Money.ToString(), moneyTextPos, Color.Black);
 
             //Draw text indicating the number of items in the stack of items this appears over
             SpriteFont itemFont = FontManager.GetInstance()["Console Font"];
