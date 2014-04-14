@@ -227,11 +227,11 @@ namespace Navier_Boats.Engine.Level
         /// </summary>
         /// <param name="chunkCoords">The coordinates of the chunk in chunkspace</param>
         /// <returns>The coordinates of the chunk in worldspace</returns>
-        private Vector2 ChunkCoordsToWorldCoords(Vector2 chunkCoords)
+        private static Vector2 ChunkCoordsToWorldCoords(Vector2 chunkCoords)
         {
             return new Vector2(Chunk.TILE_WIDTH * Chunk.CHUNK_WIDTH, Chunk.TILE_HEIGHT * Chunk.CHUNK_HEIGHT) * chunkCoords;
         }
-        private Vector2 WorldCoordsToChunkCoords(Vector2 chunkCoords)
+        private static Vector2 WorldCoordsToChunkCoords(Vector2 chunkCoords)
         {
             return new Vector2(1.0f / (Chunk.TILE_WIDTH * Chunk.CHUNK_WIDTH), 1.0f / (Chunk.TILE_HEIGHT * Chunk.CHUNK_HEIGHT)) * chunkCoords;
         }
@@ -241,7 +241,7 @@ namespace Navier_Boats.Engine.Level
         /// </summary>
         /// <param name="point">The point to get the chunk coords for</param>
         /// <returns>The chunk coords of the point given.</returns>
-        private Vector2 GetEnclosingChunk(Vector2 point)
+        private static  Vector2 GetEnclosingChunk(Vector2 point)
         {
             Vector2 scaled = new Vector2((point.X / (Chunk.CHUNK_WIDTH * Chunk.TILE_WIDTH)), (point.Y / (Chunk.CHUNK_HEIGHT * Chunk.TILE_HEIGHT)));
             scaled.X = (int)Math.Floor(scaled.X);
@@ -250,18 +250,25 @@ namespace Navier_Boats.Engine.Level
         }
 
 
-        public short GetTileDataAtPoint(TileLayer tileLayer, Vector2 point)
+        public static Vector2 WorldCoordsToTileCoords(Vector2 point, out Vector2 chunkCoord)
         {
-            //Gets the chunk the point is in
-            Vector2 chunkCoord = GetEnclosingChunk(new Vector2((int)point.X, (int)point.Y));
+
+            chunkCoord = GetEnclosingChunk(new Vector2((int)point.X, (int)point.Y));
 
             Vector2 chunkWorldCoord = ChunkCoordsToWorldCoords(chunkCoord);
 
             Vector2 pointChunkOffset = (point - chunkWorldCoord) / new Vector2(Chunk.TILE_WIDTH, Chunk.TILE_HEIGHT);
 
-            pointChunkOffset.X += pointChunkOffset.X < 0 ? Chunk.CHUNK_WIDTH-1 : 0;
-            pointChunkOffset.Y += pointChunkOffset.Y < 0 ? Chunk.CHUNK_HEIGHT-1 : 0;
+            pointChunkOffset.X += pointChunkOffset.X < 0 ? Chunk.CHUNK_WIDTH - 1 : 0;
+            pointChunkOffset.Y += pointChunkOffset.Y < 0 ? Chunk.CHUNK_HEIGHT - 1 : 0;
 
+
+            return pointChunkOffset;
+        }
+        public short GetTileDataAtPoint(TileLayer tileLayer, Vector2 point)
+        {
+            Vector2 chunkCoord;
+            Vector2 pointChunkOffset = WorldCoordsToTileCoords(point, out chunkCoord);
 
             Chunk chunk = null;
             foreach (Chunk loadedChunk in LoadedChunks)
@@ -281,12 +288,19 @@ namespace Navier_Boats.Engine.Level
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            //Draw the tilemap
+            Rectangle screenWorldBounds = new Rectangle(0, 0, ConsoleVars.GetInstance().WindowWidth, ConsoleVars.GetInstance().WindowHeight);
+
+            //Console.WriteLine("MIN: " + worldViewMin);
+            //Console.WriteLine("MAX: " + worldViewMax);
             for (int y = 0; y < LoadedChunks.GetLength(0); y++)
             {
                 for (int x = 0; x < LoadedChunks.GetLength(1); x++)
                 {
-                    LoadedChunks[x, y].Draw(spriteBatch, tileTextures, Vector2.Zero, ChunkCoordsToWorldCoords(LoadedChunks[x, y].Position));
+                    Vector2 pos = Vector2.Transform(ChunkCoordsToWorldCoords(LoadedChunks[x, y].Position), Camera.TransformMatrix);
+                    if (screenWorldBounds.Intersects(new Rectangle((int)pos.X, (int)pos.Y, Chunk.CHUNK_WIDTH*Chunk.TILE_WIDTH, Chunk.CHUNK_HEIGHT*Chunk.TILE_HEIGHT)))
+                    {
+                        LoadedChunks[x, y].Draw(spriteBatch, tileTextures, ChunkCoordsToWorldCoords(LoadedChunks[x, y].Position), screenWorldBounds);
+                    }
                 }
             }
 
