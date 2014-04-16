@@ -105,7 +105,12 @@ namespace Navier_Boats.Engine.Entities
         }
 
         protected Entity(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
+            this.acceleration = (Vector2)info.GetValue("acceleration", typeof(Vector2));
+            this.velocity = (Vector2)info.GetValue("velocity", typeof(Vector2));
+            this.speed = info.GetSingle("speed");
+            this.initialSpeed = info.GetSingle("initialSpeed");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)

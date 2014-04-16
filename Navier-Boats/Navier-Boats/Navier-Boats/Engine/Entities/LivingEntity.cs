@@ -68,7 +68,10 @@ namespace Navier_Boats.Engine.Entities
         }
 
         protected LivingEntity(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
+            this.health = info.GetDouble("health");
+            this.headSprite = (Sprite)info.GetValue("headSprite", typeof(Sprite));
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
