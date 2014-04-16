@@ -150,6 +150,17 @@ namespace Navier_Boats.Engine.Graphics
         protected Sprite(SerializationInfo info, StreamingContext context)
         {
             this.texture = TextureManager.GetInstance().LoadTexture(info.GetString("texture"));
+            this.position = (Vector2)info.GetValue("position", typeof(Vector2));
+            if (info.GetBoolean("hasSourceRectangle"))
+            {
+                sourceRectangle = (Rectangle)info.GetValue("sourceRectangle", typeof(Rectangle));
+            }
+            this.tintColor = (Color)info.GetValue("tintColor", typeof(Color));
+            this.rotation = info.GetSingle("rotation");
+            this.rotationOrigin = (Vector2)info.GetValue("rotationOrigin", typeof(Vector2));
+            this.scale = (Vector2)info.GetValue("scale", typeof(Vector2));
+            this.effects = (SpriteEffects)info.GetValue("effects", typeof(SpriteEffects));
+            this.depthLayer = info.GetSingle("depthLayer");
         }
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -158,7 +169,12 @@ namespace Navier_Boats.Engine.Graphics
             info.AddValue("position", position);
             if (sourceRectangle.HasValue)
             {
+                info.AddValue("hasSourceRectangle", true);
                 info.AddValue("sourceRectangle", sourceRectangle.Value);
+            }
+            else
+            {
+                info.AddValue("hasSourceRectangle", false);
             }
             info.AddValue("tintColor", tintColor);
             info.AddValue("rotation", rotation);

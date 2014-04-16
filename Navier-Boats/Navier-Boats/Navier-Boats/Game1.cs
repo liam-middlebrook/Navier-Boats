@@ -90,10 +90,11 @@ namespace Navier_Boats
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            CurrentLevel.GetInstance().LoadContent(Content);
             TextureManager.Content = Content;
             TextureManager.GetInstance().Initialize(GraphicsDevice);
             TextureManager.GetInstance().GenerateTextures(GraphicsDevice);
+
+            CurrentLevel.GetInstance().LoadContent(Content);
 
             //Load boat mouse cursor
             TextureManager.GetInstance()["cursor"] = Content.Load<Texture2D>("cursor");
@@ -113,11 +114,6 @@ namespace Navier_Boats
             //TextureManager.GetInstance()["debugTextures/path"] = Content.Load<Texture2D>("debugTextures/path");
             TextureManager.GetInstance().LoadAllTexturesInDirectory("debugTextures");
             // TODO: use this.Content to load your game content here
-
-            Wanderer test = new Wanderer(new Vector2(0, 0));
-            test.Texture = Content.Load<Texture2D>("playerTexture");
-            test.HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
-            EntityManager.GetInstance().SaveEntities("test.ent", test);
         }
 
         /// <summary>
@@ -129,6 +125,8 @@ namespace Navier_Boats
             PathThreadPool.GetInstance().CancelAll();
             // TODO: Unload any non ContentManager content here
         }
+
+        bool didShit = false;
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -152,6 +150,15 @@ namespace Navier_Boats
             PathThreadPool.GetInstance().Update();
 
             // TODO: Add your update logic here
+
+            if (!didShit)
+            {
+                didShit = true;
+                Wanderer test = new Wanderer(new Vector2(0, 0));
+                test.Texture = TextureManager.GetInstance().LoadTexture("playerTexture");
+                test.HeadTexture = TextureManager.GetInstance().LoadTexture("playerHeadTexture");
+                EntityManager.GetInstance().SaveEntities("test.ent", test);
+            }
             
             base.Update(gameTime);
         }
