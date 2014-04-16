@@ -8,6 +8,10 @@ namespace Navier_Boats.Engine.Entities
 {
     public class HostileLivingEntity : LivingEntity
     {
+        /// <summary>
+        /// Creates a new HostileLivingEntity
+        /// </summary>
+        /// <param name="initialHealth">The initial health of the HostileLivingEntity</param>
         public HostileLivingEntity(int initialHealth)
             : base(initialHealth)
         {
@@ -15,6 +19,10 @@ namespace Navier_Boats.Engine.Entities
             headSprite.TintColor = TintColor;
         }
 
+        /// <summary>
+        /// Handles when another IInteractable interacts with this entity
+        /// </summary>
+        /// <param name="interactor">The IInteractable that interacted with this entity</param>
         public override void Interact(IInteractable interactor)
         {
             if (interactor is LivingEntity && !(interactor is HostileLivingEntity))

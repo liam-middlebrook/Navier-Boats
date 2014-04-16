@@ -12,10 +12,13 @@ namespace Navier_Boats.Engine.Graphics
         public const float FollowMultiplier = 0.25f;
 
         private static Matrix transformMatrix = new Matrix();
+        private static Matrix inverseTransformMatrix = new Matrix();
         private static Rectangle screenSize = new Rectangle(0, 0, 1024, 1024);
         private static bool followMouse = true;
 
         public static Matrix TransformMatrix { get { return transformMatrix; } }
+
+        public static Matrix InverseTransformMatrix { get { return inverseTransformMatrix; } }
 
         public static bool FollowMouse { get { return followMouse; } set { followMouse = value; } }
 
@@ -41,6 +44,7 @@ namespace Navier_Boats.Engine.Graphics
             }
 
             transformMatrix = Matrix.CreateTranslation(cameraX, cameraY, 1.0f);
+            inverseTransformMatrix = Matrix.Invert(transformMatrix);
         }
 
         public static Vector2 ConvertToScreenCoords(Vector2 coords)

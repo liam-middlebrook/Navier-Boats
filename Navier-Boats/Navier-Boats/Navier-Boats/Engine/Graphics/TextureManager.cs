@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Navier_Boats.Engine.System;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Content;
 
 namespace Navier_Boats.Engine.Graphics
 {
@@ -30,6 +33,10 @@ namespace Navier_Boats.Engine.Graphics
         }
 
         #endregion
+
+        private LoadScreen loadScreen;
+
+        public static ContentManager Content { get; set; }
 
         /// <summary>
         /// A dictionary containg the textures loaded into TextureManager
@@ -59,7 +66,16 @@ namespace Navier_Boats.Engine.Graphics
         /// </summary>
         private TextureManager()
         {
+        }
+
+        public void Initialize(GraphicsDevice graphicsDevice)
+        {
             loadedTextures = new Dictionary<string, Texture2D>();
+
+            loadedTextures[""] = new Texture2D(graphicsDevice, 1, 1);
+            loadedTextures[""].SetData<Color>(new[] { Color.White });
+
+            loadScreen = new LoadScreen(Content);
         }
 
         /// <summary>
@@ -68,11 +84,11 @@ namespace Navier_Boats.Engine.Graphics
         /// <param name="graphicsDevice">The Graphics Device to use to generate the texture with</param>
         public void GenerateTextures(GraphicsDevice graphicsDevice)
         {
-            loadedTextures[""] = new Texture2D(graphicsDevice, 1, 1);
-
+            
             Texture2D CompassTexture;
             Texture2D HealthTexture;
             Texture2D HUDItemBoxTexture;
+            Texture2D MoneyTexture;
 
             #region Generate_Compass_Texture
 
@@ -115,6 +131,28 @@ namespace Navier_Boats.Engine.Graphics
             #endregion
 
             loadedTextures["HealthTexture"] = HealthTexture;
+
+            #region MoneyTexture
+            MoneyTexture = new Texture2D(graphicsDevice, 5, 5, false, SurfaceFormat.Color);
+            Color[] colorMoney = new Color[25];
+            for (int i = 0; i < colorMoney.Length; i++)
+            {
+                colorMoney[i] = Color.Gold;
+            }
+            MoneyTexture.SetData(colorMoney);
+            #endregion
+
+            loadedTextures["MoneyTexture"] = MoneyTexture;
+
+        }
+
+        //NOT RECURSIVE
+        public void LoadAllTexturesInDirectory(string directoryLocation)
+        {
+            Task.Factory.StartNew(() =>
+                   {
+                       loadedTextures=loadedTextures.Merge(loadScreen.LoadContent<Texture2D>(directoryLocation));
+                   });
         }
     }
 }
