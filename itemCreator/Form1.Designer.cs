@@ -206,6 +206,10 @@
             this.label8.TabIndex = 34;
             this.label8.Text = "Item Name";
             // 
+            // folderBrowserDialog1
+            // 
+            this.folderBrowserDialog1.SelectedPath = "D:\\Navier-Boats\\itemCreator\\bin\\Debug";
+            // 
             // domainUpDown1
             // 
             this.domainUpDown1.Items.Add("Type One");

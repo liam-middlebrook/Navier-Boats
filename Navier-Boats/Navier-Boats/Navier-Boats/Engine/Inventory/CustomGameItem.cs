@@ -5,13 +5,21 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Entities;
 
+
 namespace Navier_Boats.Engine.Inventory
 {
+    
     public class CustomGameItem : IGameItem
     {
         private Texture2D inventoryTexture = null;
         private Texture2D itemTexture = null;
-        private int maxStack = 1;
+        private string itemName;
+        private string imgName;
+        private string inventoryImgName;
+        private string descripton;
+        private int maxStackValue;
+        private int cost;
+        
 
         public Microsoft.Xna.Framework.Graphics.Texture2D InventoryTexture
         {
@@ -29,12 +37,35 @@ namespace Navier_Boats.Engine.Inventory
             }
         }
 
+        public string Name
+        {
+            get { return itemName; }
+            set { itemName = value; }
+        }
+        public string Image
+        {
+            get { return imgName; }
+            set { imgName = value; }
+        }
+        public string inventoryImage
+        {
+            get { return inventoryImgName; }
+            set { inventoryImgName = value; }
+        }
+        public string Description
+        {
+            get { return descripton; }
+            set { descripton = value; }
+        }
         public int MaxStack
         {
-            get
-            {
-                return maxStack;
-            }
+            get { return maxStackValue; }
+            set { maxStackValue = value; }
+        }
+        public int Cost
+        {
+            get { return cost; }
+            set { cost = value; }
         }
     }
 }
