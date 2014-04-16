@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
-using System.Runtime.Serialization.Formatters.Soap;
+using System.Runtime.Serialization.Formatters.Binary;
 using Navier_Boats.Engine.Level;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -65,16 +65,29 @@ namespace Navier_Boats.Engine.Entities
 
         public void SaveEntities(string file, params Entity[] ents)
         {
-            IFormatter formatter = new SoapFormatter();
+            IFormatter formatter = new BinaryFormatter();
             using (Stream stream = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 formatter.Serialize(stream, ents);
             }
         }
 
-        public void LoadEntities(string file)
+        public Entity[] LoadEntities(string file)
         {
-            throw new NotImplementedException();
+            IFormatter formatter = new BinaryFormatter();
+            Entity[] ents = null;
+
+            using (Stream stream = new FileStream(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+            {
+                ents = (Entity[])formatter.Deserialize(stream);
+            }
+
+            foreach (Entity ent in ents)
+            {
+                this.AddEntity(ent);
+            }
+
+            return ents;
         }
 
         /// <summary>
