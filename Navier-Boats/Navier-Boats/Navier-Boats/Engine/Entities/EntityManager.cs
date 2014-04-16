@@ -66,7 +66,7 @@ namespace Navier_Boats.Engine.Entities
         public void SaveEntities(string file, params Entity[] ents)
         {
             IFormatter formatter = new SoapFormatter();
-            using (Stream stream = new FileStream(file, FileMode.Open, FileAccess.Write, FileShare.None))
+            using (Stream stream = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 formatter.Serialize(stream, ents);
             }

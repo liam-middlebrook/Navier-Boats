@@ -19,7 +19,6 @@ namespace Navier_Boats.Engine.Graphics
         /// <summary>
         /// The Texture of the Sprite to draw to the screen
         /// </summary>
-        [NonSerialized]
         private Texture2D texture;
 
         /// <summary>
@@ -150,12 +149,23 @@ namespace Navier_Boats.Engine.Graphics
 
         protected Sprite(SerializationInfo info, StreamingContext context)
         {
-            //texture = TextureManager.GetInstance().
+            this.texture = TextureManager.GetInstance().LoadTexture(info.GetString("texture"));
         }
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("texture", texture.Name);
+            info.AddValue("position", position);
+            if (sourceRectangle.HasValue)
+            {
+                info.AddValue("sourceRectangle", sourceRectangle.Value);
+            }
+            info.AddValue("tintColor", tintColor);
+            info.AddValue("rotation", rotation);
+            info.AddValue("rotationOrigin", rotationOrigin);
+            info.AddValue("scale", scale);
+            info.AddValue("effects", effects);
+            info.AddValue("depthLayer", depthLayer);
         }
 
         /// <summary>
