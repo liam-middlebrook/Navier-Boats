@@ -90,7 +90,8 @@ namespace Navier_Boats
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             CurrentLevel.GetInstance().LoadContent(Content);
-
+            TextureManager.Content = Content;
+            TextureManager.GetInstance().Initialize(GraphicsDevice);
             TextureManager.GetInstance().GenerateTextures(GraphicsDevice);
 
             //Load boat mouse cursor
@@ -106,8 +107,8 @@ namespace Navier_Boats
 
             ConsoleWindow.GetInstance().ConsoleFont = Content.Load<SpriteFont>("consolas");
 
-            pathSquare = Content.Load<Texture2D>("debugTextures/path");
-
+            //TextureManager.GetInstance()["debugTextures/path"] = Content.Load<Texture2D>("debugTextures/path");
+            TextureManager.GetInstance().LoadAllTexturesInDirectory("debugTextures");
             // TODO: use this.Content to load your game content here
         }
 
@@ -159,7 +160,7 @@ namespace Navier_Boats
 
             CurrentLevel.GetInstance().Draw(spriteBatch);
 
-            PathThreadPool.GetInstance().Draw(spriteBatch, pathSquare);
+            PathThreadPool.GetInstance().Draw(spriteBatch, TextureManager.GetInstance()["debugTextures/path"]);
 
             spriteBatch.End();
             spriteBatch.Begin();

@@ -47,6 +47,8 @@
             this.itemNameBox = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.domainUpDown1 = new System.Windows.Forms.DomainUpDown();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown1)).BeginInit();
@@ -55,7 +57,7 @@
             // Label7
             // 
             this.Label7.AutoSize = true;
-            this.Label7.Location = new System.Drawing.Point(9, 174);
+            this.Label7.Location = new System.Drawing.Point(11, 217);
             this.Label7.Name = "Label7";
             this.Label7.Size = new System.Drawing.Size(97, 13);
             this.Label7.TabIndex = 33;
@@ -64,7 +66,7 @@
             // Label6
             // 
             this.Label6.AutoSize = true;
-            this.Label6.Location = new System.Drawing.Point(155, 180);
+            this.Label6.Location = new System.Drawing.Point(157, 223);
             this.Label6.Name = "Label6";
             this.Label6.Size = new System.Drawing.Size(60, 13);
             this.Label6.TabIndex = 32;
@@ -73,7 +75,7 @@
             // Label5
             // 
             this.Label5.AutoSize = true;
-            this.Label5.Location = new System.Drawing.Point(157, 129);
+            this.Label5.Location = new System.Drawing.Point(159, 172);
             this.Label5.Name = "Label5";
             this.Label5.Size = new System.Drawing.Size(58, 13);
             this.Label5.TabIndex = 31;
@@ -82,7 +84,7 @@
             // Label4
             // 
             this.Label4.AutoSize = true;
-            this.Label4.Location = new System.Drawing.Point(235, 129);
+            this.Label4.Location = new System.Drawing.Point(237, 172);
             this.Label4.Name = "Label4";
             this.Label4.Size = new System.Drawing.Size(28, 13);
             this.Label4.TabIndex = 30;
@@ -117,28 +119,28 @@
             // 
             // NumericUpDown3
             // 
-            this.NumericUpDown3.Location = new System.Drawing.Point(12, 242);
+            this.NumericUpDown3.Location = new System.Drawing.Point(14, 285);
             this.NumericUpDown3.Name = "NumericUpDown3";
             this.NumericUpDown3.Size = new System.Drawing.Size(46, 20);
             this.NumericUpDown3.TabIndex = 26;
             // 
             // NumericUpDown2
             // 
-            this.NumericUpDown2.Location = new System.Drawing.Point(12, 190);
+            this.NumericUpDown2.Location = new System.Drawing.Point(14, 233);
             this.NumericUpDown2.Name = "NumericUpDown2";
             this.NumericUpDown2.Size = new System.Drawing.Size(46, 20);
             this.NumericUpDown2.TabIndex = 25;
             // 
             // NumericUpDown1
             // 
-            this.NumericUpDown1.Location = new System.Drawing.Point(12, 216);
+            this.NumericUpDown1.Location = new System.Drawing.Point(14, 259);
             this.NumericUpDown1.Name = "NumericUpDown1";
             this.NumericUpDown1.Size = new System.Drawing.Size(46, 20);
             this.NumericUpDown1.TabIndex = 24;
             // 
             // itemDescriptionBox
             // 
-            this.itemDescriptionBox.Location = new System.Drawing.Point(89, 196);
+            this.itemDescriptionBox.Location = new System.Drawing.Point(91, 239);
             this.itemDescriptionBox.Multiline = true;
             this.itemDescriptionBox.Name = "itemDescriptionBox";
             this.itemDescriptionBox.Size = new System.Drawing.Size(185, 66);
@@ -147,7 +149,7 @@
             // 
             // saveInfo
             // 
-            this.saveInfo.Location = new System.Drawing.Point(12, 289);
+            this.saveInfo.Location = new System.Drawing.Point(14, 332);
             this.saveInfo.Name = "saveInfo";
             this.saveInfo.Size = new System.Drawing.Size(260, 23);
             this.saveInfo.TabIndex = 22;
@@ -157,7 +159,7 @@
             // 
             // itemCostBox
             // 
-            this.itemCostBox.Location = new System.Drawing.Point(229, 145);
+            this.itemCostBox.Location = new System.Drawing.Point(231, 188);
             this.itemCostBox.Name = "itemCostBox";
             this.itemCostBox.Size = new System.Drawing.Size(43, 20);
             this.itemCostBox.TabIndex = 21;
@@ -165,7 +167,7 @@
             // 
             // maxStackBox
             // 
-            this.maxStackBox.Location = new System.Drawing.Point(164, 145);
+            this.maxStackBox.Location = new System.Drawing.Point(166, 188);
             this.maxStackBox.Name = "maxStackBox";
             this.maxStackBox.Size = new System.Drawing.Size(43, 20);
             this.maxStackBox.TabIndex = 20;
@@ -204,11 +206,34 @@
             this.label8.TabIndex = 34;
             this.label8.Text = "Item Name";
             // 
+            // domainUpDown1
+            // 
+            this.domainUpDown1.Items.Add("Type One");
+            this.domainUpDown1.Items.Add("Type Two");
+            this.domainUpDown1.Items.Add("Type Three");
+            this.domainUpDown1.Items.Add("Type Four");
+            this.domainUpDown1.Location = new System.Drawing.Point(166, 138);
+            this.domainUpDown1.Name = "domainUpDown1";
+            this.domainUpDown1.Size = new System.Drawing.Size(108, 20);
+            this.domainUpDown1.TabIndex = 36;
+            this.domainUpDown1.Text = "domainUpDown1";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(90, 140);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(54, 13);
+            this.label9.TabIndex = 37;
+            this.label9.Text = "Item Type";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 328);
+            this.ClientSize = new System.Drawing.Size(284, 384);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.domainUpDown1);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.Label7);
             this.Controls.Add(this.Label6);
@@ -258,6 +283,8 @@
         internal System.Windows.Forms.TextBox itemNameBox;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.DomainUpDown domainUpDown1;
+        internal System.Windows.Forms.Label label9;
     }
 }
 
