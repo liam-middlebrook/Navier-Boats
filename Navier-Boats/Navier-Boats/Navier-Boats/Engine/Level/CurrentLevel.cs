@@ -299,7 +299,7 @@ namespace Navier_Boats.Engine.Level
                     Vector2 pos = Vector2.Transform(ChunkCoordsToWorldCoords(LoadedChunks[x, y].Position), Camera.TransformMatrix);
                     if (screenWorldBounds.Intersects(new Rectangle((int)pos.X, (int)pos.Y, Chunk.CHUNK_WIDTH*Chunk.TILE_WIDTH, Chunk.CHUNK_HEIGHT*Chunk.TILE_HEIGHT)))
                     {
-                        LoadedChunks[x, y].Draw(spriteBatch, tileTextures, ChunkCoordsToWorldCoords(LoadedChunks[x, y].Position), screenWorldBounds);
+                        LoadedChunks[x, y].Draw(spriteBatch, tileTextures, Vector2.Zero, ChunkCoordsToWorldCoords(LoadedChunks[x, y].Position));
                     }
                 }
             }
