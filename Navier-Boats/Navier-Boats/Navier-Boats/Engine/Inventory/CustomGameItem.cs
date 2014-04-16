@@ -36,5 +36,11 @@ namespace Navier_Boats.Engine.Inventory
                 return maxStack;
             }
         }
+
+        public int Cost
+        {
+            get;
+            set;
+        }
     }
 }
