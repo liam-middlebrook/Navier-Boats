@@ -29,5 +29,11 @@ namespace Navier_Boats.Engine.Inventory
         {
             get;
         }
+
+        int Cost
+        {
+            get;
+            set;
+        }
     }
 }

@@ -140,5 +140,12 @@ namespace Navier_Boats.Engine.Entities
             acceleration = Vector2.Zero;
             velocity *= 0.9975f;
         }
+
+        /// <summary>
+        /// Called when the entity is in a chunk that is being unloaded.
+        /// </summary>
+        public virtual void Unload()
+        {
+        }
     }
 }
