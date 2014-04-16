@@ -115,6 +115,8 @@ namespace Navier_Boats
             // TODO: use this.Content to load your game content here
 
             Wanderer test = new Wanderer(new Vector2(0, 0));
+            test.Texture = Content.Load<Texture2D>("playerTexture");
+            test.HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
             EntityManager.GetInstance().SaveEntities("test.ent", test);
         }
 
