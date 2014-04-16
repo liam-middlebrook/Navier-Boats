@@ -82,8 +82,8 @@ namespace Navier_Boats.Engine.Level
 
         public void LoadContent(ContentManager Content)
         {
-            EntityManager.GetInstance().Player.Texture = Content.Load<Texture2D>("playerTexture");
-            EntityManager.GetInstance().Player.HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
+            EntityManager.GetInstance().Player.Texture = TextureManager.GetInstance().LoadTexture("playerTexture");
+            EntityManager.GetInstance().Player.HeadTexture = TextureManager.GetInstance().LoadTexture("playerHeadTexture");
 
             ConsoleWindow.GetInstance().AddCommand(
                 new ConsoleCommand(
@@ -93,8 +93,8 @@ namespace Navier_Boats.Engine.Level
                     {
                         Wanderer wanderer;
                         wanderer = new Wanderer(new Vector2(0, 0));
-                        wanderer.Texture = Content.Load<Texture2D>("playerTexture");
-                        wanderer.HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
+                        wanderer.Texture = TextureManager.GetInstance().LoadTexture("playerTexture");
+                        wanderer.HeadTexture = TextureManager.GetInstance().LoadTexture("playerHeadTexture");
                         EntityManager.GetInstance().AddEntity(wanderer);
                         return 0;
                     }));
