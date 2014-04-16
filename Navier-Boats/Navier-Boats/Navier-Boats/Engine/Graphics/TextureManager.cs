@@ -161,6 +161,10 @@ namespace Navier_Boats.Engine.Graphics
 
         public Texture2D LoadTexture(string location)
         {
+            if (loadedTextures.ContainsKey(location))
+            {
+                return loadedTextures[location];
+            }
             return this[location] = Content.Load<Texture2D>(location);
         }
     }
