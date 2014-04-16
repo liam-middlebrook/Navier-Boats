@@ -60,6 +60,11 @@ namespace Navier_Boats.Engine.Entities
             entities.Add(e);
         }
 
+        public void SaveEntities(string file, params Entity[] ents)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Updates all of the entities loaded into EntityManager
         /// </summary>
