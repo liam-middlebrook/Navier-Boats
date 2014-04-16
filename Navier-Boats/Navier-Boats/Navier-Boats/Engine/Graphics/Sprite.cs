@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,7 +11,8 @@ namespace Navier_Boats.Engine.Graphics
     /// <summary>
     /// A Sprite That Will Be Drawn to the Screen
     /// </summary>
-    public class Sprite
+    [Serializable]
+    public class Sprite : ISerializable
     {
         #region Fields
 
@@ -143,6 +145,27 @@ namespace Navier_Boats.Engine.Graphics
             this.effects = SpriteEffects.None;
 
             this.depthLayer = 0.0f;
+        }
+
+        protected Sprite(SerializationInfo info, StreamingContext context)
+        {
+            this.texture = TextureManager.GetInstance().LoadTexture(info.GetString("texture"));
+        }
+
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("texture", texture.Name);
+            info.AddValue("position", position);
+            if (sourceRectangle.HasValue)
+            {
+                info.AddValue("sourceRectangle", sourceRectangle.Value);
+            }
+            info.AddValue("tintColor", tintColor);
+            info.AddValue("rotation", rotation);
+            info.AddValue("rotationOrigin", rotationOrigin);
+            info.AddValue("scale", scale);
+            info.AddValue("effects", effects);
+            info.AddValue("depthLayer", depthLayer);
         }
 
         /// <summary>

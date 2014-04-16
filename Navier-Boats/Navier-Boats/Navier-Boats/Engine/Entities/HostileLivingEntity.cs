@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Navier_Boats.Engine.Entities
 {
+    [Serializable]
     public class HostileLivingEntity : LivingEntity
     {
         /// <summary>
