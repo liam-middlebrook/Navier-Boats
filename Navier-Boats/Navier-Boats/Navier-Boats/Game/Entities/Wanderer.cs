@@ -17,6 +17,7 @@ namespace Navier_Boats.Game.Entities
 
         private enum AIState
         {
+            None,
             Wandering,
             SubmitPathing,
             Pathing,
@@ -236,6 +237,17 @@ namespace Navier_Boats.Game.Entities
             headSprite.Rotation = Rotation;
 
             base.Update(gameTime);
+        }
+
+        public override void Unload()
+        {
+            base.Unload();
+
+            this.currentState = AIState.None;
+            if (currentJob != null)
+            {
+                currentJob.Cancelled = true;
+            }
         }
     }
 }
