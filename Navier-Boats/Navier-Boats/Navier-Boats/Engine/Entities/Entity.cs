@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 using Microsoft.Xna.Framework;
 using Navier_Boats.Engine.Graphics;
 using Navier_Boats.Engine.Level;
 
 namespace Navier_Boats.Engine.Entities
 {
+    [Serializable]
     public abstract class Entity : Sprite
     {
         #region FIELDS
@@ -100,6 +102,19 @@ namespace Navier_Boats.Engine.Entities
         {
             velocity = Vector2.Zero;
             speed = initialSpeed;
+        }
+
+        protected Entity(SerializationInfo info, StreamingContext context)
+        {
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("acceleration", acceleration);
+            info.AddValue("velocity", velocity);
+            info.AddValue("speed", speed);
+            info.AddValue("initialSpeed", initialSpeed);
         }
 
         /// <summary>
