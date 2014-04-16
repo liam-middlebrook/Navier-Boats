@@ -8,6 +8,7 @@ using Navier_Boats.Engine.Level;
 
 namespace Navier_Boats.Engine.Entities
 {
+    [Serializable]
     public abstract class Entity : Sprite
     {
         #region FIELDS
