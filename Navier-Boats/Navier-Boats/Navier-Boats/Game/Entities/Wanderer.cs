@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 
 namespace Navier_Boats.Game.Entities
 {
+    [Serializable]
     public class Wanderer : HostileLivingEntity
     {
         private static Pathfinder.Heuristic Heuristic = Heuristics.ResistanceRandomness(-0.1, 0.1, Heuristics.Distance);
@@ -25,18 +26,25 @@ namespace Navier_Boats.Game.Entities
             Attacking
         }
 
+        [NonSerialized]
         private double timeUntilNewAccel = 0f;
 
+        [NonSerialized]
         private double timeUntilNextPath = 1f;
 
+        [NonSerialized]
         private AIState currentState = AIState.Wandering;
 
+        [NonSerialized]
         private PathResult path = null;
-
+        
+        [NonSerialized]
         private PathJob currentJob = null;
 
+        [NonSerialized]
         private int currentNodeIndex = 0;
 
+        [NonSerialized]
         private bool canSubmit = false;
 
         public Wanderer(Vector2 position)

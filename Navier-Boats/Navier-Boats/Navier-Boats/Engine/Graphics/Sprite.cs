@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,13 +11,15 @@ namespace Navier_Boats.Engine.Graphics
     /// <summary>
     /// A Sprite That Will Be Drawn to the Screen
     /// </summary>
-    public class Sprite
+    [Serializable]
+    public class Sprite : ISerializable
     {
         #region Fields
 
         /// <summary>
         /// The Texture of the Sprite to draw to the screen
         /// </summary>
+        [NonSerialized]
         private Texture2D texture;
 
         /// <summary>
@@ -143,6 +146,16 @@ namespace Navier_Boats.Engine.Graphics
             this.effects = SpriteEffects.None;
 
             this.depthLayer = 0.0f;
+        }
+
+        protected Sprite(SerializationInfo info, StreamingContext context)
+        {
+            //texture = TextureManager.GetInstance().
+        }
+
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("texture", texture.Name);
         }
 
         /// <summary>
