@@ -58,7 +58,11 @@ namespace Navier_Boats.Engine.Graphics
                 }
                 return loadedTextures[""];
             }
-            set { loadedTextures[index] = value; }
+            set
+            {
+                loadedTextures[index] = value;
+                loadedTextures[index].Name = index;
+            }
         }
 
         /// <summary>
@@ -153,6 +157,11 @@ namespace Navier_Boats.Engine.Graphics
                    {
                        loadedTextures=loadedTextures.Merge(loadScreen.LoadContent<Texture2D>(directoryLocation));
                    });
+        }
+
+        public void LoadTexture(string location)
+        {
+            this[location] = Content.Load<Texture2D>(location);
         }
     }
 }
