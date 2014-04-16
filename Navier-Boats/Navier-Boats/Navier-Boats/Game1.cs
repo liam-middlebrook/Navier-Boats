@@ -126,8 +126,6 @@ namespace Navier_Boats
             // TODO: Unload any non ContentManager content here
         }
 
-        bool didShit = false;
-
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -150,15 +148,6 @@ namespace Navier_Boats
             PathThreadPool.GetInstance().Update();
 
             // TODO: Add your update logic here
-
-            if (!didShit)
-            {
-                didShit = true;
-                Wanderer test = new Wanderer(new Vector2(0, 0));
-                test.Texture = TextureManager.GetInstance().LoadTexture("playerTexture");
-                test.HeadTexture = TextureManager.GetInstance().LoadTexture("playerHeadTexture");
-                EntityManager.GetInstance().SaveEntities("test.ent", test);
-            }
             
             base.Update(gameTime);
         }

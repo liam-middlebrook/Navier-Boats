@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 using Microsoft.Xna.Framework;
 
 namespace Navier_Boats.Engine.Entities
@@ -18,6 +19,11 @@ namespace Navier_Boats.Engine.Entities
         {
             TintColor = Color.Red;
             headSprite.TintColor = TintColor;
+        }
+
+        protected HostileLivingEntity(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
         }
 
         /// <summary>
