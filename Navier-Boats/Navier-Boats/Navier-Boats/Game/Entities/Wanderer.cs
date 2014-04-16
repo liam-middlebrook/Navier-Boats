@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 using Navier_Boats.Engine.Entities;
 using Navier_Boats.Engine.Level;
 using Navier_Boats.Engine.Pathfinding;
@@ -45,6 +46,11 @@ namespace Navier_Boats.Game.Entities
         {
             Position = position;
             initialSpeed = 50;
+        }
+
+        protected Wanderer(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
         }
 
         public override void Update(GameTime gameTime)
