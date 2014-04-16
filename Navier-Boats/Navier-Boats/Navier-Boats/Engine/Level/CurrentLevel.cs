@@ -82,8 +82,8 @@ namespace Navier_Boats.Engine.Level
 
         public void LoadContent(ContentManager Content)
         {
-            EntityManager.GetInstance().Player.Texture = Content.Load<Texture2D>("playerTexture");
-            EntityManager.GetInstance().Player.HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
+            EntityManager.GetInstance().Player.Texture = TextureManager.GetInstance().LoadTexture("playerTexture");
+            EntityManager.GetInstance().Player.HeadTexture = TextureManager.GetInstance().LoadTexture("playerHeadTexture");
 
             ConsoleWindow.GetInstance().AddCommand(
                 new ConsoleCommand(
@@ -93,8 +93,8 @@ namespace Navier_Boats.Engine.Level
                     {
                         Wanderer wanderer;
                         wanderer = new Wanderer(new Vector2(0, 0));
-                        wanderer.Texture = Content.Load<Texture2D>("playerTexture");
-                        wanderer.HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
+                        wanderer.Texture = TextureManager.GetInstance().LoadTexture("playerTexture");
+                        wanderer.HeadTexture = TextureManager.GetInstance().LoadTexture("playerHeadTexture");
                         EntityManager.GetInstance().AddEntity(wanderer);
                         return 0;
                     }));
@@ -299,7 +299,7 @@ namespace Navier_Boats.Engine.Level
                     Vector2 pos = Vector2.Transform(ChunkCoordsToWorldCoords(LoadedChunks[x, y].Position), Camera.TransformMatrix);
                     if (screenWorldBounds.Intersects(new Rectangle((int)pos.X, (int)pos.Y, Chunk.CHUNK_WIDTH*Chunk.TILE_WIDTH, Chunk.CHUNK_HEIGHT*Chunk.TILE_HEIGHT)))
                     {
-                        LoadedChunks[x, y].Draw(spriteBatch, tileTextures, ChunkCoordsToWorldCoords(LoadedChunks[x, y].Position), screenWorldBounds);
+                        LoadedChunks[x, y].Draw(spriteBatch, tileTextures, Vector2.Zero, ChunkCoordsToWorldCoords(LoadedChunks[x, y].Position));
                     }
                 }
             }

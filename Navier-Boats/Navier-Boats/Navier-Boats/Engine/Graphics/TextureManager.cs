@@ -58,7 +58,11 @@ namespace Navier_Boats.Engine.Graphics
                 }
                 return loadedTextures[""];
             }
-            set { loadedTextures[index] = value; }
+            set
+            {
+                loadedTextures[index] = value;
+                loadedTextures[index].Name = index;
+            }
         }
 
         /// <summary>
@@ -153,6 +157,15 @@ namespace Navier_Boats.Engine.Graphics
                    {
                        loadedTextures=loadedTextures.Merge(loadScreen.LoadContent<Texture2D>(directoryLocation));
                    });
+        }
+
+        public Texture2D LoadTexture(string location)
+        {
+            if (loadedTextures.ContainsKey(location))
+            {
+                return loadedTextures[location];
+            }
+            return this[location] = Content.Load<Texture2D>(location);
         }
     }
 }

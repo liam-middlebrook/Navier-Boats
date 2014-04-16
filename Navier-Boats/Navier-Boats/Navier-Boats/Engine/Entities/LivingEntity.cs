@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Graphics;
 
 namespace Navier_Boats.Engine.Entities
 {
+    [Serializable]
     public abstract class LivingEntity : Entity, IInteractable
     {
         #region Fields
@@ -63,6 +65,17 @@ namespace Navier_Boats.Engine.Entities
             headSprite = new Sprite();
             health = initialHealth;
             this.Items = new Inventory.Inventory(inventorySize);
+        }
+
+        protected LivingEntity(SerializationInfo info, StreamingContext context)
+        {
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("health", health);
+            info.AddValue("headSprite", headSprite);
         }
 
         #region Methods
