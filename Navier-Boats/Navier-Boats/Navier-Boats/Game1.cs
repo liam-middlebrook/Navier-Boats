@@ -14,6 +14,7 @@ using Navier_Boats.Engine.Entities;
 using Navier_Boats.Engine.Level;
 using Navier_Boats.Engine.Graphics;
 using Navier_Boats.Engine.System;
+using Navier_Boats.Engine.Inventory;
 
 // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
 using Navier_Boats.Engine.Pathfinding;
@@ -106,6 +107,8 @@ namespace Navier_Boats
             }//*/
 
             ConsoleWindow.GetInstance().ConsoleFont = Content.Load<SpriteFont>("consolas");
+
+            ItemManager.GetInstance().LoadItems();
 
             //TextureManager.GetInstance()["debugTextures/path"] = Content.Load<Texture2D>("debugTextures/path");
             TextureManager.GetInstance().LoadAllTexturesInDirectory("debugTextures");
