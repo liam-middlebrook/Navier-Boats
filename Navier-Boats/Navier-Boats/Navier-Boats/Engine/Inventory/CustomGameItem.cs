@@ -19,7 +19,7 @@ namespace Navier_Boats.Engine.Inventory
         private string descripton;
         private int maxStackValue;
         private int cost;
-        
+        private string type;
 
         public Microsoft.Xna.Framework.Graphics.Texture2D InventoryTexture
         {
@@ -67,11 +67,9 @@ namespace Navier_Boats.Engine.Inventory
             get { return cost; }
             set { cost = value; }
         }
-
-        public int Cost
+        public string Type
         {
-            get;
-            set;
+            get { return type;}
         }
     }
 }

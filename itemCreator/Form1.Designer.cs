@@ -47,7 +47,7 @@
             this.itemNameBox = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.domainUpDown1 = new System.Windows.Forms.DomainUpDown();
+            this.DomainUpDown1 = new System.Windows.Forms.DomainUpDown();
             this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown2)).BeginInit();
@@ -208,19 +208,20 @@
             // 
             // folderBrowserDialog1
             // 
-            this.folderBrowserDialog1.SelectedPath = "D:\\Navier-Boats\\itemCreator\\bin\\Debug";
+            this.folderBrowserDialog1.SelectedPath = "./../../../Navier-Boats/Navier-Boats/Navier-Boats/bin/x86/Debug/Content/Items";
             // 
-            // domainUpDown1
+            // DomainUpDown1
             // 
-            this.domainUpDown1.Items.Add("Type One");
-            this.domainUpDown1.Items.Add("Type Two");
-            this.domainUpDown1.Items.Add("Type Three");
-            this.domainUpDown1.Items.Add("Type Four");
-            this.domainUpDown1.Location = new System.Drawing.Point(166, 138);
-            this.domainUpDown1.Name = "domainUpDown1";
-            this.domainUpDown1.Size = new System.Drawing.Size(108, 20);
-            this.domainUpDown1.TabIndex = 36;
-            this.domainUpDown1.Text = "domainUpDown1";
+            this.DomainUpDown1.Items.Add("Weapon");
+            this.DomainUpDown1.Items.Add("Type Two");
+            this.DomainUpDown1.Items.Add("Type Three");
+            this.DomainUpDown1.Items.Add("Type Four");
+            this.DomainUpDown1.Location = new System.Drawing.Point(166, 138);
+            this.DomainUpDown1.Name = "DomainUpDown1";
+            this.DomainUpDown1.ReadOnly = true;
+            this.DomainUpDown1.Size = new System.Drawing.Size(108, 20);
+            this.DomainUpDown1.TabIndex = 36;
+            this.DomainUpDown1.Wrap = true;
             // 
             // label9
             // 
@@ -237,7 +238,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 384);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.domainUpDown1);
+            this.Controls.Add(this.DomainUpDown1);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.Label7);
             this.Controls.Add(this.Label6);
@@ -287,7 +288,7 @@
         internal System.Windows.Forms.TextBox itemNameBox;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.Windows.Forms.DomainUpDown domainUpDown1;
+        private System.Windows.Forms.DomainUpDown DomainUpDown1;
         internal System.Windows.Forms.Label label9;
     }
 }
