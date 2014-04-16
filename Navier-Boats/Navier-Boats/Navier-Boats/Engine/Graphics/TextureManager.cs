@@ -159,9 +159,9 @@ namespace Navier_Boats.Engine.Graphics
                    });
         }
 
-        public void LoadTexture(string location)
+        public Texture2D LoadTexture(string location)
         {
-            this[location] = Content.Load<Texture2D>(location);
+            return this[location] = Content.Load<Texture2D>(location);
         }
     }
 }
