@@ -90,11 +90,11 @@ namespace Navier_Boats
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            CurrentLevel.GetInstance().LoadContent(Content);
             TextureManager.Content = Content;
             TextureManager.GetInstance().Initialize(GraphicsDevice);
             TextureManager.GetInstance().GenerateTextures(GraphicsDevice);
 
+            CurrentLevel.GetInstance().LoadContent(Content);
             //Load boat mouse cursor
             TextureManager.GetInstance()["cursor"] = Content.Load<Texture2D>("cursor");
             

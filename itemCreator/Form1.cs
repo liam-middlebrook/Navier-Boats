@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace WindowsFormsApplication1
 {
@@ -21,6 +22,7 @@ namespace WindowsFormsApplication1
 
         private void saveInfo_Click(object sender, EventArgs e)
         {
+            folderBrowserDialog1.SelectedPath = new DirectoryInfo(folderBrowserDialog1.SelectedPath).FullName;
             folderBrowserDialog1.ShowDialog();
 
             string folderLoc = folderBrowserDialog1.SelectedPath;
@@ -47,7 +49,7 @@ namespace WindowsFormsApplication1
             int.TryParse(itemCostBox.Text, out tempCost);
             newItem.Cost = tempCost;
 
-            newItem.Type = domainUpDown1.Text;
+            newItem.Type = DomainUpDown1.Text;
 
 
             newItem.Save();
