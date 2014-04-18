@@ -6,13 +6,14 @@ using System.IO;
 using Newtonsoft.Json;
 using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Entities;
-using Navier_Boats.Game.Inventory;
 
 namespace Navier_Boats.Engine.Inventory
 {
     public class ItemManager
     {
         private static ItemManager instance = new ItemManager();
+
+        private List<IGameItem> items = new List<IGameItem>();
 
         public static ItemManager GetInstance()
         {
@@ -42,12 +43,8 @@ namespace Navier_Boats.Engine.Inventory
                 StreamReader reader = new StreamReader(file);
                 output = reader.ReadToEnd();
                 
-                CustomGameItem temp = JsonConvert.DeserializeObject<CustomGameItem>(output);
-                if (temp.Type == "Weapon")
-                {
-                    WeaponFactory Factory = new WeaponFactory();
-                    Factory.CreateItem();
-                }
+                CustomGameItem item = JsonConvert.DeserializeObject<CustomGameItem>(output);
+                items.Add(item);
             }
         }
     }
