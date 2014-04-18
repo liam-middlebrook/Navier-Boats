@@ -43,6 +43,7 @@ namespace Navier_Boats.Engine.Inventory
                 StreamReader reader = new StreamReader(file);
                 output = reader.ReadToEnd();
                 
+                // SEAN: no longer using item factories. just store the item itself.
                 CustomGameItem item = JsonConvert.DeserializeObject<CustomGameItem>(output);
                 items.Add(item);
             }
