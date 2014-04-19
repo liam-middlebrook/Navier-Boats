@@ -30,7 +30,7 @@ namespace Navier_Boats.Engine.Level
         private float waterLacuniarity;
         private int octaves;
         private int gridWidth;
-        ColorConverter colorConv;
+        
 
 
         /// <summary>
@@ -48,7 +48,6 @@ namespace Navier_Boats.Engine.Level
             this.waterLacuniarity = wLac;
             this.gridWidth = grid;
             perlinGen = new PerlinGenerator(seed);
-            colorConv = new ColorConverter();
         }
 
         /// <summary>
