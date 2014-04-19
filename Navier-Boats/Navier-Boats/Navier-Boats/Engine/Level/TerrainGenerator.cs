@@ -4,22 +4,6 @@ using Microsoft.Xna.Framework.Design;
 
 namespace Navier_Boats.Engine.Level
 {
-    public enum TileType
-    {
-        Road = 0,
-        Grass = 1,
-        Sand = 2,
-        Water = 3,
-        City = 4,
-    }
-
-
-    public enum TerrainType
-    {
-        Country, //For lack of a better term
-        City,
-    }
-
     /// <summary>
     /// Handles the data that will be passed to the Perlin functions as well as the type of generation (Countryside vs. City)
     /// </summary>
