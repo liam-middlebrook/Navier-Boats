@@ -8,13 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Navier_Boats.Engine.Level
 {
-    public enum TileLayer
-    {
-        GROUND_LAYER,
-        ROAD_LAYER,
-        OVER_LAYER,
-        COLLISION_LAYER
-    }
+    
     public class Chunk
     {
         public const int CHUNK_WIDTH = 48;
