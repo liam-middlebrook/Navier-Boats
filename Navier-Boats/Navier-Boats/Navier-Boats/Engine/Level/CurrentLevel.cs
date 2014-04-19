@@ -41,7 +41,7 @@ namespace Navier_Boats.Engine.Level
         public const float GROUNDLAC = 2.145634563f;
         public const float WATERLAC = 2.17832f;
         public const int SEED = 2; //Not Implemented
-        public const int GRID = 32;
+        public const int GRID = Chunk.CHUNK_WIDTH;
 
         private Chunk[,] chunks;
 
