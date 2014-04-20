@@ -5,10 +5,12 @@ using System.Text;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Navier_Boats.Engine.Graphics;
+using Navier_Boats.Engine.System;
 
 namespace Navier_Boats.Engine.Level
 {
-    
+
     public class Chunk
     {
         public const int CHUNK_WIDTH = 48;
@@ -66,9 +68,9 @@ namespace Navier_Boats.Engine.Level
                 }
             }
 
-            for (int yIndex = 1; yIndex < CHUNK_HEIGHT-1; yIndex++)
+            for (int yIndex = 1; yIndex < CHUNK_HEIGHT - 1; yIndex++)
             {
-                for (int xIndex = 1; xIndex < CHUNK_WIDTH-1; xIndex++)
+                for (int xIndex = 1; xIndex < CHUNK_WIDTH - 1; xIndex++)
                 {
                     if ((chunkDataGroundLayer[xIndex - 1, yIndex] == 1
                             || chunkDataGroundLayer[xIndex, yIndex - 1] == 1
@@ -251,14 +253,31 @@ namespace Navier_Boats.Engine.Level
         public void Draw(SpriteBatch spriteBatch, List<Texture2D> tileTextures, Vector2 chunkOffset, Vector2 position)
         {
             //TODO: make chunks only draw the tiles that appear on screen
+            
+            //Get the rectangle representing the size of the window
+            Rectangle windowRect = ConsoleVars.GetInstance().WindowRect;
+            //expand it so it will contain all tiles on screen
+            windowRect.Inflate(TILE_WIDTH, TILE_HEIGHT);
+
+
             for (int y = 0; y < CHUNK_HEIGHT; y++)
             {
                 for (int x = 0; x < CHUNK_WIDTH; x++)
                 {
-                    spriteBatch.Draw(tileTextures[chunkDataGroundLayer[x, y]], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, Color.White);
+                    //Get the world position of the tile
+                    Vector2 worldPos = new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT)+ position;
+                    //Get the screen position of the tile
+                    Vector2 screenPos = Camera.ConvertToScreenCoords(worldPos);
 
-                    spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y]], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, new Color(255, 255, 255, 200));
+                    //Is the tile on the screen?
+                    if (windowRect.Contains(new Rectangle((int)screenPos.X, (int)screenPos.Y, 1, 1)))
+                    {
+                        //Draw the groundLayer tile
+                        spriteBatch.Draw(tileTextures[chunkDataGroundLayer[x, y]], worldPos, Color.White);
 
+                        //Draw the road layer tile
+                        spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y]], worldPos, new Color(255, 255, 255, 200));
+                    }
                     //if (chunkDataOverLayer[x, y] > 0)
                     //{
                     //    spriteBatch.Draw(tileTextures[chunkDataOverLayer[x, y]], new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT) + new Vector2(TILE_WIDTH, TILE_HEIGHT) * chunkOffset + position, new Color(255, 255, 255, 100));
