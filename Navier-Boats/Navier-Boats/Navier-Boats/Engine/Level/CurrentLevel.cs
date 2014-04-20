@@ -136,6 +136,12 @@ namespace Navier_Boats.Engine.Level
             tileTextures.Add(Content.Load<Texture2D>("tiles\\sand"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\blue"));
 
+            terrainGen.SetRoadPatterns(new Dictionary<string, Texture2D> {
+                {"Straight", Content.Load<Texture2D>("tiles\\Road_Straight")},
+                {"Diag", Content.Load<Texture2D>("tiles\\Road_Diag")},
+                {"Start", Content.Load<Texture2D>("tiles\\Road_Start")},            
+            });
+
             FontManager.GetInstance().LoadFont(Content.Load<SpriteFont>("consolas"), "Console Font");
 
             debugFont = Content.Load<SpriteFont>("consolas");
