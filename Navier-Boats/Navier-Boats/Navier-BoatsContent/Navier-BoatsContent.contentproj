@@ -88,6 +88,23 @@
   <ItemGroup>
     <Folder Include="textures\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="tiles\NBRoads_0000_Straight.png">
+      <Name>Road_Straight</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="tiles\NBRoads_0001_Diag.png">
+      <Name>Road_Diag</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="tiles\NBRoads_0002_Start.png">
+      <Name>Road_Start</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
