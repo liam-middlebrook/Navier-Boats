@@ -1,6 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Design;
+using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace Navier_Boats.Engine.Level
 {
@@ -14,7 +17,8 @@ namespace Navier_Boats.Engine.Level
         private float waterLacuniarity;
         private int octaves;
         private int gridWidth;
-        
+
+        private Dictionary<string, Texture2D> roadPatterns;
 
 
         /// <summary>
@@ -31,7 +35,14 @@ namespace Navier_Boats.Engine.Level
             this.groundLacuniarity = gLac;
             this.waterLacuniarity = wLac;
             this.gridWidth = grid;
+
+            
             perlinGen = new PerlinGenerator(seed);
+        }
+
+        public void SetRoadPatterns(Dictionary<string, Texture2D> patterns)
+        {
+            this.roadPatterns = patterns;
         }
 
         /// <summary>
