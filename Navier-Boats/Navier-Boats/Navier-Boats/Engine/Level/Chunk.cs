@@ -32,6 +32,7 @@ namespace Navier_Boats.Engine.Level
         Random rand;
 
         private readonly TerrainGenerator terrainGen;
+        private List<RoadConnectors> connections;
         /// <summary>
         /// Creates a new Chunk with the specified Chunk Coords
         /// </summary>
@@ -120,7 +121,7 @@ namespace Navier_Boats.Engine.Level
         /// </summary>
         /// <param name="fileName">The Chunks filename</param>
         /// <param name="directory">The Chunk Directory</param>
-        public Chunk(string fileName, string directory, ref TerrainGenerator tg)
+        public Chunk(string fileName, string directory, int numConnections, ref TerrainGenerator tg)
         {
             chunkDir = directory;
 
@@ -171,6 +172,7 @@ namespace Navier_Boats.Engine.Level
             }
             else
             {
+                connections = terrainGen.GenerateConnections(numConnections);
                 CreateChunk((int)Position.X, (int)Position.Y);
             }
         }
