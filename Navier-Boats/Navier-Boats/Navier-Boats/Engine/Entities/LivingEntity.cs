@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Graphics;
+using Navier_Boats.Game.Entities;
 
 namespace Navier_Boats.Engine.Entities
 {
@@ -23,6 +24,10 @@ namespace Navier_Boats.Engine.Entities
         /// The Sprite for the LivingEntity's Head
         /// </summary>
         protected Sprite headSprite;
+
+
+        //The weapon of the entity
+        protected Weapon weapon;
 
         #endregion
 
@@ -129,6 +134,7 @@ namespace Navier_Boats.Engine.Entities
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            weapon.Update(gameTime);
             headSprite.Position = Position;
         }
 
@@ -139,6 +145,7 @@ namespace Navier_Boats.Engine.Entities
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
+            weapon.Draw(spriteBatch);
             headSprite.Draw(spriteBatch);
         }
 

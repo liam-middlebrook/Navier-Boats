@@ -24,6 +24,7 @@ namespace Navier_Boats.Engine.Inventory
         {
         }
 
+        /*
         public void LoadItems()
         {
             //path searched for .itm files, for now
@@ -43,5 +44,6 @@ namespace Navier_Boats.Engine.Inventory
                 items.Add(item);
             }
         }
+         * */
     }
 }
