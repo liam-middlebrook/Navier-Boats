@@ -67,5 +67,15 @@ namespace Navier_Boats.Game.Entities
         {
             base.Draw(spriteBatch);
         }
+
+        public void Interact(IInteractable interactor)
+        {
+            //NYI
+        }
+
+        public void CheckInteractions(List<Entity> entities)
+        {
+            //NYI
+        }
     }
 }
