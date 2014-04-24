@@ -134,7 +134,8 @@ namespace Navier_Boats.Engine.Entities
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            weapon.Update(gameTime);
+            if (weapon != null)
+                weapon.Update(gameTime);
             headSprite.Position = Position;
         }
 
@@ -145,7 +146,8 @@ namespace Navier_Boats.Engine.Entities
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-            weapon.Draw(spriteBatch);
+            if (weapon != null)
+                weapon.Draw(spriteBatch);
             headSprite.Draw(spriteBatch);
         }
 
