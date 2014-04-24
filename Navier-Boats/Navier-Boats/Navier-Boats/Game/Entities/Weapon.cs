@@ -19,7 +19,7 @@ using Navier_Boats.Engine.Level;
 
 namespace Navier_Boats.Game.Entities
 {
-    class Weapon : Entity, IInteractable
+    public class Weapon : Entity, IInteractable
     {
         enum WeaponState
         {
