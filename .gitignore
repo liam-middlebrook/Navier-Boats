@@ -112,3 +112,6 @@ UpgradeLog*.XML
 libXNADeveloperConsole/src
 libXNADeveloperConsole/docs
 !libXNADeveloperConsole/libXNADeveloperConsole.pdb
+
+#Unused tile folder
+Navier-Boats/Navier-Boats/Navier-BoatsContent/tiles/PNG/
