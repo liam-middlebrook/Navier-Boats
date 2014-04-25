@@ -28,6 +28,11 @@ namespace Navier_Boats.Engine.Inventory
         {
             //path searched for .itm files, for now
             string path = "./Content/Items";
+            if (!Directory.Exists(path))
+            {
+                return;
+            }
+
             string [] files =  Directory.GetFiles(path, "*.itm");
 
             foreach (string file in files)
