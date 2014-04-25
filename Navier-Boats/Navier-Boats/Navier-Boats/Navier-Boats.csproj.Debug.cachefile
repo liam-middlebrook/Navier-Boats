@@ -7,3 +7,6 @@ Content\tiles\sand.xnb
 Content\debugTextures\path.xnb
 Content\cursor.xnb
 Content\consolas.xnb
+Content\tiles\Road_Straight.xnb
+Content\tiles\Road_Diag.xnb
+Content\tiles\Road_Start.xnb
