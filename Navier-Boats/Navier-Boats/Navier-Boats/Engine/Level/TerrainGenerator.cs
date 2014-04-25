@@ -1,25 +1,12 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Design;
+using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace Navier_Boats.Engine.Level
 {
-    public enum TileType
-    {
-        Road = 0,
-        Grass = 1,
-        Sand = 2,
-        Water = 3,
-        City = 4,
-    }
-
-
-    public enum TerrainType
-    {
-        Country, //For lack of a better term
-        City,
-    }
-
     /// <summary>
     /// Handles the data that will be passed to the Perlin functions as well as the type of generation (Countryside vs. City)
     /// </summary>
@@ -30,7 +17,8 @@ namespace Navier_Boats.Engine.Level
         private float waterLacuniarity;
         private int octaves;
         private int gridWidth;
-        ColorConverter colorConv;
+
+        private Dictionary<string, Texture2D> roadPatterns;
 
 
         /// <summary>
@@ -47,8 +35,49 @@ namespace Navier_Boats.Engine.Level
             this.groundLacuniarity = gLac;
             this.waterLacuniarity = wLac;
             this.gridWidth = grid;
+
+            
             perlinGen = new PerlinGenerator(seed);
-            colorConv = new ColorConverter();
+        }
+
+        public void SetRoadPatterns(Dictionary<string, Texture2D> patterns)
+        {
+            this.roadPatterns = patterns;
+        }
+
+        public List<RoadConnectors> GenerateConnections(int numConnections)
+        {
+            Random rand = CurrentLevel.GetRandom();
+            byte cnctType = (byte)rand.Next(8);
+            List<RoadConnectors> connections = new List<RoadConnectors>();
+
+            if (cnctType % 2 == 0)
+            {
+                if (cnctType == 0 || cnctType == 4)
+                {
+                    connections.Add(RoadConnectors.East);
+                    connections.Add(RoadConnectors.West);
+                }
+                else
+                {
+                    connections.Add(RoadConnectors.North);
+                    connections.Add(RoadConnectors.South);
+                }
+            }
+            else
+            {
+                if (cnctType == 1 || cnctType == 5)
+                {
+                    connections.Add(RoadConnectors.NorthEast);
+                    connections.Add(RoadConnectors.SouthWest);
+                }
+                else
+                {
+                    connections.Add(RoadConnectors.NorthWest);
+                    connections.Add(RoadConnectors.SouthEast);
+                }
+            }
+            return connections;
         }
 
         /// <summary>
@@ -67,25 +96,16 @@ namespace Navier_Boats.Engine.Level
             switch (type)
             {
                 case TerrainType.Country:
+                    return GenerateBaseTerrainTile(tileX, tileY);
                     
-                    //float groundMap = 1-Math.Abs(perlinGen.FBM2D(tileX, tileY, octaves, Chunk.CHUNK_WIDTH, groundLacuniarity));
 
-                    float groundMap = 1-Math.Abs(perlinGen.Perlin2D(tileX/((float)Chunk.CHUNK_WIDTH*2), tileY/((float)Chunk.CHUNK_HEIGHT*2)));
-                    float lakeMap = fRound(1-Math.Abs(perlinGen.FBM2D(tileX, tileY, octaves, Chunk.CHUNK_WIDTH, waterLacuniarity)));
-
-                    if (groundMap >= 0.95f)
-                        return (short)TileType.Road; //Placeholder roads
-                    else if (groundMap < 0.95f && groundMap >= 0.7)
-                        return (short)TileType.Grass; //Bright green grass
-                    else if (lakeMap == 1)
-                        return (short)TileType.Water;
-                    else
-                        return 1;
+                case TerrainType.Road:
+                    
+                    
+                    break;
 
 
-
-
-
+                    
                 case TerrainType.City:
                     //City generation goes here
                     return 4; //Placeholder
@@ -96,6 +116,29 @@ namespace Navier_Boats.Engine.Level
             return -1; //Something dun goofed 
             
         }
+
+        private short GenerateBaseTerrainTile(int tileX, int tileY)
+        {
+            //float groundMap = 1-Math.Abs(perlinGen.FBM2D(tileX, tileY, octaves, Chunk.CHUNK_WIDTH, groundLacuniarity));
+
+            float groundMap = 1 - Math.Abs(perlinGen.Perlin2D(tileX / ((float)Chunk.CHUNK_WIDTH * 2), tileY / ((float)Chunk.CHUNK_HEIGHT * 2)));
+            float lakeMap = fRound(1 - Math.Abs(perlinGen.FBM2D(tileX, tileY, octaves, Chunk.CHUNK_WIDTH, waterLacuniarity)));
+
+            if (groundMap >= 0.95f)
+                return (short)TileType.Road; //Placeholder roads
+            else if (groundMap < 0.95f && groundMap >= 0.7)
+                return (short)TileType.Grass; //Bright green grass
+            else if (lakeMap == 1)
+                return (short)TileType.Water;
+            else
+                return 1;
+        }
+
+        private short GenerateRoadTile(int tileX, int tileY)
+        {
+            return 0;
+        }
+    
 
         private float fRound(float f)
         {
