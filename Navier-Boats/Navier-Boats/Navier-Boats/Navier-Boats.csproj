@@ -85,7 +85,7 @@
     <Compile Include="Engine\Inventory\AbstractGameItem.cs" />
     <Compile Include="Game\Items\HealthPack.cs" />
     <Compile Include="Engine\Inventory\ItemManager.cs" />
-    <Compile Include="Engine\Inventory\Weapon.cs" />
+    <Compile Include="Game\Items\Weapon.cs" />
     <Compile Include="Engine\Level\TerrainEnums.cs" />
     <Compile Include="Engine\Pathfinding\Heuristics.cs" />
     <Compile Include="Engine\Pathfinding\PathException.cs" />
