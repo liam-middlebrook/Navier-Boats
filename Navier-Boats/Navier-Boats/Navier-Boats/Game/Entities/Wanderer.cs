@@ -74,7 +74,7 @@ namespace Navier_Boats.Game.Entities
                             currentState = AIState.Attacking;
                             break;
                         }
-                        else if (distanceToPlayer <= 230400)
+                        else if (distanceToPlayer <= 360000)
                         {
                             Velocity = Vector2.Zero;
                             currentState = AIState.SubmitPathing;
@@ -98,7 +98,7 @@ namespace Navier_Boats.Game.Entities
                             currentState = AIState.Attacking;
                             break;
                         }
-                        else if (distanceToPlayer > 230400)
+                        else if (distanceToPlayer > 360000)
                         {
                             currentState = AIState.Wandering;
                             break;
@@ -140,7 +140,7 @@ namespace Navier_Boats.Game.Entities
                             currentState = AIState.Attacking;
                             break;
                         }
-                        else if (distanceToPlayer > 230400)
+                        else if (distanceToPlayer > 360000)
                         {
                             currentState = AIState.Wandering;
                             currentJob.Cancelled = true;
@@ -161,7 +161,7 @@ namespace Navier_Boats.Game.Entities
                             currentState = AIState.Attacking;
                             break;
                         }
-                        else if (distanceToPlayer > 230400)
+                        else if (distanceToPlayer > 360000)
                         {
                             currentState = AIState.Wandering;
                             currentJob.Cancelled = true;
