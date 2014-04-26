@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Graphics;
+using Navier_Boats.Engine.Entities;
 
 namespace Navier_Boats.Engine.Inventory
 {
@@ -76,6 +77,15 @@ namespace Navier_Boats.Engine.Inventory
             this.Description = info.Description;
             this.MaxStack = info.Stack;
             this.Cost = info.Cost;
+        }
+
+        public virtual string getItemType()
+        {
+            return "BaseItem";
+        }
+
+        public virtual void OnAction(LivingEntity executor)
+        {
         }
     }
 }
