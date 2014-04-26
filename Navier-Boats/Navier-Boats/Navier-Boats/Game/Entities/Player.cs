@@ -32,6 +32,7 @@ namespace Navier_Boats.Game.Entities
         #endregion
 
         private int previousMouseWheelValue = 0;
+        private bool clickLastFrame = false;
 
         public Player(Vector2 position)
             : base(100, 32)
@@ -106,6 +107,10 @@ namespace Navier_Boats.Game.Entities
                         {
                             Items.SelectedItemIndex -= 1;
                         }
+                    }
+                    if (mouseState.LeftButton == ButtonState.Pressed && clickLastFrame == false && Items.SelectedItem != null && Items.SelectedItem.Amount > 0)
+                    {
+                        Items.SelectedItem.Item.OnAction(this);
                     }
                     previousMouseWheelValue = mouseState.ScrollWheelValue;
                     
