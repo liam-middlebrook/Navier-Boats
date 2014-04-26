@@ -123,7 +123,7 @@
             this.itemDescriptionBox.Multiline = true;
             this.itemDescriptionBox.Name = "itemDescriptionBox";
             this.itemDescriptionBox.Size = new System.Drawing.Size(185, 66);
-            this.itemDescriptionBox.TabIndex = 23;
+            this.itemDescriptionBox.TabIndex = 9;
             this.itemDescriptionBox.Text = "N/A";
             // 
             // saveInfo
@@ -131,7 +131,7 @@
             this.saveInfo.Location = new System.Drawing.Point(14, 332);
             this.saveInfo.Name = "saveInfo";
             this.saveInfo.Size = new System.Drawing.Size(309, 40);
-            this.saveInfo.TabIndex = 22;
+            this.saveInfo.TabIndex = 10;
             this.saveInfo.Text = "Save Item";
             this.saveInfo.UseVisualStyleBackColor = true;
             this.saveInfo.Click += new System.EventHandler(this.saveInfo_Click);
@@ -141,7 +141,7 @@
             this.itemCostBox.Location = new System.Drawing.Point(284, 188);
             this.itemCostBox.Name = "itemCostBox";
             this.itemCostBox.Size = new System.Drawing.Size(43, 20);
-            this.itemCostBox.TabIndex = 21;
+            this.itemCostBox.TabIndex = 8;
             this.itemCostBox.Text = "0";
             // 
             // maxStackBox
@@ -149,7 +149,7 @@
             this.maxStackBox.Location = new System.Drawing.Point(217, 188);
             this.maxStackBox.Name = "maxStackBox";
             this.maxStackBox.Size = new System.Drawing.Size(43, 20);
-            this.maxStackBox.TabIndex = 20;
+            this.maxStackBox.TabIndex = 7;
             this.maxStackBox.Text = "64";
             // 
             // inventoryTextureNameBox
@@ -157,7 +157,7 @@
             this.inventoryTextureNameBox.Location = new System.Drawing.Point(219, 98);
             this.inventoryTextureNameBox.Name = "inventoryTextureNameBox";
             this.inventoryTextureNameBox.Size = new System.Drawing.Size(108, 20);
-            this.inventoryTextureNameBox.TabIndex = 19;
+            this.inventoryTextureNameBox.TabIndex = 2;
             this.inventoryTextureNameBox.Text = "otherImageName";
             // 
             // textureNameBox
@@ -165,7 +165,7 @@
             this.textureNameBox.Location = new System.Drawing.Point(221, 54);
             this.textureNameBox.Name = "textureNameBox";
             this.textureNameBox.Size = new System.Drawing.Size(106, 20);
-            this.textureNameBox.TabIndex = 18;
+            this.textureNameBox.TabIndex = 1;
             this.textureNameBox.Text = "imageName";
             // 
             // itemNameBox
@@ -173,7 +173,7 @@
             this.itemNameBox.Location = new System.Drawing.Point(221, 20);
             this.itemNameBox.Name = "itemNameBox";
             this.itemNameBox.Size = new System.Drawing.Size(108, 20);
-            this.itemNameBox.TabIndex = 35;
+            this.itemNameBox.TabIndex = 0;
             this.itemNameBox.Text = "GenericItem";
             // 
             // label8
@@ -211,7 +211,7 @@
             this.comboBox1.Location = new System.Drawing.Point(206, 137);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 38;
+            this.comboBox1.TabIndex = 3;
             this.comboBox1.Text = "Items.Weapon";
             // 
             // label10
@@ -247,7 +247,8 @@
             this.HealBox.Name = "HealBox";
             this.HealBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.HealBox.Size = new System.Drawing.Size(71, 20);
-            this.HealBox.TabIndex = 42;
+            this.HealBox.TabIndex = 4;
+            this.HealBox.TextChanged += new System.EventHandler(this.HealBox_TextChanged);
             // 
             // DmgBox
             // 
@@ -255,7 +256,7 @@
             this.DmgBox.Name = "DmgBox";
             this.DmgBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.DmgBox.Size = new System.Drawing.Size(71, 20);
-            this.DmgBox.TabIndex = 43;
+            this.DmgBox.TabIndex = 5;
             // 
             // RangeBox
             // 
@@ -263,7 +264,7 @@
             this.RangeBox.Name = "RangeBox";
             this.RangeBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.RangeBox.Size = new System.Drawing.Size(71, 20);
-            this.RangeBox.TabIndex = 44;
+            this.RangeBox.TabIndex = 6;
             // 
             // Form1
             // 
@@ -295,6 +296,7 @@
             this.Controls.Add(this.itemNameBox);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
