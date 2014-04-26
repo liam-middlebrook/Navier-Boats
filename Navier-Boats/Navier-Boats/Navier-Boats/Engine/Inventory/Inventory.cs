@@ -102,6 +102,25 @@ namespace Navier_Boats.Engine.Inventory
             return true;
         }
 
+        public void RemoveItem(int index)
+        {
+            if (index < 0 || index > Items.Length)
+            {
+                throw new IndexOutOfRangeException("index out of range for removeitem");
+            }
+
+            if (Items[index] == null || Items[index].Item == null)
+            {
+                return;
+            }
+
+            Items[index].Amount--;
+            if (Items[index].Amount <= 0)
+            {
+                Items[index] = null;
+            }
+        }
+
         public void RemoveAll<T>() where T : IGameItem
         {
             RemoveAll(typeof(T));
