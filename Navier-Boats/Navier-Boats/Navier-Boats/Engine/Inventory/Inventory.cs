@@ -213,7 +213,7 @@ namespace Navier_Boats.Engine.Inventory
             for (int i = 0; i < this.Items.Length; i++)
             {
                 ItemStack stack = this.Items[i];
-                if (t.IsAssignableFrom(stack.Item.GetType()))
+                if (stack != null && t.IsAssignableFrom(stack.Item.GetType()))
                     found.Add(i);
             }
 
