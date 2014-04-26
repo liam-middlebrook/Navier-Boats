@@ -7,6 +7,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Entities;
+using Navier_Boats.Engine.Level;
 
 namespace Navier_Boats.Engine.Inventory
 {
@@ -71,6 +72,11 @@ namespace Navier_Boats.Engine.Inventory
                 item.ImportItem(info);
                 items.Add(item);
             }
+        }
+
+        public IGameItem GetRandomItem()
+        {
+            return items[CurrentLevel.GetRandom().Next(0, items.Count)];
         }
     }
 }
