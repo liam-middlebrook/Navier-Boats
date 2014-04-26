@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace Navier_Boats.Engine.Inventory
 {
+    [Serializable]
     public class Inventory
     {
         private int selectedItemIndex = 0;
@@ -44,6 +46,11 @@ namespace Navier_Boats.Engine.Inventory
         public Inventory(int maxSize)
         {
             this.Items = new ItemStack[maxSize];
+        }
+
+        public Inventory(SerializationInfo info, StreamingContext context)
+        {
+            this.Items = (
         }
 
         public void AddItem(ItemStack item)
