@@ -177,33 +177,33 @@ namespace Navier_Boats.Engine.Level
                 LoadedChunks[1, 0] = LoadedChunks[0, 0];
                 LoadedChunks[1, 1] = LoadedChunks[0, 1];
                 //unload left LoadedChunks and replace
-                LoadedChunks[0, 0] = new Chunk(Chunk.CoordsToChunkID(LoadedChunks[0, 0].Position + new Vector2(-1, 0)) + ".chunk", chunkSaveDirectory, NUM_ROAD_CONNECTIONS, ref terrainGen);
-                //EntityManager.GetInstance().LoadChunk(new Vector2(0, 0), Chunk.CoordsToChunkID(LoadedChunks[0, 0].Position + new Vector2(-1, 0)));
-                LoadedChunks[0, 1] = new Chunk(Chunk.CoordsToChunkID(LoadedChunks[0, 1].Position + new Vector2(-1, 0)) + ".chunk", chunkSaveDirectory, NUM_ROAD_CONNECTIONS, ref terrainGen);
-                //EntityManager.GetInstance().LoadChunk(new Vector2(0, 1), Chunk.CoordsToChunkID(LoadedChunks[0, 1].Position + new Vector2(-1, 0)));
+                LoadedChunks[0, 0] = new Chunk(Chunk.CoordsToChunkID(LoadedChunks[0, 0].Position + new Vector2(-1, 0)) + ".chunk", chunkSaveDirectory, ref terrainGen);
+                //EntityManager.GetInstance().LoadChunk(new Vector2(0, 0), Chunk.CoordsToChunkID(LoadedChunks[0, 0].Position + new Vector2(-1, 0)));   
+                LoadedChunks[0, 1] = new Chunk(Chunk.CoordsToChunkID(LoadedChunks[0, 1].Position + new Vector2(-1, 0)) + ".chunk", chunkSaveDirectory, ref terrainGen);
+                //EntityManager.GetInstance().LoadChunk(new Vector2(0, 1), Chunk.CoordsToChunkID(LoadedChunks[0, 1].Position + new Vector2(-1, 0)));   
             }
             else if (playerPos.X > lowerRightBound.X)
             {
-                //Player has moved right
-                //push right LoadedChunks over
+                //Player has moved right                                                                                                               
+                //push right LoadedChunks over                                                                                                         
                 LoadedChunks[0, 0] = LoadedChunks[1, 0];
                 LoadedChunks[0, 1] = LoadedChunks[1, 1];
-                //unload right LoadedChunks and replace
-                LoadedChunks[1, 0] = new Chunk(Chunk.CoordsToChunkID(LoadedChunks[1, 0].Position + new Vector2(1, 0)) + ".chunk", chunkSaveDirectory, NUM_ROAD_CONNECTIONS, ref terrainGen);
-                //EntityManager.GetInstance().LoadChunk(new Vector2(1, 0), Chunk.CoordsToChunkID(LoadedChunks[1, 0].Position + new Vector2(1, 0)));
-                LoadedChunks[1, 1] = new Chunk(Chunk.CoordsToChunkID(LoadedChunks[1, 1].Position + new Vector2(1, 0)) + ".chunk", chunkSaveDirectory, NUM_ROAD_CONNECTIONS, ref terrainGen);
-                //EntityManager.GetInstance().LoadChunk(new Vector2(1, 1), Chunk.CoordsToChunkID(LoadedChunks[1, 1].Position + new Vector2(1, 0)));
+                //unload right LoadedChunks and replace                                                                                                
+                LoadedChunks[1, 0] = new Chunk(Chunk.CoordsToChunkID(LoadedChunks[1, 0].Position + new Vector2(1, 0)) + ".chunk", chunkSaveDirectory, ref terrainGen);
+                //EntityManager.GetInstance().LoadChunk(new Vector2(1, 0), Chunk.CoordsToChunkID(LoadedChunks[1, 0].Position + new Vector2(1, 0)));    
+                LoadedChunks[1, 1] = new Chunk(Chunk.CoordsToChunkID(LoadedChunks[1, 1].Position + new Vector2(1, 0)) + ".chunk", chunkSaveDirectory, ref terrainGen);
+                //EntityManager.GetInstance().LoadChunk(new Vector2(1, 1), Chunk.CoordsToChunkID(LoadedChunks[1, 1].Position + new Vector2(1, 0)));    
             }
             if (playerPos.Y < upperLeftBound.Y)
             {
-                //Player has moved up
-                //push top LoadedChunks down
+                //Player has moved up                                                                                                                  
+                //push top LoadedChunks down                                                                                                           
                 LoadedChunks[0, 1] = LoadedChunks[0, 0];
                 LoadedChunks[1, 1] = LoadedChunks[1, 0];
-                //unload top LoadedChunks and replace
-                LoadedChunks[0, 0] = new Chunk(Chunk.CoordsToChunkID(LoadedChunks[0, 0].Position + new Vector2(0, -1)) + ".chunk", chunkSaveDirectory, NUM_ROAD_CONNECTIONS, ref terrainGen);
-                //EntityManager.GetInstance().LoadChunk(new Vector2(0, 0), Chunk.CoordsToChunkID(LoadedChunks[0, 0].Position + new Vector2(0, -1)));
-                LoadedChunks[1, 0] = new Chunk(Chunk.CoordsToChunkID(LoadedChunks[1, 0].Position + new Vector2(0, -1)) + ".chunk", chunkSaveDirectory, NUM_ROAD_CONNECTIONS, ref terrainGen);
+                //unload top LoadedChunks and replace                                                                                                  
+                LoadedChunks[0, 0] = new Chunk(Chunk.CoordsToChunkID(LoadedChunks[0, 0].Position + new Vector2(0, -1)) + ".chunk", chunkSaveDirectory, ref terrainGen);
+                //EntityManager.GetInstance().LoadChunk(new Vector2(0, 0), Chunk.CoordsToChunkID(LoadedChunks[0, 0].Position + new Vector2(0, -1)));   
+                LoadedChunks[1, 0] = new Chunk(Chunk.CoordsToChunkID(LoadedChunks[1, 0].Position + new Vector2(0, -1)) + ".chunk", chunkSaveDirectory, ref terrainGen);
                 //EntityManager.GetInstance().LoadChunk(new Vector2(1, 0), Chunk.CoordsToChunkID(LoadedChunks[1, 0].Position + new Vector2(0, -1)));
             }
             if (playerPos.Y > lowerRightBound.Y)
@@ -213,9 +213,9 @@ namespace Navier_Boats.Engine.Level
                 LoadedChunks[0, 0] = LoadedChunks[0, 1];
                 LoadedChunks[1, 0] = LoadedChunks[1, 1];
                 //unload top LoadedChunks and replace
-                LoadedChunks[0, 1] = new Chunk(Chunk.CoordsToChunkID(LoadedChunks[0, 1].Position + new Vector2(0, 1)) + ".chunk", chunkSaveDirectory, NUM_ROAD_CONNECTIONS, ref terrainGen);
+                LoadedChunks[0, 1] = new Chunk(Chunk.CoordsToChunkID(LoadedChunks[0, 1].Position + new Vector2(0, 1)) + ".chunk", chunkSaveDirectory, ref terrainGen);
                 //EntityManager.GetInstance().LoadChunk(new Vector2(0, 1), Chunk.CoordsToChunkID(LoadedChunks[0, 1].Position + new Vector2(0, 1)));
-                LoadedChunks[1, 1] = new Chunk(Chunk.CoordsToChunkID(LoadedChunks[1, 1].Position + new Vector2(0, 1)) + ".chunk", chunkSaveDirectory, NUM_ROAD_CONNECTIONS, ref terrainGen);
+                LoadedChunks[1, 1] = new Chunk(Chunk.CoordsToChunkID(LoadedChunks[1, 1].Position + new Vector2(0, 1)) + ".chunk", chunkSaveDirectory, ref terrainGen);
                 //EntityManager.GetInstance().LoadChunk(new Vector2(1, 1), Chunk.CoordsToChunkID(LoadedChunks[1, 1].Position + new Vector2(0, 1)));
             }
         }
@@ -289,7 +289,7 @@ namespace Navier_Boats.Engine.Level
             }
             if (chunk == null)
             {
-                chunk = new Chunk(Chunk.CoordsToChunkID(chunkCoord) + ".chunk", chunkSaveDirectory, NUM_ROAD_CONNECTIONS, ref terrainGen);
+                chunk = new Chunk(Chunk.CoordsToChunkID(chunkCoord) + ".chunk", chunkSaveDirectory, ref terrainGen);
             }
             return chunk.GetDataAtPosition(tileLayer, pointChunkOffset);
         }
@@ -338,8 +338,7 @@ namespace Navier_Boats.Engine.Level
             {
                 for (int x = 0; x < 2; x++)
                 {
-                    //If the chunk is the starting (0, 0) chunk, it has 4 connections
-                    LoadedChunks[x, y] = new Chunk(Chunk.CoordsToChunkID(new Vector2(x - 1, y)) + ".chunk", chunkSaveDirectory, (x==0 && y==0) ? 4 : NUM_ROAD_CONNECTIONS, ref terrainGen);
+                    LoadedChunks[x, y] = new Chunk(Chunk.CoordsToChunkID(new Vector2(x - 1, y)) + ".chunk", chunkSaveDirectory, ref terrainGen);
                 }
             }
             foreach (Chunk chunk in LoadedChunks)
