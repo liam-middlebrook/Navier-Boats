@@ -19,7 +19,7 @@ using Navier_Boats.Engine.Level;
 
 namespace Navier_Boats.Game.Entities
 {
-    public class Weapon : Entity, IInteractable
+    public class ItemInHand : Entity, IInteractable
     {
         enum WeaponState
         {
@@ -46,7 +46,7 @@ namespace Navier_Boats.Game.Entities
         }
         #endregion
 
-        public Weapon(int baseRange) : base()
+        public ItemInHand(int baseRange) : base()
         {
             currentState = WeaponState.right;
             range = baseRange;
@@ -63,8 +63,9 @@ namespace Navier_Boats.Game.Entities
             base.Update(gameTime);
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Texture2D texture)
         {
+            spriteBatch.Draw(texture, Position, Color.White);
             base.Draw(spriteBatch);
         }
 

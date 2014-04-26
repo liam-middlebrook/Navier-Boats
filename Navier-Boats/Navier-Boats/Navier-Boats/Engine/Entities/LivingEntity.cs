@@ -27,7 +27,7 @@ namespace Navier_Boats.Engine.Entities
 
 
         //The weapon of the entity
-        protected Weapon weapon;
+        protected ItemInHand weapon;
 
         #endregion
 
@@ -149,7 +149,7 @@ namespace Navier_Boats.Engine.Entities
         {
             base.Draw(spriteBatch);
             if (weapon != null)
-                weapon.Draw(spriteBatch);
+                weapon.Draw(spriteBatch, this.Items.SelectedItem.Item.ItemTexture);
             headSprite.Draw(spriteBatch);
         }
 
