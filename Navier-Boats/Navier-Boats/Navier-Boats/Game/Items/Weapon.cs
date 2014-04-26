@@ -23,12 +23,12 @@ namespace Navier_Boats.Game.Items
             set;
         }
 
-        public void OnAction(LivingEntity executor)
+        public override void OnAction(LivingEntity executor)
         {
             throw new NotImplementedException();
         }
 
-        public string getItemType()
+        public override string getItemType()
         {
             return "Items.Weapon";
         }
