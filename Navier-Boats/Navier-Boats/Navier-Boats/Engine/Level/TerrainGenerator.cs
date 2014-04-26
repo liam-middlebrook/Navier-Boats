@@ -88,55 +88,32 @@ namespace Navier_Boats.Engine.Level
         /// <param name="yPos">Tile Y-Coord</param>
         /// <param name="chunkPos">Chunk position vector</param>
         /// <returns></returns>
-        public short GenerateTile(int xPos, int yPos, Vector2 chunkPos, TerrainType type)
+        public short GenerateGroundTile(int xPos, int yPos, Vector2 loc, TerrainType type)
         {
-            int tileX = xPos + ((int)chunkPos.X * Chunk.CHUNK_WIDTH);
-            int tileY = yPos + ((int)chunkPos.Y * Chunk.CHUNK_HEIGHT);
+            int tileX = xPos + ((int)loc.X * Chunk.CHUNK_WIDTH);
+            int tileY = yPos + ((int)loc.Y * Chunk.CHUNK_HEIGHT);
 
-            switch (type)
-            {
-                case TerrainType.Country:
-                    return GenerateBaseTerrainTile(tileX, tileY);
-                    
-
-                case TerrainType.Road:
-                    
-                    
-                    break;
-
-
-                    
-                case TerrainType.City:
-                    //City generation goes here
-                    return 4; //Placeholder
-                    
-            }
-            //Should never reach this with a default in the 
-            //constructor unless something goes horribly wrong
-            return -1; //Something dun goofed 
             
-        }
-
-        private short GenerateBaseTerrainTile(int tileX, int tileY)
-        {
-            //float groundMap = 1-Math.Abs(perlinGen.FBM2D(tileX, tileY, octaves, Chunk.CHUNK_WIDTH, groundLacuniarity));
-
             float groundMap = 1 - Math.Abs(perlinGen.Perlin2D(tileX / ((float)Chunk.CHUNK_WIDTH * 2), tileY / ((float)Chunk.CHUNK_HEIGHT * 2)));
             float lakeMap = fRound(1 - Math.Abs(perlinGen.FBM2D(tileX, tileY, octaves, Chunk.CHUNK_WIDTH, waterLacuniarity)));
 
-            if (groundMap >= 0.95f)
-                return (short)TileType.Road; //Placeholder roads
-            else if (groundMap < 0.95f && groundMap >= 0.7)
+//             if (groundMap >= 0.95f)
+//                 return (short)TileType.Road; //Placeholder roads
+//             else 
+            if (groundMap >= 0.7)
                 return (short)TileType.Grass; //Bright green grass
             else if (lakeMap == 1)
                 return (short)TileType.Water;
             else
                 return 1;
+                 
         }
 
-        private short GenerateRoadTile(int tileX, int tileY)
+       
+
+        private short[,] GenerateRoadLayer(List<RoadConnectors> connections)
         {
-            return 0;
+            return null;
         }
     
 

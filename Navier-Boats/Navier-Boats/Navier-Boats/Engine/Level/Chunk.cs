@@ -78,8 +78,13 @@ namespace Navier_Boats.Engine.Level
             }
 
             #endregion
-
-
+            
+            #region RoadLayer
+            if (x == 0 && y == 0)
+            {
+                chunkDataRoadLayer = terrainGen.GetStartingChunkPattern();
+            }
+            #endregion
 
             #region OverLayer
 
