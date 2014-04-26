@@ -272,7 +272,7 @@ namespace Navier_Boats.Engine.Level
                         spriteBatch.Draw(tileTextures[chunkDataGroundLayer[x, y]], worldPos, Color.White);
 
                         //Draw the road layer tile
-                        spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y]], worldPos, new Color(255, 255, 255, 200));
+                        spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y]], worldPos, Color.White);
                     }
                     //if (chunkDataOverLayer[x, y] > 0)
                     //{
