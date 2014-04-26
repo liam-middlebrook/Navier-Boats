@@ -11,7 +11,9 @@ namespace Navier_Boats.Engine.Level
         Grass = 1,
         Sand = 2,
         Water = 3,
-        City = 4,
+        Clear = 4,
+        City = 5,
+        
     }
 
     public enum TerrainType
