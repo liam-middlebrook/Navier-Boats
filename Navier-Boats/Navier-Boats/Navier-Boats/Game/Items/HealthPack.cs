@@ -10,7 +10,7 @@ using Navier_Boats.Engine.Inventory;
 namespace Navier_Boats.Game.Items
 {
     [Serializable]
-    class HealthPack : AbstractGameItem
+    class HealthPack : BaseGameItem
     {
         public double HealAmount
         {
