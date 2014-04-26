@@ -19,7 +19,10 @@ namespace WindowsFormsApplication1
         int maxStackValue;
         int cost;
         string locationFolder;
-        
+        double damage;
+        double range;
+        double heal;
+
         public string Folder
         {
             get { return locationFolder; }
@@ -70,11 +73,35 @@ namespace WindowsFormsApplication1
             set { cost = value; }
         }
 
+        [JsonProperty]
+        public double Damage
+        {
+            get { return damage; }
+            set { damage = value; }
+        }
+
+        [JsonProperty]
+        public double Heal
+        {
+            get { return heal; }
+            set { heal = value; }
+        }
+
+        [JsonProperty]
+        public double Range
+        {
+            get { return range; }
+            set { range = value; }
+        }
+
         public Item()
         {
             locationFolder = null;
             cost = 0;
             maxStackValue = 64;
+            range = 0;
+            heal = 0;
+            damage = 0;
         }
 
         public void Save()

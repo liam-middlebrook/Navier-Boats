@@ -49,8 +49,24 @@ namespace WindowsFormsApplication1
             int.TryParse(itemCostBox.Text, out tempCost);
             newItem.Cost = tempCost;
 
-            newItem.Type = DomainUpDown1.Text;
+            newItem.Type = comboBox1.Text;
 
+            if (newItem.Type == "Weapon")
+            {
+                double tempDmg;
+                double tempRng;
+                double.TryParse(DmgBox.Text, out tempDmg);
+                double.TryParse(DmgBox.Text, out tempRng);
+
+                newItem.Damage = tempDmg;
+                newItem.Range = tempRng;
+            }
+            else
+            {
+                double Tempheal;
+                double.TryParse(HealBox.Text, out Tempheal);
+                newItem.Heal = Tempheal;
+            }
 
             newItem.Save();
 
