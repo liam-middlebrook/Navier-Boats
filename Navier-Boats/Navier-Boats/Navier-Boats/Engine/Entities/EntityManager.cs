@@ -63,6 +63,11 @@ namespace Navier_Boats.Engine.Entities
             entities.Add(e);
         }
 
+        public void RemoveEntity(Entity e)
+        {
+            entities.Remove(e);
+        }
+
         public void SaveEntities(string file, params Entity[] ents)
         {
             IFormatter formatter = new BinaryFormatter();

@@ -98,6 +98,16 @@ namespace Navier_Boats.Engine.Entities
         public void TakeDamage(double damage)
         {
             health -= damage;
+
+            if (health <= 0)
+            {
+                OnDeath();
+                EntityManager.GetInstance().RemoveEntity(this);
+            }
+        }
+
+        public virtual void OnDeath()
+        {
         }
 
         /// <summary>
