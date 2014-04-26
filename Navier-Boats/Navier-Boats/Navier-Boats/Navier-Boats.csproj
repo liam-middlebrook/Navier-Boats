@@ -82,7 +82,6 @@
     <Compile Include="Engine\Graphics\FontManager.cs" />
     <Compile Include="Engine\Graphics\IDrawableGUI.cs" />
     <Compile Include="Engine\Graphics\TextureManager.cs" />
-    <Compile Include="Engine\Inventory\CustomGameItem.cs" />
     <Compile Include="Engine\Inventory\ItemManager.cs" />
     <Compile Include="Engine\Level\TerrainEnums.cs" />
     <Compile Include="Engine\Pathfinding\Heuristics.cs" />
