@@ -80,6 +80,29 @@ namespace Navier_Boats.Engine.Level
             return connections;
         }
 
+        public short[,] GetStartingChunkPattern()
+        {
+            Texture2D pattern = roadPatterns["Start"];
+            short[,] chunk = new short[Chunk.CHUNK_WIDTH, Chunk.CHUNK_HEIGHT];
+            for (int x = 0; x < Chunk.CHUNK_WIDTH; x++)
+            {
+                for (int y = 0; y < Chunk.CHUNK_HEIGHT; y++)
+                {
+                    Color[] c = new Color[1];
+                    pattern.GetData<Color>(0, new Rectangle(x, y, 1, 1), c, 0, 1);
+                    if (c[0] != Color.Transparent)
+                    {
+                        chunk[x, y] = (short)TileType.Road;
+                    }
+                    else
+                    {
+                        chunk[x, y] = (short)TileType.Clear;
+                    }
+                }
+            }
+            return chunk;
+        }
+
         /// <summary>
         /// Generates the color via noise value of particular tile
         /// using Tile's world coordinates (tileX + (chunkX*CHUNK_WIDTH), tileY + (chunkY*CHUNK_HEIGHT))
