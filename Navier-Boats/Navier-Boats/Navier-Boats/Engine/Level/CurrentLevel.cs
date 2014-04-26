@@ -136,6 +136,7 @@ namespace Navier_Boats.Engine.Level
             tileTextures.Add(Content.Load<Texture2D>("tiles\\green"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\sand"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\blue"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\clear"));
 
             terrainGen.SetRoadPatterns(new Dictionary<string, Texture2D> {
                 {"Straight", Content.Load<Texture2D>("tiles\\Road_Straight")},
