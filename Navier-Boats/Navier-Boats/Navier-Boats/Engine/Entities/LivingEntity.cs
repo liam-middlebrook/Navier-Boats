@@ -66,7 +66,7 @@ namespace Navier_Boats.Engine.Entities
         /// </summary>
         /// <param name="initialHealth">The initial health of a LivingEntity</param>
         /// <param name="inventorySize">The maximum size of the inventory of a LivingEntity</param>
-        public LivingEntity(double initialHealth, int inventorySize = 1)
+        public LivingEntity(double initialHealth, int inventorySize = 32)
             : base()
         {
             headSprite = new Sprite();

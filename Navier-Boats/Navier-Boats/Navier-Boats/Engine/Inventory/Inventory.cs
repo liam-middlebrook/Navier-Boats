@@ -67,6 +67,7 @@ namespace Navier_Boats.Engine.Inventory
                 if (this.Items[i] == null || this.Items[i].Item == null)
                 {
                     this.Items[i] = item;
+                    return;
                 }
             }
 
