@@ -31,6 +31,8 @@ namespace Navier_Boats.Game.Entities
         private Rectangle HighlightRect;
         #endregion
 
+        private int previousMouseWheelValue = 0;
+
         public Player(Vector2 position)
             : base(100, 32)
         {
@@ -90,6 +92,22 @@ namespace Navier_Boats.Game.Entities
                     {
                         Items.SelectedItemIndex = 4;
                     }
+                    if (mouseState.ScrollWheelValue > previousMouseWheelValue)
+                    {
+                        Items.SelectedItemIndex = (Items.SelectedItemIndex + 1) % 5;
+                    }
+                    if (mouseState.ScrollWheelValue < previousMouseWheelValue)
+                    {
+                        if (Items.SelectedItemIndex - 1 < 0)
+                        {
+                            Items.SelectedItemIndex = 4;
+                        }
+                        else
+                        {
+                            Items.SelectedItemIndex -= 1;
+                        }
+                    }
+                    previousMouseWheelValue = mouseState.ScrollWheelValue;
                     
                 }
                 if (vel.LengthSquared() != 0)
