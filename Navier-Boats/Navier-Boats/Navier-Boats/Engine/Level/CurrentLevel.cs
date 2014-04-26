@@ -348,5 +348,10 @@ namespace Navier_Boats.Engine.Level
             }
         }
 
+        public List<Chunk> GetAdjacentChunks(Chunk c)
+        {
+            return (from Chunk chunk in LoadedChunks.AsQueryable() where chunk != c select chunk).ToList();
+        }
+
     }
 }
