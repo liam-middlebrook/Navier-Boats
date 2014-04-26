@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Graphics;
 using Navier_Boats.Game.Entities;
+using Navier_Boats.Engine.Inventory;
+
 
 namespace Navier_Boats.Engine.Entities
 {
@@ -108,6 +110,14 @@ namespace Navier_Boats.Engine.Entities
 
         public virtual void OnDeath()
         {
+            List<int> indexList = Items.FindAll<IGameItem>();
+            foreach (int index in indexList)
+            {
+                DroppedItem item = new DroppedItem();
+                item.Item = Items.Items[index];
+                item.Position = this.Position;
+                EntityManager.GetInstance().AddEntity(item);
+            }
         }
 
         /// <summary>
