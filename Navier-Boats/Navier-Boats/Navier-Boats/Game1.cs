@@ -118,6 +118,9 @@ namespace Navier_Boats
             test.Texture = Content.Load<Texture2D>("playerTexture");
             test.HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
             EntityManager.GetInstance().SaveEntities("test.ent", test);
+
+            Player player = EntityManager.GetInstance().Player;
+            player.Items.AddItem(new ItemStack(ItemManager.GetInstance().GetRandomItem()));
         }
 
         /// <summary>
