@@ -47,6 +47,10 @@ namespace Navier_Boats.Engine.Inventory
             set;
         }
 
+        public AbstractGameItem()
+        {
+        }
+
         public AbstractGameItem(SerializationInfo info, StreamingContext context)
         {
             this.InventoryTexture = TextureManager.GetInstance().LoadTexture(info.GetString("inventoryTexture"));
