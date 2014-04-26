@@ -42,29 +42,21 @@ namespace Navier_Boats.Engine.Level
         /// <param name="y">The Y value of the chunk in chunk-coords</param>
         private void CreateChunk(int x, int y)
         {
+            connections = (x == 0 && y == 0) ? new List<RoadConnectors> {RoadConnectors.North, RoadConnectors.East, RoadConnectors.South, RoadConnectors.West } : terrainGen.GenerateConnections(CurrentLevel.NUM_ROAD_CONNECTIONS);
+
             //Fills chunk with tiles generated using Perlin Noise
             rand = CurrentLevel.GetRandom();
             short tileVal = (short)rand.Next(6);
 
-            #region GroundAndRoadLayer
+            #region GroundLayer
             chunkDataGroundLayer = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
-            chunkDataRoadLayer = new short[CHUNK_WIDTH, CHUNK_HEIGHT];
+            
 
             for (int yIndex = 0; yIndex < CHUNK_HEIGHT; yIndex++)
             {
                 for (int xIndex = 0; xIndex < CHUNK_WIDTH; xIndex++)
                 {
-                    short p = terrainGen.GenerateTile(xIndex, yIndex, Position, TerrainType.Country);
-
-                    if (p == 0)
-                    {
-                        chunkDataRoadLayer[xIndex, yIndex] = (short)TileType.Road;
-                    }
-                    else
-                    {
-                        chunkDataGroundLayer[xIndex, yIndex] = p;
-                    }
-
+                    chunkDataGroundLayer[xIndex, yIndex] = terrainGen.GenerateGroundTile(xIndex, yIndex, Position, TerrainType.Country);
                 }
             }
 
@@ -123,7 +115,7 @@ namespace Navier_Boats.Engine.Level
         /// </summary>
         /// <param name="fileName">The Chunks filename</param>
         /// <param name="directory">The Chunk Directory</param>
-        public Chunk(string fileName, string directory, int numConnections, ref TerrainGenerator tg)
+        public Chunk(string fileName, string directory, ref TerrainGenerator tg)
         {
             chunkDir = directory;
 
@@ -174,7 +166,6 @@ namespace Navier_Boats.Engine.Level
             }
             else
             {
-                connections = terrainGen.GenerateConnections(numConnections);
                 CreateChunk((int)Position.X, (int)Position.Y);
             }
         }
