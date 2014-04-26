@@ -28,6 +28,7 @@ namespace Navier_Boats.Game.Entities
         private Rectangle HUDItemBoxRectFour;
         private Rectangle HUDItemBoxRectFive;
         private Rectangle CompassRect;
+        private Rectangle HighlightRect;
         #endregion
 
         public Player(Vector2 position)
@@ -68,6 +69,28 @@ namespace Navier_Boats.Game.Entities
                     vel.X += keyState.IsKeyDown(Keys.D) ? 1 : 0;
                     vel.Y += keyState.IsKeyDown(Keys.W) ? -1 : 0;
                     vel.Y += keyState.IsKeyDown(Keys.S) ? 1 : 0;
+
+                    if (keyState.IsKeyDown(Keys.D1))
+                    {
+                        Items.SelectedItemIndex = 0;
+                    }
+                    else if (keyState.IsKeyDown(Keys.D2))
+                    {
+                        Items.SelectedItemIndex = 1;
+                    }
+                    else if (keyState.IsKeyDown(Keys.D3))
+                    {
+                        Items.SelectedItemIndex = 2;
+                    }
+                    else if (keyState.IsKeyDown(Keys.D4))
+                    {
+                        Items.SelectedItemIndex = 3;
+                    }
+                    else if (keyState.IsKeyDown(Keys.D5))
+                    {
+                        Items.SelectedItemIndex = 4;
+                    }
+                    
                 }
                 if (vel.LengthSquared() != 0)
                 {
@@ -87,6 +110,28 @@ namespace Navier_Boats.Game.Entities
 
         public void DrawGUI(SpriteBatch spriteBatch)
         {
+            if (Items.SelectedItemIndex == 0)
+            {
+                HighlightRect = new Rectangle(HUDItemBoxRectOne.X - 5, HUDItemBoxRectOne.Y - 5, HUDItemBoxRectOne.Width + 10, HUDItemBoxRectOne.Height + 10);
+            } 
+            if (Items.SelectedItemIndex == 1)
+            {
+                HighlightRect = new Rectangle(HUDItemBoxRectTwo.X - 5, HUDItemBoxRectTwo.Y - 5, HUDItemBoxRectTwo.Width + 10, HUDItemBoxRectTwo.Height + 10);
+            } 
+            if (Items.SelectedItemIndex == 2)
+            {
+                HighlightRect = new Rectangle(HUDItemBoxRectThree.X - 5, HUDItemBoxRectThree.Y - 5, HUDItemBoxRectThree.Width + 10, HUDItemBoxRectThree.Height + 10);
+            } 
+            if (Items.SelectedItemIndex == 3)
+            {
+                HighlightRect = new Rectangle(HUDItemBoxRectFour.X - 5, HUDItemBoxRectFour.Y - 5, HUDItemBoxRectFour.Width + 10, HUDItemBoxRectFour.Height + 10);
+            } 
+            if (Items.SelectedItemIndex == 4)
+            {
+                HighlightRect = new Rectangle(HUDItemBoxRectFive.X - 5, HUDItemBoxRectFive.Y - 5, HUDItemBoxRectFive.Width + 10, HUDItemBoxRectFive.Height + 10);
+            }
+
+            spriteBatch.Draw(TextureManager.GetInstance()["HighlightTexture"], HighlightRect, Color.White);
             spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectOne, Color.White);
             spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectTwo, Color.White);
             spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectThree, Color.White);
@@ -121,44 +166,57 @@ namespace Navier_Boats.Game.Entities
             Vector2 itemTextPosFour = new Vector2(ConsoleVars.GetInstance().WindowWidth - 314, ConsoleVars.GetInstance().WindowHeight - 84);
             Vector2 itemTextPosFive = new Vector2(ConsoleVars.GetInstance().WindowWidth - 194, ConsoleVars.GetInstance().WindowHeight - 84);
             #region HUD Item Number Drawing
-            if (Items.Items[0] == null)
+            if (Items.Items[0] == null || Items.Items[0].Item == null || Items.Items[0].Item.ItemTexture == null)
             {
                 spriteBatch.DrawString(itemFont, "0", itemTextPosOne, Color.White);
             }
             else
             {
+                spriteBatch.Draw(Items.Items[0].Item.ItemTexture, HUDItemBoxRectOne, Color.White);
                 spriteBatch.DrawString(itemFont, Items.Items[0].Amount.ToString(), itemTextPosOne, Color.White);
             }
-            if (Items.Items[1] == null)
+
+
+            if (Items.Items[1] == null || Items.Items[1].Item == null || Items.Items[1].Item.ItemTexture == null)
             {
                 spriteBatch.DrawString(itemFont, "0", itemTextPosTwo, Color.White);
             }
             else
             {
+                spriteBatch.Draw(Items.Items[1].Item.ItemTexture, HUDItemBoxRectTwo, Color.White);
                 spriteBatch.DrawString(itemFont, Items.Items[1].Amount.ToString(), itemTextPosTwo, Color.White);
-            } 
-            if (Items.Items[2] == null)
+            }
+
+
+            if (Items.Items[2] == null || Items.Items[2].Item == null || Items.Items[2].Item.ItemTexture == null)
             {
                 spriteBatch.DrawString(itemFont, "0", itemTextPosThree, Color.White);
             }
             else
             {
+                spriteBatch.Draw(Items.Items[2].Item.ItemTexture, HUDItemBoxRectThree, Color.White);
                 spriteBatch.DrawString(itemFont, Items.Items[2].Amount.ToString(), itemTextPosThree, Color.White);
-            } 
-            if (Items.Items[3] == null)
+            }
+
+
+            if (Items.Items[3] == null || Items.Items[3].Item == null || Items.Items[3].Item.ItemTexture == null)
             {
                 spriteBatch.DrawString(itemFont, "0", itemTextPosFour, Color.White);
             }
             else
             {
+                spriteBatch.Draw(Items.Items[3].Item.ItemTexture, HUDItemBoxRectFour, Color.White);
                 spriteBatch.DrawString(itemFont, Items.Items[3].Amount.ToString(), itemTextPosFour, Color.White);
-            } 
-            if (Items.Items[4] == null)
+            }
+
+
+            if (Items.Items[4] == null || Items.Items[4].Item == null || Items.Items[4].Item.ItemTexture == null)
             {
                 spriteBatch.DrawString(itemFont, "0", itemTextPosFive, Color.White);
             }
             else
             {
+                spriteBatch.Draw(Items.Items[4].Item.ItemTexture, HUDItemBoxRectFive, Color.White);
                 spriteBatch.DrawString(itemFont, Items.Items[4].Amount.ToString(), itemTextPosFive, Color.White);
             }
             #endregion
