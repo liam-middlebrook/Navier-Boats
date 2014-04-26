@@ -35,9 +35,6 @@
             this.Label3 = new System.Windows.Forms.Label();
             this.Label2 = new System.Windows.Forms.Label();
             this.Label1 = new System.Windows.Forms.Label();
-            this.NumericUpDown3 = new System.Windows.Forms.NumericUpDown();
-            this.NumericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.NumericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.itemDescriptionBox = new System.Windows.Forms.TextBox();
             this.saveInfo = new System.Windows.Forms.Button();
             this.itemCostBox = new System.Windows.Forms.TextBox();
@@ -47,26 +44,29 @@
             this.itemNameBox = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.DomainUpDown1 = new System.Windows.Forms.DomainUpDown();
             this.label9 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown1)).BeginInit();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.HealBox = new System.Windows.Forms.TextBox();
+            this.DmgBox = new System.Windows.Forms.TextBox();
+            this.RangeBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // Label7
             // 
             this.Label7.AutoSize = true;
-            this.Label7.Location = new System.Drawing.Point(11, 217);
+            this.Label7.Location = new System.Drawing.Point(28, 157);
             this.Label7.Name = "Label7";
-            this.Label7.Size = new System.Drawing.Size(97, 13);
+            this.Label7.Size = new System.Drawing.Size(68, 13);
             this.Label7.TabIndex = 33;
-            this.Label7.Text = "Other input option?";
+            this.Label7.Text = "Heal Amount";
             // 
             // Label6
             // 
             this.Label6.AutoSize = true;
-            this.Label6.Location = new System.Drawing.Point(157, 223);
+            this.Label6.Location = new System.Drawing.Point(208, 223);
             this.Label6.Name = "Label6";
             this.Label6.Size = new System.Drawing.Size(60, 13);
             this.Label6.TabIndex = 32;
@@ -75,7 +75,7 @@
             // Label5
             // 
             this.Label5.AutoSize = true;
-            this.Label5.Location = new System.Drawing.Point(159, 172);
+            this.Label5.Location = new System.Drawing.Point(210, 172);
             this.Label5.Name = "Label5";
             this.Label5.Size = new System.Drawing.Size(58, 13);
             this.Label5.TabIndex = 31;
@@ -84,7 +84,7 @@
             // Label4
             // 
             this.Label4.AutoSize = true;
-            this.Label4.Location = new System.Drawing.Point(237, 172);
+            this.Label4.Location = new System.Drawing.Point(295, 172);
             this.Label4.Name = "Label4";
             this.Label4.Size = new System.Drawing.Size(28, 13);
             this.Label4.TabIndex = 30;
@@ -102,7 +102,7 @@
             // Label2
             // 
             this.Label2.AutoSize = true;
-            this.Label2.Location = new System.Drawing.Point(39, 101);
+            this.Label2.Location = new System.Drawing.Point(90, 101);
             this.Label2.Name = "Label2";
             this.Label2.Size = new System.Drawing.Size(121, 13);
             this.Label2.TabIndex = 28;
@@ -111,36 +111,15 @@
             // Label1
             // 
             this.Label1.AutoSize = true;
-            this.Label1.Location = new System.Drawing.Point(86, 57);
+            this.Label1.Location = new System.Drawing.Point(137, 57);
             this.Label1.Name = "Label1";
             this.Label1.Size = new System.Drawing.Size(74, 13);
             this.Label1.TabIndex = 27;
             this.Label1.Text = "Texture Name";
             // 
-            // NumericUpDown3
-            // 
-            this.NumericUpDown3.Location = new System.Drawing.Point(14, 285);
-            this.NumericUpDown3.Name = "NumericUpDown3";
-            this.NumericUpDown3.Size = new System.Drawing.Size(46, 20);
-            this.NumericUpDown3.TabIndex = 26;
-            // 
-            // NumericUpDown2
-            // 
-            this.NumericUpDown2.Location = new System.Drawing.Point(14, 233);
-            this.NumericUpDown2.Name = "NumericUpDown2";
-            this.NumericUpDown2.Size = new System.Drawing.Size(46, 20);
-            this.NumericUpDown2.TabIndex = 25;
-            // 
-            // NumericUpDown1
-            // 
-            this.NumericUpDown1.Location = new System.Drawing.Point(14, 259);
-            this.NumericUpDown1.Name = "NumericUpDown1";
-            this.NumericUpDown1.Size = new System.Drawing.Size(46, 20);
-            this.NumericUpDown1.TabIndex = 24;
-            // 
             // itemDescriptionBox
             // 
-            this.itemDescriptionBox.Location = new System.Drawing.Point(91, 239);
+            this.itemDescriptionBox.Location = new System.Drawing.Point(142, 239);
             this.itemDescriptionBox.Multiline = true;
             this.itemDescriptionBox.Name = "itemDescriptionBox";
             this.itemDescriptionBox.Size = new System.Drawing.Size(185, 66);
@@ -151,7 +130,7 @@
             // 
             this.saveInfo.Location = new System.Drawing.Point(14, 332);
             this.saveInfo.Name = "saveInfo";
-            this.saveInfo.Size = new System.Drawing.Size(260, 23);
+            this.saveInfo.Size = new System.Drawing.Size(309, 40);
             this.saveInfo.TabIndex = 22;
             this.saveInfo.Text = "Save Item";
             this.saveInfo.UseVisualStyleBackColor = true;
@@ -159,7 +138,7 @@
             // 
             // itemCostBox
             // 
-            this.itemCostBox.Location = new System.Drawing.Point(231, 188);
+            this.itemCostBox.Location = new System.Drawing.Point(284, 188);
             this.itemCostBox.Name = "itemCostBox";
             this.itemCostBox.Size = new System.Drawing.Size(43, 20);
             this.itemCostBox.TabIndex = 21;
@@ -167,7 +146,7 @@
             // 
             // maxStackBox
             // 
-            this.maxStackBox.Location = new System.Drawing.Point(166, 188);
+            this.maxStackBox.Location = new System.Drawing.Point(217, 188);
             this.maxStackBox.Name = "maxStackBox";
             this.maxStackBox.Size = new System.Drawing.Size(43, 20);
             this.maxStackBox.TabIndex = 20;
@@ -175,7 +154,7 @@
             // 
             // inventoryTextureNameBox
             // 
-            this.inventoryTextureNameBox.Location = new System.Drawing.Point(166, 98);
+            this.inventoryTextureNameBox.Location = new System.Drawing.Point(219, 98);
             this.inventoryTextureNameBox.Name = "inventoryTextureNameBox";
             this.inventoryTextureNameBox.Size = new System.Drawing.Size(108, 20);
             this.inventoryTextureNameBox.TabIndex = 19;
@@ -183,7 +162,7 @@
             // 
             // textureNameBox
             // 
-            this.textureNameBox.Location = new System.Drawing.Point(166, 54);
+            this.textureNameBox.Location = new System.Drawing.Point(221, 54);
             this.textureNameBox.Name = "textureNameBox";
             this.textureNameBox.Size = new System.Drawing.Size(106, 20);
             this.textureNameBox.TabIndex = 18;
@@ -191,7 +170,7 @@
             // 
             // itemNameBox
             // 
-            this.itemNameBox.Location = new System.Drawing.Point(166, 20);
+            this.itemNameBox.Location = new System.Drawing.Point(221, 20);
             this.itemNameBox.Name = "itemNameBox";
             this.itemNameBox.Size = new System.Drawing.Size(108, 20);
             this.itemNameBox.TabIndex = 35;
@@ -200,7 +179,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(86, 23);
+            this.label8.Location = new System.Drawing.Point(141, 20);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(58, 13);
             this.label8.TabIndex = 34;
@@ -210,35 +189,92 @@
             // 
             this.folderBrowserDialog1.SelectedPath = "./../../../Navier-Boats/Navier-Boats/Navier-Boats/bin/x86/Debug/Content/Items";
             // 
-            // DomainUpDown1
-            // 
-            this.DomainUpDown1.Items.Add("Weapon");
-            this.DomainUpDown1.Items.Add("Type Two");
-            this.DomainUpDown1.Items.Add("Type Three");
-            this.DomainUpDown1.Items.Add("Type Four");
-            this.DomainUpDown1.Location = new System.Drawing.Point(166, 138);
-            this.DomainUpDown1.Name = "DomainUpDown1";
-            this.DomainUpDown1.ReadOnly = true;
-            this.DomainUpDown1.Size = new System.Drawing.Size(108, 20);
-            this.DomainUpDown1.TabIndex = 36;
-            this.DomainUpDown1.Wrap = true;
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(90, 140);
+            this.label9.Location = new System.Drawing.Point(141, 140);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(54, 13);
             this.label9.TabIndex = 37;
             this.label9.Text = "Item Type";
             // 
+            // comboBox1
+            // 
+            this.comboBox1.Items.AddRange(new object[] {
+            "Weapon",
+            "Health Pack",
+            "Type Three",
+            "Type Four"});
+            this.comboBox1.Location = new System.Drawing.Point(206, 137);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 38;
+            this.comboBox1.Text = "Weapon";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(39, 233);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(47, 13);
+            this.label10.TabIndex = 39;
+            this.label10.Text = "Damage";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(40, 279);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(39, 13);
+            this.label11.TabIndex = 40;
+            this.label11.Text = "Range";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(11, 211);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(95, 13);
+            this.label12.TabIndex = 41;
+            this.label12.Text = "Weapon Attributes";
+            // 
+            // HealBox
+            // 
+            this.HealBox.Location = new System.Drawing.Point(25, 172);
+            this.HealBox.Name = "HealBox";
+            this.HealBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.HealBox.Size = new System.Drawing.Size(71, 20);
+            this.HealBox.TabIndex = 42;
+            // 
+            // DmgBox
+            // 
+            this.DmgBox.Location = new System.Drawing.Point(25, 249);
+            this.DmgBox.Name = "DmgBox";
+            this.DmgBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.DmgBox.Size = new System.Drawing.Size(71, 20);
+            this.DmgBox.TabIndex = 43;
+            // 
+            // RangeBox
+            // 
+            this.RangeBox.Location = new System.Drawing.Point(25, 295);
+            this.RangeBox.Name = "RangeBox";
+            this.RangeBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.RangeBox.Size = new System.Drawing.Size(71, 20);
+            this.RangeBox.TabIndex = 44;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 384);
+            this.ClientSize = new System.Drawing.Size(337, 384);
+            this.Controls.Add(this.RangeBox);
+            this.Controls.Add(this.DmgBox);
+            this.Controls.Add(this.HealBox);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.DomainUpDown1);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.Label7);
             this.Controls.Add(this.Label6);
@@ -247,9 +283,6 @@
             this.Controls.Add(this.Label3);
             this.Controls.Add(this.Label2);
             this.Controls.Add(this.Label1);
-            this.Controls.Add(this.NumericUpDown3);
-            this.Controls.Add(this.NumericUpDown2);
-            this.Controls.Add(this.NumericUpDown1);
             this.Controls.Add(this.itemDescriptionBox);
             this.Controls.Add(this.saveInfo);
             this.Controls.Add(this.itemCostBox);
@@ -259,9 +292,6 @@
             this.Controls.Add(this.itemNameBox);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -276,9 +306,6 @@
         internal System.Windows.Forms.Label Label3;
         internal System.Windows.Forms.Label Label2;
         internal System.Windows.Forms.Label Label1;
-        internal System.Windows.Forms.NumericUpDown NumericUpDown3;
-        internal System.Windows.Forms.NumericUpDown NumericUpDown2;
-        internal System.Windows.Forms.NumericUpDown NumericUpDown1;
         internal System.Windows.Forms.TextBox itemDescriptionBox;
         internal System.Windows.Forms.Button saveInfo;
         internal System.Windows.Forms.TextBox itemCostBox;
@@ -288,8 +315,14 @@
         internal System.Windows.Forms.TextBox itemNameBox;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.Windows.Forms.DomainUpDown DomainUpDown1;
         internal System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox comboBox1;
+        internal System.Windows.Forms.Label label10;
+        internal System.Windows.Forms.Label label11;
+        internal System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox HealBox;
+        private System.Windows.Forms.TextBox DmgBox;
+        private System.Windows.Forms.TextBox RangeBox;
     }
 }
 
