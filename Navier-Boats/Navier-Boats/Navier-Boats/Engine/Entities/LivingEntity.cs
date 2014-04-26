@@ -100,8 +100,11 @@ namespace Navier_Boats.Engine.Entities
         public void TakeDamage(double damage)
         {
             health -= damage;
-
-            if (health <= 0)
+            if (health > 100)
+            {
+                health = 100;
+            }
+            else if (health <= 0)
             {
                 OnDeath();
                 EntityManager.GetInstance().RemoveEntity(this);
