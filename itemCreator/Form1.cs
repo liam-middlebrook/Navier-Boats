@@ -51,7 +51,7 @@ namespace WindowsFormsApplication1
 
             newItem.Type = comboBox1.Text;
 
-            if (newItem.Type == "Weapon")
+            if (newItem.Type == "Items.Weapon")
             {
                 double tempDmg;
                 double tempRng;
