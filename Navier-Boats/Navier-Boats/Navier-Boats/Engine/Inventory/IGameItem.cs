@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Entities;
+using System.Runtime.Serialization;
 
 namespace Navier_Boats.Engine.Inventory
 {
-    public interface IGameItem
+    [Serializable]
+    public interface IGameItem : ISerializable
     {
         /// <summary>
         /// Texture in the inventory
@@ -15,6 +17,7 @@ namespace Navier_Boats.Engine.Inventory
         Texture2D InventoryTexture
         {
             get;
+            set;
         }
 
         /// <summary>
@@ -23,6 +26,7 @@ namespace Navier_Boats.Engine.Inventory
         Texture2D ItemTexture
         {
             get;
+            set;
         }
 
         string Description
@@ -34,6 +38,7 @@ namespace Navier_Boats.Engine.Inventory
         int MaxStack
         {
             get;
+            set;
         }
 
         int Cost
