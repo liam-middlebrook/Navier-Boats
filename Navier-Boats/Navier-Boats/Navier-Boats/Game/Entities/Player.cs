@@ -93,11 +93,11 @@ namespace Navier_Boats.Game.Entities
                     {
                         Items.SelectedItemIndex = 4;
                     }
-                    if (mouseState.ScrollWheelValue > previousMouseWheelValue)
+                    if (mouseState.ScrollWheelValue < previousMouseWheelValue)
                     {
                         Items.SelectedItemIndex = (Items.SelectedItemIndex + 1) % 5;
                     }
-                    if (mouseState.ScrollWheelValue < previousMouseWheelValue)
+                    if (mouseState.ScrollWheelValue > previousMouseWheelValue)
                     {
                         if (Items.SelectedItemIndex - 1 < 0)
                         {
@@ -111,7 +111,14 @@ namespace Navier_Boats.Game.Entities
                     if (mouseState.LeftButton == ButtonState.Pressed && clickLastFrame == false && Items.SelectedItem != null && Items.SelectedItem.Amount > 0)
                     {
                         Items.SelectedItem.Item.OnAction(this);
+                        Items.RemoveItem(Items.SelectedItemIndex);
+                        clickLastFrame = true;
                     }
+                    else if (mouseState.LeftButton == ButtonState.Released)
+                    {
+                        clickLastFrame = false;
+                    }
+
                     previousMouseWheelValue = mouseState.ScrollWheelValue;
                     
                 }
