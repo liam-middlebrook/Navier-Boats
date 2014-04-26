@@ -108,7 +108,7 @@ namespace Navier_Boats
 
             ConsoleWindow.GetInstance().ConsoleFont = Content.Load<SpriteFont>("consolas");
 
-            //ItemManager.GetInstance().LoadItems();
+            //ItemManager.GetInstance();
 
             //TextureManager.GetInstance()["debugTextures/path"] = Content.Load<Texture2D>("debugTextures/path");
             TextureManager.GetInstance().LoadAllTexturesInDirectory("debugTextures");
