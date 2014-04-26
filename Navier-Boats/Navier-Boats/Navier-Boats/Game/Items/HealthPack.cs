@@ -34,12 +34,12 @@ namespace Navier_Boats.Game.Items
             info.AddValue("healAmount", HealAmount);
         }
 
-        public void OnAction(LivingEntity executor)
+        public override void OnAction(LivingEntity executor)
         {
             executor.TakeDamage(-HealAmount);
         }
 
-        public string getItemType()
+        public override string getItemType()
         {
             return "Items.HealthPack";
         }
