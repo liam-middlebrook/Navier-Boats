@@ -52,5 +52,26 @@ namespace Navier_Boats.Engine.Inventory
             get;
             set;
         }
+
+        [JsonProperty]
+        public double Damage
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty]
+        public double Heal
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty]
+        public double Range
+        {
+            get;
+            set;
+        }
     }
 }
