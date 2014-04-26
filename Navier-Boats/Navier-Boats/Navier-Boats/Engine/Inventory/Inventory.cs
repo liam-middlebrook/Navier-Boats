@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace Navier_Boats.Engine.Inventory
 {
     [Serializable]
-    public class Inventory
+    public class Inventory : ISerializable
     {
         private int selectedItemIndex = 0;
 
@@ -50,7 +50,14 @@ namespace Navier_Boats.Engine.Inventory
 
         public Inventory(SerializationInfo info, StreamingContext context)
         {
-            this.Items = (
+            this.Items = (ItemStack[])info.GetValue("items", typeof(ItemStack[]));
+            this.selectedItemIndex = info.GetInt32("selectedItemIndex");
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("items", Items);
+            info.AddValue("selectedItemIndex", selectedItemIndex);
         }
 
         public void AddItem(ItemStack item)
