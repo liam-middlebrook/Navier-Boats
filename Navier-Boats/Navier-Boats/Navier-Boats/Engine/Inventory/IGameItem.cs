@@ -25,6 +25,12 @@ namespace Navier_Boats.Engine.Inventory
             get;
         }
 
+        string Description
+        {
+            get;
+            set;
+        }
+
         int MaxStack
         {
             get;
@@ -35,5 +41,9 @@ namespace Navier_Boats.Engine.Inventory
             get;
             set;
         }
+
+        void OnAction(LivingEntity executor);
+
+        string getItemType();
     }
 }
