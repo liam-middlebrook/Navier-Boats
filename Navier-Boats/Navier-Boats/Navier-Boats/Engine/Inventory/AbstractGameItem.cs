@@ -5,16 +5,17 @@ using System.Text;
 using System.Runtime.Serialization;
 using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Graphics;
+using Navier_Boats.Engine.Entities;
 
 namespace Navier_Boats.Engine.Inventory
 {
     [Serializable]
-    public class AbstractGameItem : IGameItem
+    public class BaseGameItem : IGameItem
     {
         /// <summary>
         /// Texture in the inventory
         /// </summary>
-        Texture2D InventoryTexture
+        public Texture2D InventoryTexture
         {
             get;
             set;
@@ -23,35 +24,35 @@ namespace Navier_Boats.Engine.Inventory
         /// <summary>
         /// Texture when held
         /// </summary>
-        Texture2D ItemTexture
+        public Texture2D ItemTexture
         {
             get;
             set;
         }
 
-        string Description
+        public string Description
         {
             get;
             set;
         }
 
-        int MaxStack
+        public int MaxStack
         {
             get;
             set;
         }
 
-        int Cost
+        public int Cost
         {
             get;
             set;
         }
 
-        public AbstractGameItem()
+        public BaseGameItem()
         {
         }
 
-        public AbstractGameItem(SerializationInfo info, StreamingContext context)
+        public BaseGameItem(SerializationInfo info, StreamingContext context)
         {
             this.InventoryTexture = TextureManager.GetInstance().LoadTexture(info.GetString("inventoryTexture"));
             this.ItemTexture = TextureManager.GetInstance().LoadTexture(info.GetString("itemTexture"));
@@ -67,6 +68,24 @@ namespace Navier_Boats.Engine.Inventory
             info.AddValue("description", Description);
             info.AddValue("maxStack", MaxStack);
             info.AddValue("cost", Cost);
+        }
+
+        public virtual void ImportItem(ItemInfo info)
+        {
+            this.InventoryTexture = TextureManager.GetInstance().LoadTexture(info.inventoryImage);
+            this.ItemTexture = TextureManager.GetInstance().LoadTexture(info.Image);
+            this.Description = info.Description;
+            this.MaxStack = info.Stack;
+            this.Cost = info.Cost;
+        }
+
+        public virtual string getItemType()
+        {
+            return "BaseItem";
+        }
+
+        public virtual void OnAction(LivingEntity executor)
+        {
         }
     }
 }
