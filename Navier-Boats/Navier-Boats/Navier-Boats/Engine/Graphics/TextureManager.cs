@@ -93,6 +93,18 @@ namespace Navier_Boats.Engine.Graphics
             Texture2D HealthTexture;
             Texture2D HUDItemBoxTexture;
             Texture2D MoneyTexture;
+            Texture2D HighlightTexture;
+
+            #region Generate_Highlight_Texture
+
+            HighlightTexture = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            Color[] highlightColor = new Color[1];
+            highlightColor[0] = Color.White;
+            HighlightTexture.SetData(highlightColor);
+
+            #endregion
+
+            loadedTextures["HighlightTexture"] = HighlightTexture;
 
             #region Generate_Compass_Texture
 

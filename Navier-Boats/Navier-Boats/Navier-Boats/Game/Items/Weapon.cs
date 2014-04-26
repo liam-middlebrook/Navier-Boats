@@ -9,27 +9,26 @@ using Navier_Boats.Engine.Inventory;
 namespace Navier_Boats.Game.Items
 {
     [Serializable]
-    class Weapon : AbstractGameItem
+    class Weapon : BaseGameItem
     {
-       
-        private int dmg;
-        private double range;
-
-
         public double Range
         {
-            get { return range; }
-            set { range = value; }
+            get;
+            set;
         }
 
-        public void OnAction(LivingEntity executor)
+        public double Damage
+        {
+            get;
+            set;
+        }
+
+        public override void OnAction(LivingEntity executor)
         {
             throw new NotImplementedException();
         }
 
-
-
-        public string getItemType()
+        public override string getItemType()
         {
             return "Items.Weapon";
         }

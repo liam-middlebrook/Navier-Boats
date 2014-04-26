@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Reflection;
 using Newtonsoft.Json;
 using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Entities;
@@ -15,6 +16,8 @@ namespace Navier_Boats.Engine.Inventory
 
         private List<IGameItem> items = new List<IGameItem>();
 
+        private Dictionary<string, Type> baseItems = new Dictionary<string, Type>();
+
         public static ItemManager GetInstance()
         {
             return instance;
@@ -22,10 +25,23 @@ namespace Navier_Boats.Engine.Inventory
 
         private ItemManager()
         {
+            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                foreach (Type type in assembly.GetTypes())
+                {
+                    if (typeof(IGameItem).IsAssignableFrom(type))
+                    {
+                        IGameItem item = (IGameItem)Activator.CreateInstance(type);
+                        baseItems.Add(item.getItemType(), type);
+                    }
+                }
+            }
+
+            LoadItems();
         }
 
-        /*
-        public void LoadItems()
+        
+        private void LoadItems()
         {
             //path searched for .itm files, for now
             string path = "./Content/Items";
@@ -43,12 +59,18 @@ namespace Navier_Boats.Engine.Inventory
 
                 StreamReader reader = new StreamReader(file);
                 output = reader.ReadToEnd();
-                
-                // SEAN: no longer using item factories. just store the item itself.
-                CustomGameItem item = JsonConvert.DeserializeObject<CustomGameItem>(output);
+
+                ItemInfo info = JsonConvert.DeserializeObject<ItemInfo>(output);
+                Type itemType = null;
+                if (!baseItems.TryGetValue(info.Type, out itemType))
+                {
+                    throw new NotImplementedException("No item of type " + info.Type + " implemented");
+                }
+
+                IGameItem item = (IGameItem)Activator.CreateInstance(itemType);
+                item.ImportItem(info);
                 items.Add(item);
             }
         }
-         * */
     }
 }

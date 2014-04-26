@@ -8,7 +8,6 @@ using System.Runtime.Serialization;
 
 namespace Navier_Boats.Engine.Inventory
 {
-    [Serializable]
     public interface IGameItem : ISerializable
     {
         /// <summary>
@@ -50,5 +49,7 @@ namespace Navier_Boats.Engine.Inventory
         void OnAction(LivingEntity executor);
 
         string getItemType();
+
+        void ImportItem(ItemInfo info);
     }
 }
