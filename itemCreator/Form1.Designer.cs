@@ -200,6 +200,9 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.AutoCompleteCustomSource.AddRange(new string[] {
+            "Items.Weapon",
+            "Items.HealthPack"});
             this.comboBox1.Items.AddRange(new object[] {
             "Weapon",
             "Health Pack",
@@ -209,7 +212,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 38;
-            this.comboBox1.Text = "Weapon";
+            this.comboBox1.Text = "Items.Weapon";
             // 
             // label10
             // 
