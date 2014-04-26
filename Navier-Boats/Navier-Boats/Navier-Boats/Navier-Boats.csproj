@@ -83,6 +83,7 @@
     <Compile Include="Engine\Graphics\IDrawableGUI.cs" />
     <Compile Include="Engine\Graphics\TextureManager.cs" />
     <Compile Include="Engine\Inventory\AbstractGameItem.cs" />
+    <Compile Include="Engine\Inventory\ItemInfo.cs" />
     <Compile Include="Game\Items\HealthPack.cs" />
     <Compile Include="Engine\Inventory\ItemManager.cs" />
     <Compile Include="Game\Items\Weapon.cs" />
