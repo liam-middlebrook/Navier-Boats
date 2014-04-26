@@ -77,6 +77,7 @@ namespace Navier_Boats.Engine.Entities
         {
             this.health = info.GetDouble("health");
             this.headSprite = (Sprite)info.GetValue("headSprite", typeof(Sprite));
+            this.Items = (Inventory.Inventory)info.GetValue("items", typeof(Inventory.Inventory));
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -84,6 +85,7 @@ namespace Navier_Boats.Engine.Entities
             base.GetObjectData(info, context);
             info.AddValue("health", health);
             info.AddValue("headSprite", headSprite);
+            info.AddValue("items", Items);
         }
 
         #region Methods
