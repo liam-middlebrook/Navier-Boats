@@ -43,5 +43,11 @@ namespace Navier_Boats.Game.Items
         {
             return "Items.HealthPack";
         }
+
+        public override void ImportItem(ItemInfo info)
+        {
+            base.ImportItem(info);
+            HealAmount = info.Heal;
+        }
     }
 }
