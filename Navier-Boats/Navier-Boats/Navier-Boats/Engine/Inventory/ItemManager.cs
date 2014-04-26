@@ -29,7 +29,7 @@ namespace Navier_Boats.Engine.Inventory
             {
                 foreach (Type type in assembly.GetTypes())
                 {
-                    if (typeof(IGameItem).IsAssignableFrom(type))
+                    if (typeof(IGameItem).IsAssignableFrom(type) && typeof(IGameItem) != type)
                     {
                         IGameItem item = (IGameItem)Activator.CreateInstance(type);
                         baseItems.Add(item.getItemType(), type);
