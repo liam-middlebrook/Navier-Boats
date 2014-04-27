@@ -131,6 +131,36 @@ namespace Navier_Boats.Engine.Level
                         return 0;
                     }));
 
+            ConsoleWindow.GetInstance().AddCommand(
+                new ConsoleCommand(
+                    "showchunkborders",
+                    (args, logQueue)
+                        =>
+                    {
+                        ConsoleVars.GetInstance().ShowChunkBorders = !ConsoleVars.GetInstance().ShowChunkBorders;
+                        return 0;
+                    }));
+
+            ConsoleWindow.GetInstance().AddCommand(
+                new ConsoleCommand(
+                    "showroadconnectors",
+                    (args, logQueue)
+                        =>
+                    {
+                        ConsoleVars.GetInstance().ShowRoadConnectors = !ConsoleVars.GetInstance().ShowRoadConnectors;
+                        return 0;
+                    }));
+
+            ConsoleWindow.GetInstance().AddCommand(
+                new ConsoleCommand(
+                    "showroads",
+                    (args, logQueue)
+                        =>
+                    {
+                        ConsoleVars.GetInstance().ShowRoads = !ConsoleVars.GetInstance().ShowRoads;
+                        return 0;
+                    }));
+            
             tileTextures = new List<Texture2D>();
             tileTextures.Add(Content.Load<Texture2D>("tiles\\road"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\green"));
@@ -351,7 +381,7 @@ namespace Navier_Boats.Engine.Level
 
         public List<Chunk> GetAdjacentChunks(Chunk c)
         {
-            return (from Chunk chunk in LoadedChunks.AsQueryable() where chunk != c select chunk).ToList();
+            return (from Chunk chunk in LoadedChunks where chunk != c select chunk).ToList();
         }
 
     }
