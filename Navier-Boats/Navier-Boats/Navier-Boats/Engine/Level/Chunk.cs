@@ -271,8 +271,44 @@ namespace Navier_Boats.Engine.Level
                         //Draw the groundLayer tile
                         spriteBatch.Draw(tileTextures[chunkDataGroundLayer[x, y]], worldPos, Color.White);
 
-                        //Draw the road layer tile
-                        spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y]], worldPos, Color.White);
+                        if (ConsoleVars.GetInstance().ShowRoads)
+                        {
+                            //Draw the road layer tile
+                            spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y]], worldPos, Color.White);
+
+                            if (ConsoleVars.GetInstance().ShowChunkBorders && (x == 0 || y == 0))
+                                spriteBatch.Draw(tileTextures[(int)TileType.Debug - 1], worldPos, Color.White);
+
+                            if (ConsoleVars.GetInstance().ShowRoadConnectors && connections != null)
+                            {
+                                foreach (RoadConnectors c in connections)
+                                {
+                                    switch (c)
+                                    {
+                                        case RoadConnectors.North:
+                                            if (y == 0 && (x == 23 || x == 24))
+                                                spriteBatch.Draw(tileTextures[(int)TileType.Debug - 1], worldPos, Color.Green);
+                                            break;
+
+                                        case RoadConnectors.East:
+                                            if (x == CHUNK_WIDTH - 1 && (y == 23 || y == 24))
+                                                spriteBatch.Draw(tileTextures[(int)TileType.Debug - 1], worldPos, Color.Green);
+                                            break;
+
+                                        case RoadConnectors.South:
+                                            if (y == CHUNK_HEIGHT - 1 && (x == 23 || x == 24))
+                                                spriteBatch.Draw(tileTextures[(int)TileType.Debug - 1], worldPos, Color.Green);
+                                            break;
+
+                                        case RoadConnectors.West:
+                                            if (x == 0 && (y == 23 || y == 24))
+                                                spriteBatch.Draw(tileTextures[(int)TileType.Debug - 1], worldPos, Color.Green);
+                                            break;
+
+                                    }
+                                }
+                            }
+                        }
                     }
                     //if (chunkDataOverLayer[x, y] > 0)
                     //{
