@@ -89,18 +89,18 @@
     <Folder Include="textures\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="tiles\NBRoads_0000_Straight.png">
-      <Name>Road_Straight</Name>
+    <Compile Include="tiles\west.png">
+      <Name>west</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\NBRoads_0001_Corner.png">
-      <Name>Road_Corner</Name>
+    <Compile Include="tiles\east.png">
+      <Name>east</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\NBRoads_0002_Start.png">
-      <Name>Road_Start</Name>
+    <Compile Include="tiles\north.png">
+      <Name>north</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -127,6 +127,13 @@
   <ItemGroup>
     <Compile Include="tiles\debugbordertile.png">
       <Name>debugbordertile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="tiles\south.png">
+      <Name>south</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

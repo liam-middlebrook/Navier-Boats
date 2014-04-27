@@ -170,9 +170,10 @@ namespace Navier_Boats.Engine.Level
             tileTextures.Add(Content.Load<Texture2D>("tiles\\debugbordertile"));
 
             terrainGen.SetRoadPatterns(new Dictionary<string, Texture2D> {
-                {"Straight", Content.Load<Texture2D>("tiles\\Road_Straight")},
-                {"Corner", Content.Load<Texture2D>("tiles\\Road_Corner")},
-                {"Start", Content.Load<Texture2D>("tiles\\Road_Start")},            
+                {"North", Content.Load<Texture2D>("tiles\\north")},
+                {"South", Content.Load<Texture2D>("tiles\\south")},
+                {"East", Content.Load<Texture2D>("tiles\\east")},    
+                {"West", Content.Load<Texture2D>("tiles\\west")},
             });
 
             FontManager.GetInstance().LoadFont(Content.Load<SpriteFont>("consolas"), "Console Font");
