@@ -134,11 +134,74 @@ namespace Navier_Boats.Engine.Level
 
        
 
-        private short[,] GenerateRoadLayer(List<RoadConnectors> connections)
+        public short[,] GenerateRoadLayer(List<RoadConnectors> connections)
         {
-            return null;
+            short[,] layer = new short[Chunk.CHUNK_WIDTH, Chunk.CHUNK_HEIGHT];
+            if (connections.Count == 0)
+            {
+                for (int x = 0; x < Chunk.CHUNK_WIDTH; x++)
+                {
+                    for (int y = 0; y < Chunk.CHUNK_HEIGHT; y++)
+                    {
+                        layer[x, y] = (short)TileType.Clear;
+                    }
+                }
+            }
+            else
+            {
+                layer = GenRoadPattern(connections);
+                
+            }
+            return layer;
         }
-    
+
+        private short[,] GenRoadPattern(List<RoadConnectors> rc)
+        {
+            short[,] pattern = new short[Chunk.CHUNK_WIDTH, Chunk.CHUNK_HEIGHT];
+            foreach (RoadConnectors c in rc)
+            {
+                string name = Enum.GetName(typeof(RoadConnectors), c);
+                MergeArrays(ToArray(roadPatterns[Enum.GetName(typeof(RoadConnectors), c)]), ref pattern);
+            }
+            return pattern;
+        }
+
+        private short[,] ToArray(Texture2D tex)
+        {
+            Color refColor = new Color(84, 84, 84, 255);
+            short[,] chunk = new short[Chunk.CHUNK_WIDTH, Chunk.CHUNK_HEIGHT];
+
+            for (int x = 0; x < Chunk.CHUNK_WIDTH; x++)
+            {
+                for (int y = 0; y < Chunk.CHUNK_HEIGHT; y++)
+                {
+                    Color[] c = new Color[1];
+                    tex.GetData<Color>(0, new Rectangle(x, y, 1, 1), c, 0, 1);
+                    if (c[0] == refColor)
+                    {
+                        chunk[x, y] = (short)TileType.Road;
+                    }
+                    else
+                    {
+                        chunk[x, y] = (short)TileType.Clear;
+                    }
+                }
+            }  
+            return chunk;
+        }
+
+        private void MergeArrays(short[,] from, ref short[,] to)
+        {
+            for (int x = 0; x < to.GetLength(0); x++)
+            {
+                for (int y = 0; y < to.GetLength(0); y++)
+                {
+                    if (from[x, y] != (short)TileType.Clear)
+                        to[x, y] = from[x, y];
+                }
+            }
+        }
+
 
         private float fRound(float f)
         {
