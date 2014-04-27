@@ -36,6 +36,7 @@ namespace Navier_Boats.Engine.System
         private ConsoleVars()
         {
             debugDraw = false;
+            ShowRoads = true;
         }
 
         #endregion
