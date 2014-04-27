@@ -108,7 +108,7 @@ namespace Navier_Boats.Game.Entities
                             Items.SelectedItemIndex -= 1;
                         }
                     }
-                    if (mouseState.LeftButton == ButtonState.Pressed && clickLastFrame == false && Items.SelectedItem != null && Items.SelectedItem.Amount > 0)
+                    if (mouseState.LeftButton == ButtonState.Pressed && clickLastFrame == false && Items.SelectedItem != null && Items.SelectedItem.Item != null && Items.SelectedItem.Amount > 0)
                     {
                         Items.SelectedItem.Item.OnAction(this);
                         Items.RemoveItem(Items.SelectedItemIndex);
