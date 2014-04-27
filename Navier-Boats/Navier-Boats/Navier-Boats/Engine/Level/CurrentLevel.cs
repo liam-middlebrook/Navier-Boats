@@ -162,11 +162,11 @@ namespace Navier_Boats.Engine.Level
                     }));
             
             tileTextures = new List<Texture2D>();
-            tileTextures.Add(Content.Load<Texture2D>("tiles\\road"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\clear"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\green"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\sand"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\blue"));
-            tileTextures.Add(Content.Load<Texture2D>("tiles\\clear"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\road"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\debugbordertile"));
 
             terrainGen.SetRoadPatterns(new Dictionary<string, Texture2D> {
