@@ -48,36 +48,15 @@ namespace Navier_Boats.Engine.Level
         public List<RoadConnectors> GenerateConnections(int numConnections)
         {
             Random rand = CurrentLevel.GetRandom();
-            byte cnctType = (byte)rand.Next(8);
-            List<RoadConnectors> connections = new List<RoadConnectors>();
+            byte cnctType = (byte)rand.Next(4);
 
             if (cnctType % 2 == 0)
-            {
-                if (cnctType == 0 || cnctType == 4)
-                {
-                    connections.Add(RoadConnectors.East);
-                    connections.Add(RoadConnectors.West);
-                }
-                else
-                {
-                    connections.Add(RoadConnectors.North);
-                    connections.Add(RoadConnectors.South);
-                }
-            }
-            else
-            {
-                if (cnctType == 1 || cnctType == 5)
-                {
-                    connections.Add(RoadConnectors.NorthEast);
-                    connections.Add(RoadConnectors.SouthWest);
-                }
-                else
-                {
-                    connections.Add(RoadConnectors.NorthWest);
-                    connections.Add(RoadConnectors.SouthEast);
-                }
-            }
-            return connections;
+                return new List<RoadConnectors> { RoadConnectors.East, RoadConnectors.West };
+             else
+                 return new List<RoadConnectors> { RoadConnectors.North, RoadConnectors.South };
+            
+            
+            
         }
 
 
