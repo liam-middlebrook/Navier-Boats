@@ -94,8 +94,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\NBRoads_0001_Diag.png">
-      <Name>Road_Diag</Name>
+    <Compile Include="tiles\NBRoads_0001_Corner.png">
+      <Name>Road_Corner</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -120,6 +120,13 @@
   <ItemGroup>
     <Compile Include="tiles\clear.png">
       <Name>clear</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="tiles\debugbordertile.png">
+      <Name>debugbordertile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

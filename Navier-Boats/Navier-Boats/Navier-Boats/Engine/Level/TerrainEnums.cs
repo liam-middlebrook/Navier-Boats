@@ -13,6 +13,7 @@ namespace Navier_Boats.Engine.Level
         Water = 3,
         Clear = 4,
         City = 5,
+        Debug = 6,
         
     }
 
