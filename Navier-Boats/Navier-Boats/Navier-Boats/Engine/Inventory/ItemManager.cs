@@ -76,7 +76,7 @@ namespace Navier_Boats.Engine.Inventory
 
         public IGameItem GetRandomItem()
         {
-            return items[CurrentLevel.GetRandom().Next(0, items.Count)];
+            return items.Count == 0 ? null : items[CurrentLevel.GetRandom().Next(0, items.Count)];
         }
     }
 }
