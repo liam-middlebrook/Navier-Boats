@@ -140,7 +140,7 @@ namespace Navier_Boats.Engine.Level
 
             terrainGen.SetRoadPatterns(new Dictionary<string, Texture2D> {
                 {"Straight", Content.Load<Texture2D>("tiles\\Road_Straight")},
-                {"Diag", Content.Load<Texture2D>("tiles\\Road_Diag")},
+                {"Corner", Content.Load<Texture2D>("tiles\\Road_Corner")},
                 {"Start", Content.Load<Texture2D>("tiles\\Road_Start")},            
             });
 
