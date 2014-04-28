@@ -44,6 +44,7 @@ namespace Navier_Boats.Game.Items
 
         public override void OnAction(LivingEntity executor)
         {
+            executor.Items.RemoveItem(this);
         }
 
         public override string getItemType()
