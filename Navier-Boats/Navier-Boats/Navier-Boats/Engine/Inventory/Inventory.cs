@@ -121,6 +121,15 @@ namespace Navier_Boats.Engine.Inventory
             }
         }
 
+        public void RemoveItem(IGameItem item)
+        {
+            int index = Find(item);
+            if (index == -1)
+                return;
+
+            RemoveItem(index);
+        }
+
         public void RemoveAll<T>() where T : IGameItem
         {
             RemoveAll(typeof(T));
@@ -188,6 +197,22 @@ namespace Navier_Boats.Engine.Inventory
         public int Find<T>() where T : IGameItem
         {
             return Find(typeof(T));
+        }
+
+        public int Find(IGameItem item)
+        {
+            for (int i = 0; i < this.Items.Length; i++)
+            {
+                ItemStack stack = this.Items[i];
+                if (stack == null || stack.Item == null || stack.Item != item)
+                {
+                    continue;
+                }
+
+                return i;
+            }
+
+            return -1;
         }
 
         public int Find(Type t)
