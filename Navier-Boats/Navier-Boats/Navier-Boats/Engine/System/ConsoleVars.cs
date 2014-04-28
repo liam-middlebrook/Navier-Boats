@@ -24,12 +24,19 @@ namespace Navier_Boats.Engine.System
 
         public bool DebugPathing { get; set; }
 
+        public bool ShowChunkBorders { get; set; }
+
+        public bool ShowRoadConnectors { get; set; }
+
+        public bool ShowRoads { get; set; }
+
         #region SINGLETON_MEMBERS
 
         private static ConsoleVars _instance;
         private ConsoleVars()
         {
             debugDraw = false;
+            ShowRoads = true;
         }
 
         #endregion
