@@ -19,6 +19,8 @@ namespace Navier_Boats.Engine.Inventory
 
         private Dictionary<string, Type> baseItems = new Dictionary<string, Type>();
 
+        private int totalCost;
+
         public static ItemManager GetInstance()
         {
             return instance;
@@ -36,6 +38,7 @@ namespace Navier_Boats.Engine.Inventory
                         baseItems.Add(item.getItemType(), type);
                     }
                 }
+                
             }
 
             LoadItems();
@@ -71,12 +74,23 @@ namespace Navier_Boats.Engine.Inventory
                 IGameItem item = (IGameItem)Activator.CreateInstance(itemType);
                 item.ImportItem(info);
                 items.Add(item);
+                totalCost += item.Cost;
             }
+            
+         
         }
 
         public IGameItem GetRandomItem()
         {
-            return items.Count == 0 ? null : items[CurrentLevel.GetRandom().Next(0, items.Count)];
+            int diceRoll = CurrentLevel.GetRandom().Next(0, totalCost);
+            int index = 0;
+
+            while (diceRoll > 0)
+            {
+                diceRoll -= items[index].Cost;
+                index++;
+            }
+            return items[diceRoll];
         }
     }
 }
