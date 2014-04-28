@@ -366,10 +366,14 @@ namespace Navier_Boats.Engine.Level
                 Directory.CreateDirectory(chunkSaveDirectory);
             }
             LoadedChunks = new Chunk[2, 2];
+
+            LoadedChunks[0, 0] = new Chunk(Chunk.CoordsToChunkID(new Vector2(0, 0)) + ".chunk", chunkSaveDirectory, ref terrainGen);
             for (int y = 0; y < 2; y++)
             {
                 for (int x = 0; x < 2; x++)
                 {
+                    if (x == 0 && y == 0) continue;
+
                     LoadedChunks[x, y] = new Chunk(Chunk.CoordsToChunkID(new Vector2(x - 1, y)) + ".chunk", chunkSaveDirectory, ref terrainGen);
                 }
             }
