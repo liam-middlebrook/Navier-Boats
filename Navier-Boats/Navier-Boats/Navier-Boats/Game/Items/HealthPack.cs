@@ -37,6 +37,7 @@ namespace Navier_Boats.Game.Items
         public override void OnAction(LivingEntity executor)
         {
             executor.TakeDamage(-HealAmount);
+            executor.Items.RemoveItem(this);
         }
 
         public override string getItemType()

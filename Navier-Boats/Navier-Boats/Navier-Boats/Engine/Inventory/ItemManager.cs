@@ -26,6 +26,14 @@ namespace Navier_Boats.Engine.Inventory
             return instance;
         }
 
+        public List<IGameItem> Items
+        {
+            get
+            {
+                return items;
+            }
+        }
+
         private ItemManager()
         {
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())

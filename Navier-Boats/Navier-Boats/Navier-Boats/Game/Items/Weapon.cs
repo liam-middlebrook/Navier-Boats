@@ -44,7 +44,7 @@ namespace Navier_Boats.Game.Items
 
         public override void OnAction(LivingEntity executor)
         {
-            throw new NotImplementedException();
+            executor.Items.RemoveItem(this);
         }
 
         public override string getItemType()
