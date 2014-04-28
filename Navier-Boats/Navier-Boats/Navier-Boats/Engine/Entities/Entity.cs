@@ -129,22 +129,25 @@ namespace Navier_Boats.Engine.Entities
         public virtual void Update(GameTime gameTime)
         {
             //Change the speed of an entity realative to the type of tile it's walking on
-            switch (CurrentLevel.GetInstance().GetTileDataAtPoint(TileLayer.GROUND_LAYER, Position))
+            if (CurrentLevel.GetInstance().GetTileDataAtPoint(TileLayer.ROAD_LAYER, Position) != (short)TileType.Road)
             {
-                case 3:
-                    speed = initialSpeed * WATER_SPEED_MULT;
-                    break;
-                case 2:
-                    speed = initialSpeed * SAND_SPEED_MULT;
-                    break;
-                case 0:
-                    speed = initialSpeed * ROAD_SPEED_MULT;
-                    break;
-                default:
-                    speed = initialSpeed * GRASS_SPEED_MULT;
-                    break;
+                switch (CurrentLevel.GetInstance().GetTileDataAtPoint(TileLayer.GROUND_LAYER, Position))
+                {
+                    case 3:
+                        speed = initialSpeed * WATER_SPEED_MULT;
+                        break;
+                    case 2:
+                        speed = initialSpeed * SAND_SPEED_MULT;
+                        break;
+                    default:
+                        speed = initialSpeed * GRASS_SPEED_MULT;
+                        break;
+                }
             }
-
+            else
+            {
+                speed = initialSpeed * ROAD_SPEED_MULT;
+            }
             //Update Position based on Velocity * deltaTime
             velocity += acceleration * (gameTime.ElapsedGameTime.Milliseconds / 1000.0f);
 

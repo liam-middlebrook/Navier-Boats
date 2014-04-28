@@ -131,17 +131,49 @@ namespace Navier_Boats.Engine.Level
                         return 0;
                     }));
 
+            ConsoleWindow.GetInstance().AddCommand(
+                new ConsoleCommand(
+                    "showchunkborders",
+                    (args, logQueue)
+                        =>
+                    {
+                        ConsoleVars.GetInstance().ShowChunkBorders = !ConsoleVars.GetInstance().ShowChunkBorders;
+                        return 0;
+                    }));
+
+            ConsoleWindow.GetInstance().AddCommand(
+                new ConsoleCommand(
+                    "showroadconnectors",
+                    (args, logQueue)
+                        =>
+                    {
+                        ConsoleVars.GetInstance().ShowRoadConnectors = !ConsoleVars.GetInstance().ShowRoadConnectors;
+                        return 0;
+                    }));
+
+            ConsoleWindow.GetInstance().AddCommand(
+                new ConsoleCommand(
+                    "showroads",
+                    (args, logQueue)
+                        =>
+                    {
+                        ConsoleVars.GetInstance().ShowRoads = !ConsoleVars.GetInstance().ShowRoads;
+                        return 0;
+                    }));
+            
             tileTextures = new List<Texture2D>();
-            tileTextures.Add(Content.Load<Texture2D>("tiles\\road"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\clear"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\green"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\sand"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\blue"));
-            tileTextures.Add(Content.Load<Texture2D>("tiles\\clear"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\road"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\debugbordertile"));
 
             terrainGen.SetRoadPatterns(new Dictionary<string, Texture2D> {
-                {"Straight", Content.Load<Texture2D>("tiles\\Road_Straight")},
-                {"Diag", Content.Load<Texture2D>("tiles\\Road_Diag")},
-                {"Start", Content.Load<Texture2D>("tiles\\Road_Start")},            
+                {"North", Content.Load<Texture2D>("tiles\\north")},
+                {"South", Content.Load<Texture2D>("tiles\\south")},
+                {"East", Content.Load<Texture2D>("tiles\\east")},    
+                {"West", Content.Load<Texture2D>("tiles\\west")},
             });
 
             FontManager.GetInstance().LoadFont(Content.Load<SpriteFont>("consolas"), "Console Font");
@@ -334,10 +366,14 @@ namespace Navier_Boats.Engine.Level
                 Directory.CreateDirectory(chunkSaveDirectory);
             }
             LoadedChunks = new Chunk[2, 2];
+
+            LoadedChunks[0, 0] = new Chunk(Chunk.CoordsToChunkID(new Vector2(0, 0)) + ".chunk", chunkSaveDirectory, ref terrainGen);
             for (int y = 0; y < 2; y++)
             {
                 for (int x = 0; x < 2; x++)
                 {
+                    if (x == 0 && y == 0) continue;
+
                     LoadedChunks[x, y] = new Chunk(Chunk.CoordsToChunkID(new Vector2(x - 1, y)) + ".chunk", chunkSaveDirectory, ref terrainGen);
                 }
             }
@@ -350,7 +386,11 @@ namespace Navier_Boats.Engine.Level
 
         public List<Chunk> GetAdjacentChunks(Chunk c)
         {
-            return (from Chunk chunk in LoadedChunks.AsQueryable() where chunk != c select chunk).ToList();
+            return (from Chunk chunk in LoadedChunks 
+                    where chunk != c && 
+                        chunk != null && 
+                        (chunk.Position.X == c.Position.X || chunk.Position.Y == c.Position.Y)
+                    select chunk).ToList();
         }
 
     }

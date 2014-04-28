@@ -28,13 +28,14 @@ namespace Navier_Boats.Engine.Level
 
         public readonly string CHUNK_ID; //format 1(xIndex-sign)1(yIndex-sign)15(xIndex-value)15(yIndex-value)
         public readonly Vector2 Position;
+        public List<RoadConnectors> Connections;
 
         private bool fileInUse;
 
         Random rand;
 
         private readonly TerrainGenerator terrainGen;
-        private List<RoadConnectors> connections;
+        
         /// <summary>
         /// Creates a new Chunk with the specified Chunk Coords
         /// </summary>
@@ -42,7 +43,7 @@ namespace Navier_Boats.Engine.Level
         /// <param name="y">The Y value of the chunk in chunk-coords</param>
         private void CreateChunk(int x, int y)
         {
-            connections = (x == 0 && y == 0) ? new List<RoadConnectors> {RoadConnectors.North, RoadConnectors.East, RoadConnectors.South, RoadConnectors.West } : terrainGen.GenerateConnections(CurrentLevel.NUM_ROAD_CONNECTIONS);
+            Connections = (x == 0 && y == 0) ? new List<RoadConnectors> {RoadConnectors.North, RoadConnectors.East, RoadConnectors.South, RoadConnectors.West } : terrainGen.GenerateConnections(this, CurrentLevel.NUM_ROAD_CONNECTIONS);
 
             //Fills chunk with tiles generated using Perlin Noise
             rand = CurrentLevel.GetRandom();
@@ -80,10 +81,7 @@ namespace Navier_Boats.Engine.Level
             #endregion
             
             #region RoadLayer
-            if (x == 0 && y == 0)
-            {
-                chunkDataRoadLayer = terrainGen.GetStartingChunkPattern();
-            }
+            chunkDataRoadLayer = terrainGen.GenerateRoadLayer(Connections);
             #endregion
 
             #region OverLayer
@@ -271,8 +269,44 @@ namespace Navier_Boats.Engine.Level
                         //Draw the groundLayer tile
                         spriteBatch.Draw(tileTextures[chunkDataGroundLayer[x, y]], worldPos, Color.White);
 
-                        //Draw the road layer tile
-                        spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y]], worldPos, Color.White);
+                        if (ConsoleVars.GetInstance().ShowRoads)
+                        {
+                            //Draw the road layer tile
+                            spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y]], worldPos, Color.White);
+
+                            if (ConsoleVars.GetInstance().ShowChunkBorders && (x == 0 || y == 0))
+                                spriteBatch.Draw(tileTextures[(int)TileType.Debug - 1], worldPos, Color.White);
+
+                            if (ConsoleVars.GetInstance().ShowRoadConnectors && Connections != null)
+                            {
+                                foreach (RoadConnectors c in Connections)
+                                {
+                                    switch (c)
+                                    {
+                                        case RoadConnectors.North:
+                                            if (y == 0 && (x == 23 || x == 24))
+                                                spriteBatch.Draw(tileTextures[(int)TileType.Debug - 1], worldPos, Color.Green);
+                                            break;
+
+                                        case RoadConnectors.East:
+                                            if (x == CHUNK_WIDTH - 1 && (y == 23 || y == 24))
+                                                spriteBatch.Draw(tileTextures[(int)TileType.Debug - 1], worldPos, Color.Green);
+                                            break;
+
+                                        case RoadConnectors.South:
+                                            if (y == CHUNK_HEIGHT - 1 && (x == 23 || x == 24))
+                                                spriteBatch.Draw(tileTextures[(int)TileType.Debug - 1], worldPos, Color.Green);
+                                            break;
+
+                                        case RoadConnectors.West:
+                                            if (x == 0 && (y == 23 || y == 24))
+                                                spriteBatch.Draw(tileTextures[(int)TileType.Debug - 1], worldPos, Color.Green);
+                                            break;
+
+                                    }
+                                }
+                            }
+                        }
                     }
                     //if (chunkDataOverLayer[x, y] > 0)
                     //{

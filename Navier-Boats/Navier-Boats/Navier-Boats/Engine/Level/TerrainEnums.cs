@@ -7,12 +7,13 @@ namespace Navier_Boats.Engine.Level
 {
     public enum TileType
     {
-        Road = 0,
+        Road = 4,
         Grass = 1,
         Sand = 2,
         Water = 3,
-        Clear = 4,
+        Clear = 0,
         City = 5,
+        Debug = 6,
         
     }
 
@@ -33,13 +34,9 @@ namespace Navier_Boats.Engine.Level
 
     public enum RoadConnectors
     {
-        East = 0,
-        NorthEast = 1,
-        North = 2,
-        NorthWest = 3,
-        West = 4,
-        SouthWest = 5,
-        South = 6,
-        SouthEast = 7,
+        East = 0,        
+        North = 1,  
+        West = 2,
+        South = 3,
     }
 }
