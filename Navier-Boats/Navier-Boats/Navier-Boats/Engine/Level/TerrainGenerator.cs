@@ -45,17 +45,62 @@ namespace Navier_Boats.Engine.Level
             this.roadPatterns = patterns;
         }
 
-        public List<RoadConnectors> GenerateConnections(int numConnections)
+        public List<RoadConnectors> GenerateConnections(Chunk c, int numConnections)
         {
             Random rand = CurrentLevel.GetRandom();
-            byte cnctType = (byte)rand.Next(4);
+            List<Chunk> adjChunks = CurrentLevel.GetInstance().GetAdjacentChunks(c);
+            List<RoadConnectors> rc = new List<RoadConnectors>();
+            
+            
 
-            if (cnctType % 2 == 0)
-                return new List<RoadConnectors> { RoadConnectors.East, RoadConnectors.West };
-             else
-                 return new List<RoadConnectors> { RoadConnectors.North, RoadConnectors.South };
-            
-            
+            foreach (Chunk c2 in adjChunks)
+            {
+                if (c2.Connections == null || c2.Connections.Count == 0)
+                    continue;
+
+                int xDiff = (int)(c.Position.X - c2.Position.X);
+                int yDiff = (int)(c.Position.Y - c2.Position.Y);
+
+                if (xDiff == 1 && yDiff == 0) //Left
+                {
+                    if (c2.Connections.Contains(RoadConnectors.East))
+                    {
+                        rc.Add(RoadConnectors.West);
+                    }
+                }
+                else if (xDiff == -1 && yDiff == 0) //Right
+                {
+                    if (c2.Connections.Contains(RoadConnectors.West))
+                    {
+                        rc.Add(RoadConnectors.East);
+                    }
+                }
+                else if (xDiff == 0 && yDiff == 1) //Up
+                {
+                    if (c2.Connections.Contains(RoadConnectors.South))
+                    {
+                        rc.Add(RoadConnectors.North);
+                    }
+                }
+                else if (xDiff == 0 && yDiff == -1) //Down
+                {
+                    if (c2.Connections.Contains(RoadConnectors.North))
+                    {
+                        rc.Add(RoadConnectors.South);
+                    }
+                }
+            }
+
+            numConnections--;
+            while (numConnections > 0)
+            {
+                RoadConnectors cn;
+                while (rc.Contains(cn = (RoadConnectors)Enum.GetValues(typeof(RoadConnectors)).GetValue(rand.Next(4))));
+                rc.Add(cn);
+                numConnections--;
+            }
+
+            return rc;
             
         }
 
