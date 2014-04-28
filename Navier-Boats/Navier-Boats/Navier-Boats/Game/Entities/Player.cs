@@ -20,6 +20,20 @@ namespace Navier_Boats.Game.Entities
 {
     public class Player : LivingEntity, IInputControllable, IDrawableGUI
     {
+        public enum PlayerState
+        {
+            playing,
+            inventory
+        }
+
+        private PlayerState curState;
+
+        public PlayerState CurState
+        {
+            get { return curState; }
+            set { curState = value; }
+        }
+
         #region HUD Element Rectangles
         //Locations for the HUD elements
         private Rectangle HUDItemBoxRectOne;
@@ -33,10 +47,12 @@ namespace Navier_Boats.Game.Entities
 
         private int previousMouseWheelValue = 0;
         private bool clickLastFrame = false;
+        private bool firstFrameI = true;
 
         public Player(Vector2 position)
             : base(100, 32)
         {
+            curState = PlayerState.playing;
             Position = position;
             initialSpeed = 300;
 
@@ -55,86 +71,120 @@ namespace Navier_Boats.Game.Entities
 
         public void HandleInput(KeyboardState keyState, KeyboardState prevKeyState, MouseState mouseState, MouseState prevMouseState)
         {
-            Vector2 vel = Vector2.Zero;
-            GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
-            if (!ConsoleWindow.GetInstance().IsActive)
+            if (curState == PlayerState.playing)
             {
-                float mult = 1.0f;
-                if (gamePadState.IsConnected)
+                Vector2 vel = Vector2.Zero;
+                GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
+                if (!ConsoleWindow.GetInstance().IsActive)
                 {
-                    mult += gamePadState.Triggers.Right;
-                    vel.X += gamePadState.ThumbSticks.Left.X;
-                    vel.Y += -gamePadState.ThumbSticks.Left.Y;
-                }
-                else
-                {
-                    vel.X += keyState.IsKeyDown(Keys.A) ? -1 : 0;
-                    vel.X += keyState.IsKeyDown(Keys.D) ? 1 : 0;
-                    vel.Y += keyState.IsKeyDown(Keys.W) ? -1 : 0;
-                    vel.Y += keyState.IsKeyDown(Keys.S) ? 1 : 0;
+                    float mult = 1.0f;
+                    if (gamePadState.IsConnected)
+                    {
+                        mult += gamePadState.Triggers.Right;
+                        vel.X += gamePadState.ThumbSticks.Left.X;
+                        vel.Y += -gamePadState.ThumbSticks.Left.Y;
+                    }
+                    else
+                    {
+                        vel.X += keyState.IsKeyDown(Keys.A) ? -1 : 0;
+                        vel.X += keyState.IsKeyDown(Keys.D) ? 1 : 0;
+                        vel.Y += keyState.IsKeyDown(Keys.W) ? -1 : 0;
+                        vel.Y += keyState.IsKeyDown(Keys.S) ? 1 : 0;
 
-                    if (keyState.IsKeyDown(Keys.D1))
-                    {
-                        Items.SelectedItemIndex = 0;
-                    }
-                    else if (keyState.IsKeyDown(Keys.D2))
-                    {
-                        Items.SelectedItemIndex = 1;
-                    }
-                    else if (keyState.IsKeyDown(Keys.D3))
-                    {
-                        Items.SelectedItemIndex = 2;
-                    }
-                    else if (keyState.IsKeyDown(Keys.D4))
-                    {
-                        Items.SelectedItemIndex = 3;
-                    }
-                    else if (keyState.IsKeyDown(Keys.D5))
-                    {
-                        Items.SelectedItemIndex = 4;
-                    }
-                    if (mouseState.ScrollWheelValue < previousMouseWheelValue)
-                    {
-                        Items.SelectedItemIndex = (Items.SelectedItemIndex + 1) % 5;
-                    }
-                    if (mouseState.ScrollWheelValue > previousMouseWheelValue)
-                    {
-                        if (Items.SelectedItemIndex - 1 < 0)
+                        if (keyState.IsKeyDown(Keys.I))
                         {
-                            Items.SelectedItemIndex = 4;
+                            if (!firstFrameI)
+                            {
+                                firstFrameI = true;
+                                curState = PlayerState.inventory;
+                            }
                         }
                         else
                         {
-                            Items.SelectedItemIndex -= 1;
+                            firstFrameI = false;
                         }
+
+                        if (keyState.IsKeyDown(Keys.D1))
+                        {
+                            Items.SelectedItemIndex = 0;
+                        }
+                        else if (keyState.IsKeyDown(Keys.D2))
+                        {
+                            Items.SelectedItemIndex = 1;
+                        }
+                        else if (keyState.IsKeyDown(Keys.D3))
+                        {
+                            Items.SelectedItemIndex = 2;
+                        }
+                        else if (keyState.IsKeyDown(Keys.D4))
+                        {
+                            Items.SelectedItemIndex = 3;
+                        }
+                        else if (keyState.IsKeyDown(Keys.D5))
+                        {
+                            Items.SelectedItemIndex = 4;
+                        }
+                        if (mouseState.ScrollWheelValue < previousMouseWheelValue)
+                        {
+                            Items.SelectedItemIndex = (Items.SelectedItemIndex + 1) % 5;
+                        }
+                        if (mouseState.ScrollWheelValue > previousMouseWheelValue)
+                        {
+                            if (Items.SelectedItemIndex - 1 < 0)
+                            {
+                                Items.SelectedItemIndex = 4;
+                            }
+                            else
+                            {
+                                Items.SelectedItemIndex -= 1;
+                            }
+                        }
+                        if (mouseState.LeftButton == ButtonState.Pressed && clickLastFrame == false && Items.SelectedItem != null && Items.SelectedItem.Item != null && Items.SelectedItem.Amount > 0)
+                        {
+                            Items.SelectedItem.Item.OnAction(this);
+                            clickLastFrame = true;
+                        }
+                        else if (mouseState.LeftButton == ButtonState.Released)
+                        {
+                            clickLastFrame = false;
+                        }
+
+                        previousMouseWheelValue = mouseState.ScrollWheelValue;
+
                     }
-                    if (mouseState.LeftButton == ButtonState.Pressed && clickLastFrame == false && Items.SelectedItem != null && Items.SelectedItem.Item != null && Items.SelectedItem.Amount > 0)
+                    if (vel.LengthSquared() != 0)
                     {
-                        Items.SelectedItem.Item.OnAction(this);
-                        clickLastFrame = true;
-                    }
-                    else if (mouseState.LeftButton == ButtonState.Released)
-                    {
-                        clickLastFrame = false;
+                        vel.X = vel.X / vel.Length();
+                        vel.Y = vel.Y / vel.Length();
                     }
 
-                    previousMouseWheelValue = mouseState.ScrollWheelValue;
-                    
-                }
-                if (vel.LengthSquared() != 0)
-                {
-                    vel.X = vel.X / vel.Length();
-                    vel.Y = vel.Y / vel.Length();
+                    vel *= mult;
                 }
 
-                vel *= mult;
+                Velocity = vel;
+
+                Vector2 headScreenPos = Camera.ConvertToScreenCoords(headSprite.Position);
+
+                float angle = (float)Math.Atan2(mouseState.Y - headScreenPos.X, mouseState.X - headScreenPos.X);
+                headSprite.Rotation = MathHelper.SmoothStep(headSprite.Rotation, angle, 0.97f);
+
             }
-            Velocity = vel;
-
-            Vector2 headScreenPos = Camera.ConvertToScreenCoords(headSprite.Position);
-
-            float angle = (float)Math.Atan2(mouseState.Y - headScreenPos.X, mouseState.X - headScreenPos.X);
-            headSprite.Rotation = MathHelper.SmoothStep(headSprite.Rotation, angle, 0.97f);
+            else if (curState == PlayerState.inventory)
+            {
+                Velocity = Vector2.Zero;
+                if (keyState.IsKeyDown(Keys.I))
+                {
+                    if (!firstFrameI)
+                    {
+                        curState = PlayerState.playing;
+                        firstFrameI = true;
+                    }
+                }
+                else
+                {
+                    firstFrameI = false;
+                }
+            }
         }
 
         public void DrawGUI(SpriteBatch spriteBatch)
@@ -249,6 +299,21 @@ namespace Navier_Boats.Game.Entities
                 spriteBatch.DrawString(itemFont, Items.Items[4].Amount.ToString(), itemTextPosFive, Color.White);
             }
             #endregion
+
+            //Draws the inventory when I is pressed
+            if (curState == PlayerState.inventory)
+            {
+                spriteBatch.Draw(TextureManager.GetInstance()["HighlightTexture"], new Rectangle(ConsoleVars.GetInstance().WindowWidth / 10, ConsoleVars.GetInstance().WindowHeight / 10, (ConsoleVars.GetInstance().WindowWidth * 8) / 10, (ConsoleVars.GetInstance().WindowHeight * 8) / 10), Color.Gray);
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int k = 0; k < 4; k++)
+                    {
+                        spriteBatch.Draw(TextureManager.GetInstance()["HighlightTexture"], new Rectangle(((ConsoleVars.GetInstance().WindowWidth * 117) / 990) + ((i * ConsoleVars.GetInstance().WindowWidth * 49) / 495), ((ConsoleVars.GetInstance().WindowHeight * 4) / 10)  + ((ConsoleVars.GetInstance().WindowHeight * k) / 8), (ConsoleVars.GetInstance().WindowHeight) / 11, (ConsoleVars.GetInstance().WindowHeight) / 11), Color.DarkGray);
+                    }
+                }
+            }
+
+
 
             // Draw Mouse Cursor
             Vector2 mousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);

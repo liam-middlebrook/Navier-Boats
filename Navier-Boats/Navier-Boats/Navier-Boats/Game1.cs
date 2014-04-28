@@ -120,8 +120,8 @@ namespace Navier_Boats
             EntityManager.GetInstance().SaveEntities("test.ent", test);
 
             Player player = EntityManager.GetInstance().Player;
-            player.Items.AddItem(new ItemStack(ItemManager.GetInstance().Items[0]));
-            player.Items.AddItem(new ItemStack(ItemManager.GetInstance().Items[1]));
+            //player.Items.AddItem(new ItemStack(ItemManager.GetInstance().Items[0]));
+            //player.Items.AddItem(new ItemStack(ItemManager.GetInstance().Items[1]));
         }
 
         /// <summary>
