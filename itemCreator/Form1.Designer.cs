@@ -75,7 +75,7 @@
             // Label5
             // 
             this.Label5.AutoSize = true;
-            this.Label5.Location = new System.Drawing.Point(210, 172);
+            this.Label5.Location = new System.Drawing.Point(196, 172);
             this.Label5.Name = "Label5";
             this.Label5.Size = new System.Drawing.Size(58, 13);
             this.Label5.TabIndex = 31;
@@ -84,11 +84,11 @@
             // Label4
             // 
             this.Label4.AutoSize = true;
-            this.Label4.Location = new System.Drawing.Point(295, 172);
+            this.Label4.Location = new System.Drawing.Point(260, 172);
             this.Label4.Name = "Label4";
-            this.Label4.Size = new System.Drawing.Size(28, 13);
+            this.Label4.Size = new System.Drawing.Size(66, 13);
             this.Label4.TabIndex = 30;
-            this.Label4.Text = "Cost";
+            this.Label4.Text = "Commonality";
             // 
             // Label3
             // 
@@ -138,7 +138,7 @@
             // 
             // itemCostBox
             // 
-            this.itemCostBox.Location = new System.Drawing.Point(284, 188);
+            this.itemCostBox.Location = new System.Drawing.Point(270, 188);
             this.itemCostBox.Name = "itemCostBox";
             this.itemCostBox.Size = new System.Drawing.Size(43, 20);
             this.itemCostBox.TabIndex = 8;
@@ -146,7 +146,7 @@
             // 
             // maxStackBox
             // 
-            this.maxStackBox.Location = new System.Drawing.Point(217, 188);
+            this.maxStackBox.Location = new System.Drawing.Point(203, 188);
             this.maxStackBox.Name = "maxStackBox";
             this.maxStackBox.Size = new System.Drawing.Size(43, 20);
             this.maxStackBox.TabIndex = 7;
