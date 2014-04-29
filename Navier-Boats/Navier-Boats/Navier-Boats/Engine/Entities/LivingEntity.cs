@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Graphics;
 using Navier_Boats.Game.Entities;
 using Navier_Boats.Engine.Inventory;
+using Navier_Boats.Engine.System;
 
 
 namespace Navier_Boats.Engine.Entities
@@ -99,6 +100,8 @@ namespace Navier_Boats.Engine.Entities
         /// <remarks>A Negative Value will ADD health to the LivingEntity</remarks>
         public void TakeDamage(double damage)
         {
+            if (ConsoleVars.GetInstance().GodMode) return;
+
             health -= damage;
             if (health > 100)
             {
