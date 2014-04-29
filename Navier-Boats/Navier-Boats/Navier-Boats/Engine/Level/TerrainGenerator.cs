@@ -63,28 +63,28 @@ namespace Navier_Boats.Engine.Level
 
                 if (xDiff == 1 && yDiff == 0) //Left
                 {
-                    if (c2.Connections.Contains(RoadConnectors.East) && !rc.Contains(RoadConnectors.West));
+                    if (c2.Connections.Contains(RoadConnectors.East) && !rc.Contains(RoadConnectors.West))
                     {
                         rc.Add(RoadConnectors.West);
                     }
                 }
                 else if (xDiff == -1 && yDiff == 0) //Right
                 {
-                    if (c2.Connections.Contains(RoadConnectors.West) && !rc.Contains(RoadConnectors.East));
+                    if (c2.Connections.Contains(RoadConnectors.West) && !rc.Contains(RoadConnectors.East))
                     {
                         rc.Add(RoadConnectors.East);
                     }
                 }
                 else if (xDiff == 0 && yDiff == 1) //Up
                 {
-                    if (c2.Connections.Contains(RoadConnectors.South) && !rc.Contains(RoadConnectors.North));
+                    if (c2.Connections.Contains(RoadConnectors.South) && !rc.Contains(RoadConnectors.North))
                     {
                         rc.Add(RoadConnectors.North);
                     }
                 }
                 else if (xDiff == 0 && yDiff == -1) //Down
                 {
-                    if (c2.Connections.Contains(RoadConnectors.North) && !rc.Contains(RoadConnectors.South));
+                    if (c2.Connections.Contains(RoadConnectors.North) && !rc.Contains(RoadConnectors.South))
                     {
                         rc.Add(RoadConnectors.South);
                     }
