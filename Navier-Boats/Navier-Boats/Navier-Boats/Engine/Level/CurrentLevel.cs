@@ -160,6 +160,16 @@ namespace Navier_Boats.Engine.Level
                         ConsoleVars.GetInstance().ShowRoads = !ConsoleVars.GetInstance().ShowRoads;
                         return 0;
                     }));
+
+            ConsoleWindow.GetInstance().AddCommand(
+                new ConsoleCommand(
+                    "godmode",
+                    (args, logQueue)
+                        =>
+                    {
+                        ConsoleVars.GetInstance().GodMode = !ConsoleVars.GetInstance().GodMode;
+                        return 0;
+                    }));
             
             tileTextures = new List<Texture2D>();
             tileTextures.Add(Content.Load<Texture2D>("tiles\\clear"));

@@ -30,6 +30,8 @@ namespace Navier_Boats.Engine.System
 
         public bool ShowRoads { get; set; }
 
+        public bool GodMode { get; set; }
+
         #region SINGLETON_MEMBERS
 
         private static ConsoleVars _instance;
