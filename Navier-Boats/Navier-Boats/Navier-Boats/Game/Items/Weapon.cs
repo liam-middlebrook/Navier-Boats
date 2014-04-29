@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Entities;
 using Navier_Boats.Engine.Inventory;
@@ -44,6 +45,14 @@ namespace Navier_Boats.Game.Items
 
         public override void OnAction(LivingEntity executor)
         {
+            List<Entity> entities = EntityManager.GetInstance().Entities;
+            for(int i = 0; i < entities.Count;++i)
+            {
+                if (entities[i] != executor && entities[i] is LivingEntity && Vector2.DistanceSquared(entities[i].Position, executor.Position) < Range * Range)
+                {
+                    ((LivingEntity)entities[i]).TakeDamage(Damage);
+                }
+            }
             executor.Items.RemoveItem(this);
         }
 
