@@ -82,6 +82,7 @@ namespace Navier_Boats.Engine.Entities
                 {
                     ents.Add(entities[i]);
                     entities.RemoveAt(i);
+                    --i;
                 }
             }
 
