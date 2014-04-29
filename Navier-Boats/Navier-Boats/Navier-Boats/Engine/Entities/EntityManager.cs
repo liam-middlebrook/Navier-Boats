@@ -41,6 +41,8 @@ namespace Navier_Boats.Engine.Entities
         /// </summary>
         private List<Entity> entities;
 
+        public List<Entity> Entities {get {return entities;}}
+
         /// <summary>
         /// A property to access the player
         /// </summary>
