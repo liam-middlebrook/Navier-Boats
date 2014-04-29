@@ -41,6 +41,8 @@ namespace Navier_Boats.Engine.Entities
         /// </summary>
         private List<Entity> entities;
 
+        public readonly string entitySaveLocation = "./LevelData/";
+
         public List<Entity> Entities {get {return entities;}}
 
         /// <summary>
@@ -70,8 +72,21 @@ namespace Navier_Boats.Engine.Entities
             entities.Remove(e);
         }
 
-        public void SaveEntities(string file, params Entity[] ents)
+        public void SaveEntities(Vector2 chunkPos)
         {
+            string file = entitySaveLocation + Chunk.CoordsToChunkID(chunkPos).Split('.')[0] + ".ent";
+            List<Entity> ents = new List<Entity>();
+            for (int i = 0; i < entities.Count; i++)
+            {
+                if (entities[i] != Player && CurrentLevel.GetEnclosingChunk(entities[i].Position) == chunkPos)
+                {
+                    ents.Add(entities[i]);
+                    entities.RemoveAt(i);
+                }
+            }
+
+            if (ents.Count == 0) return; //No entities, don't need to save
+
             IFormatter formatter = new BinaryFormatter();
             using (Stream stream = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.None))
             {
@@ -79,22 +94,26 @@ namespace Navier_Boats.Engine.Entities
             }
         }
 
-        public Entity[] LoadEntities(string file)
+        public void LoadEntities(Vector2 chunkPos)
         {
             IFormatter formatter = new BinaryFormatter();
-            Entity[] ents = null;
+            List<Entity> ents = null;
+
+            string file = entitySaveLocation + Chunk.CoordsToChunkID(chunkPos).Split('.')[0] + ".ent";
+
+            if (!File.Exists(file)) return;
 
             using (Stream stream = new FileStream(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
             {
-                ents = (Entity[])formatter.Deserialize(stream);
+                ents = (List<Entity>)formatter.Deserialize(stream);
             }
+
+            
 
             foreach (Entity ent in ents)
             {
                 this.AddEntity(ent);
             }
-
-            return ents;
         }
 
         /// <summary>
