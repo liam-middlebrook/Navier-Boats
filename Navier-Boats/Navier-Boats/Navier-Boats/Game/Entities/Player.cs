@@ -30,7 +30,8 @@ namespace Navier_Boats.Game.Entities
         public enum PlayerState
         {
             playing,
-            inventory
+            inventory,
+            dead
         }
 
         private ItemStack tempItemStack;
@@ -345,6 +346,10 @@ namespace Navier_Boats.Game.Entities
                         }
                     }
                 }
+            }
+            else if (curState == PlayerState.dead)
+            {
+                //Draw death screen here
             }
 
 
