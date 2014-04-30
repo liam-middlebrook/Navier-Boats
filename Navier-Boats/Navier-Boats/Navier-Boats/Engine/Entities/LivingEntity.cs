@@ -132,7 +132,11 @@ namespace Navier_Boats.Engine.Entities
                 if (entity is IInteractable && entity != this)
                 {
                     IInteractable interactee = entity as IInteractable;
-                    if (Vector2.DistanceSquared(entity.Position, Position) <= 100 * 100)
+                    if (this is Player && ((Player)this).CurState == Player.PlayerState.dead)
+                    {
+                        continue;
+                    }
+                    else if (Vector2.DistanceSquared(entity.Position, Position) <= 100 * 100)
                     {
                         interactee.Interact(this);
                     }
