@@ -92,7 +92,11 @@ namespace Navier_Boats.Game.Entities
             #endregion
         }
 
-
+        public override void OnDeath()
+        {
+            base.OnDeath();
+            curState = PlayerState.dead;
+        }
 
         public void HandleInput(KeyboardState keyState, KeyboardState prevKeyState, MouseState mouseState, MouseState prevMouseState)
         {
