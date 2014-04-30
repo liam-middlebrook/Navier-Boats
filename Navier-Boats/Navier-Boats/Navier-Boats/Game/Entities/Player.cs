@@ -20,10 +20,33 @@ namespace Navier_Boats.Game.Entities
 {
     public class Player : LivingEntity, IInputControllable, IDrawableGUI
     {
+        public enum InventoryState
+        {
+            nothing,
+            clicking,
+            dragging,
+            releasing
+        }
         public enum PlayerState
         {
             playing,
             inventory
+        }
+
+        private ItemStack tempItemStack;
+
+        public ItemStack TempItemStack
+        {
+            get { return tempItemStack; }
+            set { tempItemStack = value; }
+        }
+
+        private InventoryState curInvState;
+
+        public InventoryState CurInvState
+        {
+            get { return curInvState; }
+            set { curInvState = value; }
         }
 
         private PlayerState curState;
@@ -53,6 +76,7 @@ namespace Navier_Boats.Game.Entities
             : base(100, 32)
         {
             curState = PlayerState.playing;
+            curInvState = InventoryState.nothing;
             Position = position;
             initialSpeed = 300;
 
@@ -172,6 +196,10 @@ namespace Navier_Boats.Game.Entities
             else if (curState == PlayerState.inventory)
             {
                 Velocity = Vector2.Zero;
+                if (curInvState == InventoryState.clicking)
+                {
+                    
+                }
                 if (keyState.IsKeyDown(Keys.I))
                 {
                     if (!firstFrameI)
@@ -309,6 +337,12 @@ namespace Navier_Boats.Game.Entities
                     for (int k = 0; k < 4; k++)
                     {
                         spriteBatch.Draw(TextureManager.GetInstance()["HighlightTexture"], new Rectangle(((ConsoleVars.GetInstance().WindowWidth * 117) / 990) + ((i * ConsoleVars.GetInstance().WindowWidth * 49) / 495), ((ConsoleVars.GetInstance().WindowHeight * 4) / 10)  + ((ConsoleVars.GetInstance().WindowHeight * k) / 8), (ConsoleVars.GetInstance().WindowHeight) / 11, (ConsoleVars.GetInstance().WindowHeight) / 11), Color.DarkGray);
+                        int itemIndex = i + (8 * k);
+                        if(Items.Items[itemIndex] != null && Items.Items[itemIndex].Item != null && Items.Items[itemIndex].Item.InventoryTexture != null)
+                        {
+                            spriteBatch.Draw(Items.Items[itemIndex].Item.ItemTexture, new Rectangle(((ConsoleVars.GetInstance().WindowWidth * 117) / 990) + ((i * ConsoleVars.GetInstance().WindowWidth * 49) / 495), ((ConsoleVars.GetInstance().WindowHeight * 4) / 10) + ((ConsoleVars.GetInstance().WindowHeight * k) / 8), (ConsoleVars.GetInstance().WindowHeight) / 11, (ConsoleVars.GetInstance().WindowHeight) / 11), Color.White);
+                            spriteBatch.DrawString(drawFont, Items.Items[itemIndex].Amount.ToString(), new Vector2((float)(((ConsoleVars.GetInstance().WindowWidth * 117) / 990) + ((i * ConsoleVars.GetInstance().WindowWidth * 49) / 495) + 45), (float)(((ConsoleVars.GetInstance().WindowHeight * 4) / 10) + (((ConsoleVars.GetInstance().WindowHeight * k) / 8))) + 50), Color.White);
+                        }
                     }
                 }
             }
