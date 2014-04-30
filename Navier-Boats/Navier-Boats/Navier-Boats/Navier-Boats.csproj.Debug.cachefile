@@ -5,4 +5,13 @@ Content\tiles\blue.xnb
 Content\tiles\green.xnb
 Content\tiles\sand.xnb
 Content\debugTextures\path.xnb
+Content\cursor.xnb
 Content\consolas.xnb
+Content\tiles\dirt.xnb
+Content\tiles\gravel.xnb
+Content\tiles\clear.xnb
+Content\tiles\west.xnb
+Content\tiles\east.xnb
+Content\tiles\north.xnb
+Content\tiles\debugbordertile.xnb
+Content\tiles\south.xnb

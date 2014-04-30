@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace WindowsFormsApplication1
 {
@@ -21,12 +22,21 @@ namespace WindowsFormsApplication1
 
         private void saveInfo_Click(object sender, EventArgs e)
         {
+            folderBrowserDialog1.SelectedPath = new DirectoryInfo(folderBrowserDialog1.SelectedPath).FullName;
+            folderBrowserDialog1.ShowDialog();
+
+            string folderLoc = folderBrowserDialog1.SelectedPath;
+
+            
+
             saveInfo.Enabled = false;
 
             int tempStack;
-            double tempCost;
+            int tempCost;
 
             Item newItem = new Item();
+
+            newItem.Folder = folderLoc;
 
             newItem.Name = itemNameBox.Text;
             newItem.Image = textureNameBox.Text;
@@ -36,12 +46,48 @@ namespace WindowsFormsApplication1
             int.TryParse(maxStackBox.Text, out tempStack);
             newItem.Stack = tempStack;
 
-            double.TryParse(itemCostBox.Text, out tempCost);
+            int.TryParse(itemCostBox.Text, out tempCost);
             newItem.Cost = tempCost;
+
+            newItem.Type = comboBox1.Text;
+
+            if (newItem.Type == "Items.Weapon")
+            {
+                double tempDmg;
+                double tempRng;
+                double.TryParse(DmgBox.Text, out tempDmg);
+                double.TryParse(DmgBox.Text, out tempRng);
+
+                newItem.Damage = tempDmg;
+                newItem.Range = tempRng;
+            }
+            else
+            {
+                double Tempheal;
+                double.TryParse(HealBox.Text, out Tempheal);
+                newItem.Heal = Tempheal;
+            }
 
             newItem.Save();
 
             this.Close();
         }
+
+        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void HealBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+
     }
 }

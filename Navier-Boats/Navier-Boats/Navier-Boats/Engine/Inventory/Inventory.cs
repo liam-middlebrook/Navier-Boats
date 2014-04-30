@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace Navier_Boats.Engine.Inventory
 {
-    public class Inventory
+    [Serializable]
+    public class Inventory : ISerializable
     {
         private int selectedItemIndex = 0;
 
@@ -46,6 +48,18 @@ namespace Navier_Boats.Engine.Inventory
             this.Items = new ItemStack[maxSize];
         }
 
+        public Inventory(SerializationInfo info, StreamingContext context)
+        {
+            this.Items = (ItemStack[])info.GetValue("items", typeof(ItemStack[]));
+            this.selectedItemIndex = info.GetInt32("selectedItemIndex");
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("items", Items);
+            info.AddValue("selectedItemIndex", selectedItemIndex);
+        }
+
         public void AddItem(ItemStack item)
         {
             for(int i = 0; i < this.Items.Length; i++)
@@ -53,6 +67,7 @@ namespace Navier_Boats.Engine.Inventory
                 if (this.Items[i] == null || this.Items[i].Item == null)
                 {
                     this.Items[i] = item;
+                    return;
                 }
             }
 
@@ -85,6 +100,34 @@ namespace Navier_Boats.Engine.Inventory
                 this.Items[i] = null;
 
             return true;
+        }
+
+        public void RemoveItem(int index)
+        {
+            if (index < 0 || index > Items.Length)
+            {
+                throw new IndexOutOfRangeException("index out of range for removeitem");
+            }
+
+            if (Items[index] == null || Items[index].Item == null)
+            {
+                return;
+            }
+
+            Items[index].Amount--;
+            if (Items[index].Amount <= 0)
+            {
+                Items[index] = null;
+            }
+        }
+
+        public void RemoveItem(IGameItem item)
+        {
+            int index = Find(item);
+            if (index == -1)
+                return;
+
+            RemoveItem(index);
         }
 
         public void RemoveAll<T>() where T : IGameItem
@@ -156,6 +199,22 @@ namespace Navier_Boats.Engine.Inventory
             return Find(typeof(T));
         }
 
+        public int Find(IGameItem item)
+        {
+            for (int i = 0; i < this.Items.Length; i++)
+            {
+                ItemStack stack = this.Items[i];
+                if (stack == null || stack.Item == null || stack.Item != item)
+                {
+                    continue;
+                }
+
+                return i;
+            }
+
+            return -1;
+        }
+
         public int Find(Type t)
         {
             for (int i = 0; i < this.Items.Length; i++ )
@@ -199,7 +258,7 @@ namespace Navier_Boats.Engine.Inventory
             for (int i = 0; i < this.Items.Length; i++)
             {
                 ItemStack stack = this.Items[i];
-                if (t.IsAssignableFrom(stack.Item.GetType()))
+                if (stack != null && t.IsAssignableFrom(stack.Item.GetType()))
                     found.Add(i);
             }
 

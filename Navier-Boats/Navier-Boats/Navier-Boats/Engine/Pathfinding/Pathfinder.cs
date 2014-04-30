@@ -106,7 +106,7 @@ namespace Navier_Boats.Engine.Pathfinding
                 startNode.DistanceTraveled = 0;
                 openList.Add(startNode);
 
-                Vector2[] neighbors = new Vector2[] // diagonal pathing is not supported right now, might be soon
+                Vector2[] neighbors = new Vector2[]
                 {
                     new Vector2(size, 0),
                     new Vector2(-size, 0),
