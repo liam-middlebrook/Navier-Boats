@@ -81,12 +81,14 @@ namespace Navier_Boats.Engine.Entities
                 if (entities[i] != Player && CurrentLevel.GetEnclosingChunk(entities[i].Position) == chunkPos)
                 {
                     ents.Add(entities[i]);
+                    entities[i].Unload();
                     entities.RemoveAt(i);
                     --i;
                 }
             }
 
-            if (ents.Count == 0) return; //No entities, don't need to save
+            // NOPE NOPE NOPE: If there was a previously saved entity that no longer exists, we still need to save an empty list of entities to overwrite the old file
+            //if (ents.Count == 0) return; //No entities, don't need to save
 
             IFormatter formatter = new BinaryFormatter();
             using (Stream stream = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.None))
@@ -108,8 +110,6 @@ namespace Navier_Boats.Engine.Entities
             {
                 ents = (List<Entity>)formatter.Deserialize(stream);
             }
-
-            
 
             foreach (Entity ent in ents)
             {

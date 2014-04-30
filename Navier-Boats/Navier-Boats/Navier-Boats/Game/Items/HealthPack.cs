@@ -36,6 +36,9 @@ namespace Navier_Boats.Game.Items
 
         public override void OnAction(LivingEntity executor)
         {
+            if (executor.Health >= 100)
+                return;
+
             executor.TakeDamage(-HealAmount);
             executor.Items.RemoveItem(this);
         }
