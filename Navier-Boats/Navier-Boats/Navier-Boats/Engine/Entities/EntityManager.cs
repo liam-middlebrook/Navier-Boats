@@ -81,6 +81,7 @@ namespace Navier_Boats.Engine.Entities
                 if (entities[i] != Player && CurrentLevel.GetEnclosingChunk(entities[i].Position) == chunkPos)
                 {
                     ents.Add(entities[i]);
+                    entities[i].Unload();
                     entities.RemoveAt(i);
                     --i;
                 }
