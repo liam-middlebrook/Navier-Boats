@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,7 +11,8 @@ namespace Navier_Boats.Engine.Graphics
     /// <summary>
     /// A Sprite That Will Be Drawn to the Screen
     /// </summary>
-    public class Sprite
+    [Serializable]
+    public class Sprite : ISerializable
     {
         #region Fields
 
@@ -143,6 +145,43 @@ namespace Navier_Boats.Engine.Graphics
             this.effects = SpriteEffects.None;
 
             this.depthLayer = 0.0f;
+        }
+
+        protected Sprite(SerializationInfo info, StreamingContext context)
+        {
+            this.texture = TextureManager.GetInstance().LoadTexture(info.GetString("texture"));
+            this.position = (Vector2)info.GetValue("position", typeof(Vector2));
+            if (info.GetBoolean("hasSourceRectangle"))
+            {
+                sourceRectangle = (Rectangle)info.GetValue("sourceRectangle", typeof(Rectangle));
+            }
+            this.tintColor = (Color)info.GetValue("tintColor", typeof(Color));
+            this.rotation = info.GetSingle("rotation");
+            this.rotationOrigin = (Vector2)info.GetValue("rotationOrigin", typeof(Vector2));
+            this.scale = (Vector2)info.GetValue("scale", typeof(Vector2));
+            this.effects = (SpriteEffects)info.GetValue("effects", typeof(SpriteEffects));
+            this.depthLayer = info.GetSingle("depthLayer");
+        }
+
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("texture", texture.Name);
+            info.AddValue("position", position);
+            if (sourceRectangle.HasValue)
+            {
+                info.AddValue("hasSourceRectangle", true);
+                info.AddValue("sourceRectangle", sourceRectangle.Value);
+            }
+            else
+            {
+                info.AddValue("hasSourceRectangle", false);
+            }
+            info.AddValue("tintColor", tintColor);
+            info.AddValue("rotation", rotation);
+            info.AddValue("rotationOrigin", rotationOrigin);
+            info.AddValue("scale", scale);
+            info.AddValue("effects", effects);
+            info.AddValue("depthLayer", depthLayer);
         }
 
         /// <summary>

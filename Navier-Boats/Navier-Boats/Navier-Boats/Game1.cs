@@ -14,6 +14,7 @@ using Navier_Boats.Engine.Entities;
 using Navier_Boats.Engine.Level;
 using Navier_Boats.Engine.Graphics;
 using Navier_Boats.Engine.System;
+using Navier_Boats.Engine.Inventory;
 
 // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
 using Navier_Boats.Engine.Pathfinding;
@@ -75,7 +76,7 @@ namespace Navier_Boats
             graphics.PreferredBackBufferHeight = ConsoleVars.GetInstance().WindowHeight;
             graphics.ApplyChanges();
 
-            IsMouseVisible = true;
+            IsMouseVisible = false;
 
             base.Initialize();
         }
@@ -89,9 +90,14 @@ namespace Navier_Boats
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            CurrentLevel.GetInstance().LoadContent(Content);
-
+            TextureManager.Content = Content;
+            TextureManager.GetInstance().Initialize(GraphicsDevice);
             TextureManager.GetInstance().GenerateTextures(GraphicsDevice);
+
+            CurrentLevel.GetInstance().LoadContent(Content);
+            //Load boat mouse cursor
+            TextureManager.GetInstance()["cursor"] = Content.Load<Texture2D>("cursor");
+            
             /*for (int i = 1; i < 1; i++)
             {
             entities.Add(new Wanderer(new Vector2(30*i,30*i), randy.Next(int.MaxValue)));
@@ -102,9 +108,20 @@ namespace Navier_Boats
 
             ConsoleWindow.GetInstance().ConsoleFont = Content.Load<SpriteFont>("consolas");
 
-            pathSquare = Content.Load<Texture2D>("debugTextures/path");
+            ItemManager.GetInstance();
 
+            //TextureManager.GetInstance()["debugTextures/path"] = Content.Load<Texture2D>("debugTextures/path");
+            TextureManager.GetInstance().LoadAllTexturesInDirectory("debugTextures");
             // TODO: use this.Content to load your game content here
+
+            Wanderer test = new Wanderer(new Vector2(0, 0));
+            test.Texture = Content.Load<Texture2D>("playerTexture");
+            test.HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
+            //EntityManager.GetInstance().SaveEntities("test.ent", test);
+
+            Player player = EntityManager.GetInstance().Player;
+            //player.Items.AddItem(new ItemStack(ItemManager.GetInstance().Items[0], 64));
+            //player.Items.AddItem(new ItemStack(ItemManager.GetInstance().Items[1]));
         }
 
         /// <summary>
@@ -155,7 +172,7 @@ namespace Navier_Boats
 
             CurrentLevel.GetInstance().Draw(spriteBatch);
 
-            PathThreadPool.GetInstance().Draw(spriteBatch, pathSquare);
+            PathThreadPool.GetInstance().Draw(spriteBatch, TextureManager.GetInstance()["debugTextures/path"]);
 
             spriteBatch.End();
             spriteBatch.Begin();

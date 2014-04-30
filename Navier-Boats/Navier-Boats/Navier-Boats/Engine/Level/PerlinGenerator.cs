@@ -71,18 +71,6 @@ namespace Navier_Boats.Engine.Level
         }
 
         /// <summary>
-        /// Standard linear interpolation
-        /// </summary>
-        /// <param name="a">Begin point</param>
-        /// <param name="b">End point</param>
-        /// <param name="x">Interpolation factor</param>
-        /// <returns></returns>
-        float Lerp(float a, float b, float x)
-        {
-            return (1 - x) * a + x * b;
-        }
-
-        /// <summary>
         /// Not actually a dot product, just scalar multiplication for 1D noise
         /// </summary>
         /// <param name="g"></param>

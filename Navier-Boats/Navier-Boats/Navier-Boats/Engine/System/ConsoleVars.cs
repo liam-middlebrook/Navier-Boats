@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace Navier_Boats.Engine.System
 {
@@ -17,9 +18,19 @@ namespace Navier_Boats.Engine.System
        
         public int WindowWidth { get { return windowWidth; } set { windowWidth = value; } }
 
+        public Rectangle WindowRect { get { return new Rectangle(0, 0, windowWidth, windowHeight); } }
+
         public bool DebugDraw { get { return debugDraw; } set { debugDraw = value; } }
 
         public bool DebugPathing { get; set; }
+
+        public bool ShowChunkBorders { get; set; }
+
+        public bool ShowRoadConnectors { get; set; }
+
+        public bool ShowRoads { get; set; }
+
+        public bool GodMode { get; set; }
 
         #region SINGLETON_MEMBERS
 
@@ -27,6 +38,7 @@ namespace Navier_Boats.Engine.System
         private ConsoleVars()
         {
             debugDraw = false;
+            ShowRoads = true;
         }
 
         #endregion

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 using Navier_Boats.Engine.Entities;
 using Navier_Boats.Engine.Level;
 using Navier_Boats.Engine.Pathfinding;
@@ -11,12 +12,14 @@ using Microsoft.Xna.Framework;
 
 namespace Navier_Boats.Game.Entities
 {
+    [Serializable]
     public class Wanderer : HostileLivingEntity
     {
         private static Pathfinder.Heuristic Heuristic = Heuristics.ResistanceRandomness(-0.1, 0.1, Heuristics.Distance);
 
         private enum AIState
         {
+            None,
             Wandering,
             SubmitPathing,
             Pathing,
@@ -31,7 +34,7 @@ namespace Navier_Boats.Game.Entities
         private AIState currentState = AIState.Wandering;
 
         private PathResult path = null;
-
+        
         private PathJob currentJob = null;
 
         private int currentNodeIndex = 0;
@@ -43,6 +46,11 @@ namespace Navier_Boats.Game.Entities
         {
             Position = position;
             initialSpeed = 50;
+        }
+
+        protected Wanderer(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
         }
 
         public override void Update(GameTime gameTime)
@@ -66,7 +74,7 @@ namespace Navier_Boats.Game.Entities
                             currentState = AIState.Attacking;
                             break;
                         }
-                        else if (distanceToPlayer <= 230400)
+                        else if (distanceToPlayer <= 360000)
                         {
                             Velocity = Vector2.Zero;
                             currentState = AIState.SubmitPathing;
@@ -90,7 +98,7 @@ namespace Navier_Boats.Game.Entities
                             currentState = AIState.Attacking;
                             break;
                         }
-                        else if (distanceToPlayer > 230400)
+                        else if (distanceToPlayer > 360000)
                         {
                             currentState = AIState.Wandering;
                             break;
@@ -132,7 +140,7 @@ namespace Navier_Boats.Game.Entities
                             currentState = AIState.Attacking;
                             break;
                         }
-                        else if (distanceToPlayer > 230400)
+                        else if (distanceToPlayer > 360000)
                         {
                             currentState = AIState.Wandering;
                             currentJob.Cancelled = true;
@@ -153,7 +161,7 @@ namespace Navier_Boats.Game.Entities
                             currentState = AIState.Attacking;
                             break;
                         }
-                        else if (distanceToPlayer > 230400)
+                        else if (distanceToPlayer > 360000)
                         {
                             currentState = AIState.Wandering;
                             currentJob.Cancelled = true;
@@ -236,6 +244,17 @@ namespace Navier_Boats.Game.Entities
             headSprite.Rotation = Rotation;
 
             base.Update(gameTime);
+        }
+
+        public override void Unload()
+        {
+            base.Unload();
+
+            this.currentState = AIState.None;
+            if (currentJob != null)
+            {
+                currentJob.Cancelled = true;
+            }
         }
     }
 }

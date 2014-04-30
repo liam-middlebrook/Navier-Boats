@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace Navier_Boats.Engine.Inventory
 {
-    public class ItemStack
+    [Serializable]
+    public class ItemStack : ISerializable
     {
         private int amount = 1;
 
@@ -47,6 +49,18 @@ namespace Navier_Boats.Engine.Inventory
         {
             this.Item = item;
             this.Amount = amount;
+        }
+
+        public ItemStack(SerializationInfo info, StreamingContext context)
+        {
+            this.Item = (IGameItem)info.GetValue("item", typeof(IGameItem));
+            this.Amount = info.GetInt32("amount");
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("item", Item);
+            info.AddValue("amount", Amount);
         }
     }
 }
