@@ -107,11 +107,6 @@ namespace Navier_Boats.Engine.Entities
             {
                 health = 100;
             }
-            else if (health <= 0)
-            {
-                OnDeath();
-                EntityManager.GetInstance().RemoveEntity(this);
-            }
         }
 
         public virtual void OnDeath()
