@@ -37,5 +37,10 @@ namespace Navier_Boats.Engine.Entities
                 (interactor as LivingEntity).TakeDamage(.5);
             }
         }
+
+        public override void OnDeath()
+        {
+            base.OnDeath();
+        }
     }
 }
