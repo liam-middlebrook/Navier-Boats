@@ -147,8 +147,14 @@ namespace Navier_Boats.Engine.Entities
                 //Ensure that all LivingEntities are still alive
                 if (((LivingEntity)entities[i]).Health < 0)
                 {
-                    entities.RemoveAt(i);
-                    --i;
+                    LivingEntity ent = entities[i] as LivingEntity;
+                    ent.OnDeath();
+
+                    if (ent is Wanderer)
+                    {
+                        entities.RemoveAt(i);
+                        --i;
+                    }
                 }
             }
         }
