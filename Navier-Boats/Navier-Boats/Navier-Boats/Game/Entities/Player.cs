@@ -435,20 +435,13 @@ namespace Navier_Boats.Game.Entities
                 foreach (Rectangle temp in invItemRects)
                 {
                     spriteBatch.Draw(TextureManager.GetInstance()["HighlightTexture"], temp, Color.DarkGray);
-                }
-                for (int i = 0; i < 8; i++)
-                {
-                    for (int k = 0; k < 4; k++)
+                    if (Items.Items[invItemRects.IndexOf(temp)] != null && Items.Items[invItemRects.IndexOf(temp)].Item != null && Items.Items[invItemRects.IndexOf(temp)].Item.InventoryTexture != null)
                     {
-                        //spriteBatch.Draw(TextureManager.GetInstance()["HighlightTexture"], new Rectangle(((ConsoleVars.GetInstance().WindowWidth * 117) / 990) + ((i * ConsoleVars.GetInstance().WindowWidth * 49) / 495), ((ConsoleVars.GetInstance().WindowHeight * 4) / 10)  + ((ConsoleVars.GetInstance().WindowHeight * k) / 8), (ConsoleVars.GetInstance().WindowHeight) / 11, (ConsoleVars.GetInstance().WindowHeight) / 11), Color.DarkGray);
-                        int itemIndex = i + (8 * k);
-                        if(Items.Items[itemIndex] != null && Items.Items[itemIndex].Item != null && Items.Items[itemIndex].Item.InventoryTexture != null)
-                        {
-                            spriteBatch.Draw(Items.Items[itemIndex].Item.ItemTexture, new Rectangle(((ConsoleVars.GetInstance().WindowWidth * 117) / 990) + ((i * ConsoleVars.GetInstance().WindowWidth * 49) / 495), ((ConsoleVars.GetInstance().WindowHeight * 4) / 10) + ((ConsoleVars.GetInstance().WindowHeight * k) / 8), (ConsoleVars.GetInstance().WindowHeight) / 11, (ConsoleVars.GetInstance().WindowHeight) / 11), Color.White);
-                            spriteBatch.DrawString(drawFont, Items.Items[itemIndex].Amount.ToString(), new Vector2((float)(((ConsoleVars.GetInstance().WindowWidth * 117) / 990) + ((i * ConsoleVars.GetInstance().WindowWidth * 49) / 495) + 45), (float)(((ConsoleVars.GetInstance().WindowHeight * 4) / 10) + (((ConsoleVars.GetInstance().WindowHeight * k) / 8))) + 50), Color.White);
-                        }
+                        spriteBatch.Draw(Items.Items[invItemRects.IndexOf(temp)].Item.ItemTexture, temp, Color.White);
+                        spriteBatch.DrawString(drawFont, Items.Items[invItemRects.IndexOf(temp)].Amount.ToString(), new Vector2((float)temp.X, (float)temp.Y), Color.White);
                     }
                 }
+
 
                 if (tempItemStack != null && curInvState == InventoryState.dragging)
                 {
