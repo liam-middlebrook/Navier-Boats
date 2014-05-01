@@ -103,8 +103,28 @@ namespace Navier_Boats.Engine.Entities
             List<Entity> ents = null;
 
             string file = entitySaveLocation + Chunk.CoordsToChunkID(chunkPos).Split('.')[0] + ".ent";
+            
+            if (!File.Exists(file))
+            {/*
+                Random rnd = CurrentLevel.GetRandom();
+                int numZombies = rnd.Next(1, 4);
+                Wanderer z;
 
-            if (!File.Exists(file)) return;
+                for (int i = 1; i <= numZombies; i++)
+                {
+                    
+                    Vector2 pos = Vector2.Zero; 
+                    //Work in progress
+
+                    z = new Wanderer(pos);
+                    
+                    z.Texture = TextureManager.GetInstance().LoadTexture("playerTexture");
+                    z.HeadTexture = TextureManager.GetInstance().LoadTexture("playerHeadTexture");
+                    
+                    this.AddEntity(z);
+                }*/
+                return;
+            }
 
             using (Stream stream = new FileStream(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
             {
