@@ -93,8 +93,7 @@ namespace Navier_Boats.Game.Entities
             {
                 for (int k = 0; k < 4; k++)
                 {
-                    int itemIndex = i + (8 * k);
-                    invItemRects[itemIndex] = new Rectangle(((ConsoleVars.GetInstance().WindowWidth * 117) / 990) + ((i * ConsoleVars.GetInstance().WindowWidth * 49) / 495), ((ConsoleVars.GetInstance().WindowHeight * 4) / 10) + ((ConsoleVars.GetInstance().WindowHeight * k) / 8), (ConsoleVars.GetInstance().WindowHeight) / 11, (ConsoleVars.GetInstance().WindowHeight) / 11);
+                    invItemRects.Add(new Rectangle(((ConsoleVars.GetInstance().WindowWidth * 117) / 990) + ((i * ConsoleVars.GetInstance().WindowWidth * 49) / 495), ((ConsoleVars.GetInstance().WindowHeight * 4) / 10) + ((ConsoleVars.GetInstance().WindowHeight * k) / 8), (ConsoleVars.GetInstance().WindowHeight) / 11, (ConsoleVars.GetInstance().WindowHeight) / 11));
                 }
             }
 
@@ -242,12 +241,17 @@ namespace Navier_Boats.Game.Entities
                 {
                     if (mouseState.LeftButton == ButtonState.Released)
                     {
+                        bool secondItemSelected = false;
                         foreach (Rectangle temp in invItemRects)
                         {
                             if (temp.Contains(new Point(mouseState.X, mouseState.Y)))
                             {
+                                secondItemSelected = true;
                                 secondSelectedItemIndex = invItemRects.IndexOf(temp);
                             }
+                        }
+                        if (secondItemSelected)
+                        {
                             if (secondSelectedItemIndex == selectedItemIndex)
                             {
                                 Items.Items[selectedItemIndex] = tempItemStack;
@@ -256,7 +260,14 @@ namespace Navier_Boats.Game.Entities
                             }
                             else
                             {
-                                if (Items.Items[secondSelectedItemIndex].Item == tempItemStack.Item)
+                                if (Items.Items[secondSelectedItemIndex] == null)
+                                {
+                                    Items.Items[secondSelectedItemIndex] = tempItemStack;
+                                    selectedItemIndex = -1;
+                                    secondSelectedItemIndex = -1;
+                                    curInvState = InventoryState.nothing;
+                                }
+                                else if (Items.Items[secondSelectedItemIndex].Item == tempItemStack.Item)
                                 {
                                     Items.Items[secondSelectedItemIndex].Amount += Items.Items[selectedItemIndex].Amount;
                                     if (Items.Items[secondSelectedItemIndex].Amount > 32)
@@ -278,6 +289,14 @@ namespace Navier_Boats.Game.Entities
                                     curInvState = InventoryState.nothing;
                                 }
                             }
+                        }
+                        else
+                        {
+                            Items.Items[selectedItemIndex] = tempItemStack;
+                            tempItemStack = null;
+                            selectedItemIndex = -1;
+                            secondSelectedItemIndex = -1;
+                            curInvState = InventoryState.nothing;
                         }
                     }
                 }
@@ -431,7 +450,7 @@ namespace Navier_Boats.Game.Entities
                     }
                 }
 
-                if (tempItemStack != null)
+                if (tempItemStack != null && curInvState == InventoryState.dragging)
                 {
                     spriteBatch.Draw(tempItemStack.Item.ItemTexture, new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, (ConsoleVars.GetInstance().WindowHeight) / 11, (ConsoleVars.GetInstance().WindowHeight) / 11), Color.White);
                 }
