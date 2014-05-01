@@ -117,5 +117,12 @@ libXNADeveloperConsole/docs
 Navier-Boats/Navier-Boats/Navier-BoatsContent/tiles/PNG/
 
 #items folder
+Navier-Boats/Navier-Boats/Navier-Boats/bin/*
+!Navier-Boats/Navier-Boats/Navier-Boats/bin/
+Navier-Boats/Navier-Boats/Navier-Boats/bin/x86/*
+!Navier-Boats/Navier-Boats/Navier-Boats/bin/x86/
+Navier-Boats/Navier-Boats/Navier-Boats/bin/x86/Debug/*
+!Navier-Boats/Navier-Boats/Navier-Boats/bin/x86/Debug/
+Navier-Boats/Navier-Boats/Navier-Boats/bin/x86/Debug/Content/*
+!Navier-Boats/Navier-Boats/Navier-Boats/bin/x86/Debug/Content/
 !Navier-Boats/Navier-Boats/Navier-Boats/bin/x86/Debug/Content/items
-!Navier-Boats/Navier-Boats/Navier-Boats/bin/x86/Debug/Content/items/*
