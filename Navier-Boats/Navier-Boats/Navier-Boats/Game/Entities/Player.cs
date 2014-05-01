@@ -430,6 +430,7 @@ namespace Navier_Boats.Game.Entities
             if (curState == PlayerState.inventory)
             {
                 spriteBatch.Draw(TextureManager.GetInstance()["HighlightTexture"], new Rectangle(ConsoleVars.GetInstance().WindowWidth / 10, ConsoleVars.GetInstance().WindowHeight / 10, (ConsoleVars.GetInstance().WindowWidth * 8) / 10, (ConsoleVars.GetInstance().WindowHeight * 8) / 10), Color.Gray);
+                spriteBatch.Draw(TextureManager.GetInstance()["HighlightTexture"], new Rectangle(invItemRects[0].X - 5, invItemRects[0].Y - 5, (invItemRects[0].Width * 5) + ((ConsoleVars.GetInstance().WindowWidth * 1) / 7), invItemRects[0].Height + 10), Color.White);
                 foreach (Rectangle temp in invItemRects)
                 {
                     spriteBatch.Draw(TextureManager.GetInstance()["HighlightTexture"], temp, Color.DarkGray);
