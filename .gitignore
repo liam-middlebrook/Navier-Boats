@@ -119,3 +119,6 @@ Navier-Boats/Navier-Boats/Navier-BoatsContent/tiles/PNG/
 #items folder
 !Navier-Boats/Navier-Boats/Navier-Boats/bin/x86/Debug/Content/items
 !Navier-Boats/Navier-Boats/Navier-Boats/bin/x86/Debug/Content/items/*
+
+#xna content files
+*.xnb
