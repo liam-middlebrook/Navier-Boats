@@ -23,9 +23,7 @@ namespace Navier_Boats.Game.Entities
         public enum InventoryState
         {
             nothing,
-            clicking,
-            dragging,
-            releasing
+            dragging
         }
         public enum PlayerState
         {
@@ -89,11 +87,11 @@ namespace Navier_Boats.Game.Entities
 
             invItemRects = new List<Rectangle>();
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 4; i++)
             {
-                for (int k = 0; k < 4; k++)
+                for (int k = 0; k < 8; k++)
                 {
-                    invItemRects.Add(new Rectangle(((ConsoleVars.GetInstance().WindowWidth * 117) / 990) + ((i * ConsoleVars.GetInstance().WindowWidth * 49) / 495), ((ConsoleVars.GetInstance().WindowHeight * 4) / 10) + ((ConsoleVars.GetInstance().WindowHeight * k) / 8), (ConsoleVars.GetInstance().WindowHeight) / 11, (ConsoleVars.GetInstance().WindowHeight) / 11));
+                    invItemRects.Add(new Rectangle(((ConsoleVars.GetInstance().WindowWidth * 117) / 990) + ((k * ConsoleVars.GetInstance().WindowWidth * 49) / 495), ((ConsoleVars.GetInstance().WindowHeight * 4) / 10) + ((ConsoleVars.GetInstance().WindowHeight * i) / 8), (ConsoleVars.GetInstance().WindowHeight) / 11, (ConsoleVars.GetInstance().WindowHeight) / 11));
                 }
             }
 
