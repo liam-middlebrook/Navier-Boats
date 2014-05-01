@@ -35,7 +35,9 @@ namespace Navier_Boats.Engine.Entities
         //The time in milliseconds since the Entity attacked
         protected int milliSinceAttack;
 
+        public const int ATTACK_FLASH_TIMER = 500;
 
+        protected Texture2D pow;
         #endregion
 
         #region Properties
@@ -77,6 +79,8 @@ namespace Navier_Boats.Engine.Entities
             headSprite = new Sprite();
             health = initialHealth;
             this.Items = new Inventory.Inventory(inventorySize);
+            milliSinceAttack = ATTACK_FLASH_TIMER;
+            pow = TextureManager.GetInstance().LoadTexture("pow");
         }
 
         protected LivingEntity(SerializationInfo info, StreamingContext context)
@@ -85,6 +89,8 @@ namespace Navier_Boats.Engine.Entities
             this.health = info.GetDouble("health");
             this.headSprite = (Sprite)info.GetValue("headSprite", typeof(Sprite));
             this.Items = (Inventory.Inventory)info.GetValue("items", typeof(Inventory.Inventory));
+            this.milliSinceAttack = 0;
+            this.pow = TextureManager.GetInstance().LoadTexture("pow");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -104,6 +110,9 @@ namespace Navier_Boats.Engine.Entities
         /// <remarks>A Negative Value will ADD health to the LivingEntity</remarks>
         public void TakeDamage(double damage)
         {
+
+            milliSinceAttack = 0;
+
             if (ConsoleVars.GetInstance().GodMode) return;
 
             health -= damage;
@@ -168,6 +177,7 @@ namespace Navier_Boats.Engine.Entities
             if (weapon != null)
                 weapon.Update(gameTime);
             headSprite.Position = Position;
+            milliSinceAttack += gameTime.ElapsedGameTime.Milliseconds;
         }
 
         /// <summary>
@@ -179,6 +189,10 @@ namespace Navier_Boats.Engine.Entities
             base.Draw(spriteBatch);
             if (weapon != null)
                 weapon.Draw(spriteBatch, this.Items.SelectedItem.Item.ItemTexture);
+            if (milliSinceAttack < ATTACK_FLASH_TIMER)
+            {
+                spriteBatch.Draw(pow, BoundingRectangle() , new Color(255,255,255,200));
+            }
             headSprite.Draw(spriteBatch);
         }
 
