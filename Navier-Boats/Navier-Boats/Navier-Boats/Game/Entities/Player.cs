@@ -313,6 +313,7 @@ namespace Navier_Boats.Game.Entities
             }
         }
 
+
         public void DrawGUI(SpriteBatch spriteBatch)
         {
             if (Items.SelectedItemIndex == 0)
