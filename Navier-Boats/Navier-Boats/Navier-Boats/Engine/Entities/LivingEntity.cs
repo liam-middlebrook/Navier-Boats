@@ -32,6 +32,10 @@ namespace Navier_Boats.Engine.Entities
         //The weapon of the entity
         protected ItemInHand weapon;
 
+        //The time in milliseconds since the Entity attacked
+        protected int milliSinceAttack;
+
+
         #endregion
 
         #region Properties
