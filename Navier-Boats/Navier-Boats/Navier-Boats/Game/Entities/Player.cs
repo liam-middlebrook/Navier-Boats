@@ -36,6 +36,8 @@ namespace Navier_Boats.Game.Entities
 
         private int selectedItemIndex;
 
+        private int secondSelectedItemIndex;
+
         private List<Rectangle> invItemRects;
 
         private ItemStack tempItemStack;
@@ -236,6 +238,49 @@ namespace Navier_Boats.Game.Entities
                         }
                     }
                 }
+                if (curInvState == InventoryState.dragging)
+                {
+                    if (mouseState.LeftButton == ButtonState.Released)
+                    {
+                        foreach (Rectangle temp in invItemRects)
+                        {
+                            if (temp.Contains(new Point(mouseState.X, mouseState.Y)))
+                            {
+                                secondSelectedItemIndex = invItemRects.IndexOf(temp);
+                            }
+                            if (secondSelectedItemIndex == selectedItemIndex)
+                            {
+                                Items.Items[selectedItemIndex] = tempItemStack;
+                                tempItemStack = null;
+                                curInvState = InventoryState.nothing;
+                            }
+                            else
+                            {
+                                if (Items.Items[secondSelectedItemIndex].Item == tempItemStack.Item)
+                                {
+                                    Items.Items[secondSelectedItemIndex].Amount += Items.Items[selectedItemIndex].Amount;
+                                    if (Items.Items[secondSelectedItemIndex].Amount > 32)
+                                    {
+                                        Items.Items[secondSelectedItemIndex].Amount = 32;
+                                    }
+                                    tempItemStack = null;
+                                    secondSelectedItemIndex = -1;
+                                    selectedItemIndex = -1;
+                                    curInvState = InventoryState.nothing;
+                                }
+                                else
+                                {
+                                    Items.Items[selectedItemIndex] = Items.Items[secondSelectedItemIndex];
+                                    Items.Items[secondSelectedItemIndex] = tempItemStack;
+                                    tempItemStack = null;
+                                    secondSelectedItemIndex = -1;
+                                    selectedItemIndex = -1;
+                                    curInvState = InventoryState.nothing;
+                                }
+                            }
+                        }
+                    }
+                }
                 if (keyState.IsKeyDown(Keys.I))
                 {
                     if (!firstFrameI)
@@ -384,6 +429,11 @@ namespace Navier_Boats.Game.Entities
                             spriteBatch.DrawString(drawFont, Items.Items[itemIndex].Amount.ToString(), new Vector2((float)(((ConsoleVars.GetInstance().WindowWidth * 117) / 990) + ((i * ConsoleVars.GetInstance().WindowWidth * 49) / 495) + 45), (float)(((ConsoleVars.GetInstance().WindowHeight * 4) / 10) + (((ConsoleVars.GetInstance().WindowHeight * k) / 8))) + 50), Color.White);
                         }
                     }
+                }
+
+                if (tempItemStack != null)
+                {
+                    spriteBatch.Draw(tempItemStack.Item.ItemTexture, new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, (ConsoleVars.GetInstance().WindowHeight) / 11, (ConsoleVars.GetInstance().WindowHeight) / 11), Color.White);
                 }
             }
             else if (curState == PlayerState.dead)
