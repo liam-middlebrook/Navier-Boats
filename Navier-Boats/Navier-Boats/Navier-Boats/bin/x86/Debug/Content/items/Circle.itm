@@ -1,0 +1,12 @@
+{
+  "Type": "Items.Weapon",
+  "Name": "Circle",
+  "Image": "playerHeadTexture",
+  "inventoryImage": "playerHeadTexture",
+  "Description": "N/A",
+  "Stack": 64,
+  "Cost": 0,
+  "Damage": 100.0,
+  "Heal": 0.0,
+  "Range": 50.0
+}
