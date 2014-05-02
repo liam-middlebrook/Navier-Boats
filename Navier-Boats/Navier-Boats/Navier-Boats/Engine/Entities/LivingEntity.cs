@@ -130,6 +130,7 @@ namespace Navier_Boats.Engine.Entities
                 DroppedItem item = new DroppedItem();
                 item.Item = Items.Items[index];
                 item.Position = this.Position;
+                item.Texture = Items.Items[index].Item.ItemTexture;
                 EntityManager.GetInstance().AddEntity(item);
             }
         }
