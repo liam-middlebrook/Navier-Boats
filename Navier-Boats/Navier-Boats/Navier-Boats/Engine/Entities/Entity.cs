@@ -128,6 +128,11 @@ namespace Navier_Boats.Engine.Entities
         /// <param name="gameTime">Data about the time between update cycles for our game</param>
         public virtual void Update(GameTime gameTime)
         {
+            if (!CurrentLevel.GetInstance().IsChunkLoadedAtPoint(Position))
+            {
+                return;
+            }
+
             //Change the speed of an entity realative to the type of tile it's walking on
             if (CurrentLevel.GetInstance().GetTileDataAtPoint(TileLayer.ROAD_LAYER, Position) != (short)TileType.Road)
             {
