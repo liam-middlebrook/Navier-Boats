@@ -19,6 +19,8 @@ using Navier_Boats.Engine.Inventory;
 // DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
 using Navier_Boats.Engine.Pathfinding;
 using Navier_Boats.Engine.Pathfinding.Threading;
+using Navier_Boats.Engine.Menu;
+using Navier_Boats.Game.Menu;
 
 /**
  * Add your names here once you have completed the Git/SourceTree seminar:
@@ -78,6 +80,7 @@ namespace Navier_Boats
 
             IsMouseVisible = false;
 
+
             base.Initialize();
         }
 
@@ -106,18 +109,25 @@ namespace Navier_Boats
                 
             }//*/
 
-            ConsoleWindow.GetInstance().ConsoleFont = Content.Load<SpriteFont>("consolas");
+            FontManager.GetInstance().LoadFont(Content.Load<SpriteFont>("consolas"), "consolas");
+            ConsoleWindow.GetInstance().ConsoleFont = FontManager.GetInstance()["consolas"];
 
             ItemManager.GetInstance();
 
             //TextureManager.GetInstance()["debugTextures/path"] = Content.Load<Texture2D>("debugTextures/path");
             TextureManager.GetInstance().LoadAllTexturesInDirectory("debugTextures");
             // TODO: use this.Content to load your game content here
-
+            /*
             Wanderer test = new Wanderer(new Vector2(0, 0));
             test.Texture = Content.Load<Texture2D>("playerTexture");
             test.HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
+             */
             //EntityManager.GetInstance().SaveEntities("test.ent", test);
+            StateManager.GetInstance()[GameStates.MAIN_MENU] = new MainMenu();
+            StateManager.GetInstance()[GameStates.GAMEPLAY] = new Gameplay();
+            StateManager.GetInstance()[GameStates.GAME_OVER] = new GameOver();
+            StateManager.GetInstance()[GameStates.CREDITS] = new Credits();
+            StateManager.GetInstance().InitializeStateManager(GameStates.MAIN_MENU);
 
             Player player = EntityManager.GetInstance().Player;
             player.Items.AddItem(new ItemStack(ItemManager.GetInstance().Items[0], 64));
@@ -149,11 +159,9 @@ namespace Navier_Boats
             prevMouseState = mouseState;
             mouseState = Mouse.GetState();
 
+            StateManager.GetInstance().CurrentState.Update(gameTime);
+            
             ConsoleWindow.GetInstance().Update(keyHelper);
-
-            CurrentLevel.GetInstance().Update(gameTime, keyHelper.KeyState, keyHelper.PrevKeyState, mouseState, prevMouseState);
-
-            PathThreadPool.GetInstance().Update();
 
             // TODO: Add your update logic here
             
@@ -168,17 +176,17 @@ namespace Navier_Boats
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.TransformMatrix);
+            spriteBatch.Begin(0, null, null, null, null, null, Camera.TransformMatrix);
 
-            CurrentLevel.GetInstance().Draw(spriteBatch);
-
-            PathThreadPool.GetInstance().Draw(spriteBatch, TextureManager.GetInstance()["debugTextures/path"]);
+            StateManager.GetInstance().CurrentState.Draw(spriteBatch);
 
             spriteBatch.End();
             spriteBatch.Begin();
-            ConsoleWindow.GetInstance().Draw(spriteBatch);
-            CurrentLevel.GetInstance().DrawGUI(spriteBatch, GraphicsDevice);
 
+            StateManager.GetInstance().CurrentState.DrawGUI(spriteBatch);
+
+            ConsoleWindow.GetInstance().Draw(spriteBatch);
+            
             spriteBatch.End();
             // TODO: Add your drawing code here
 

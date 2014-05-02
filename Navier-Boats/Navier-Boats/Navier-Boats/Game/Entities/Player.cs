@@ -20,10 +20,38 @@ namespace Navier_Boats.Game.Entities
 {
     public class Player : LivingEntity, IInputControllable, IDrawableGUI
     {
+        public enum InventoryState
+        {
+            nothing,
+            dragging
+        }
         public enum PlayerState
         {
             playing,
-            inventory
+            inventory,
+            dead
+        }
+
+        private int selectedItemIndex;
+
+        private int secondSelectedItemIndex;
+
+        private List<Rectangle> invItemRects;
+
+        private ItemStack tempItemStack;
+
+        public ItemStack TempItemStack
+        {
+            get { return tempItemStack; }
+            set { tempItemStack = value; }
+        }
+
+        private InventoryState curInvState;
+
+        public InventoryState CurInvState
+        {
+            get { return curInvState; }
+            set { curInvState = value; }
         }
 
         private PlayerState curState;
@@ -53,9 +81,19 @@ namespace Navier_Boats.Game.Entities
             : base(100, 32)
         {
             curState = PlayerState.playing;
+            curInvState = InventoryState.nothing;
             Position = position;
             initialSpeed = 300;
 
+            invItemRects = new List<Rectangle>();
+
+            for (int i = 0; i < 4; i++)
+            {
+                for (int k = 0; k < 8; k++)
+                {
+                    invItemRects.Add(new Rectangle(((ConsoleVars.GetInstance().WindowWidth * 117) / 990) + ((k * ConsoleVars.GetInstance().WindowWidth * 49) / 495), ((ConsoleVars.GetInstance().WindowHeight * 4) / 10) + ((ConsoleVars.GetInstance().WindowHeight * i) / 8), (ConsoleVars.GetInstance().WindowHeight) / 11, (ConsoleVars.GetInstance().WindowHeight) / 11));
+                }
+            }
 
             #region HUD Rectangle Initiation
             HUDItemBoxRectOne = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 724,ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
@@ -67,7 +105,11 @@ namespace Navier_Boats.Game.Entities
             #endregion
         }
 
-
+        public override void OnDeath()
+        {
+            base.OnDeath();
+            curState = PlayerState.dead;
+        }
 
         public void HandleInput(KeyboardState keyState, KeyboardState prevKeyState, MouseState mouseState, MouseState prevMouseState)
         {
@@ -172,6 +214,90 @@ namespace Navier_Boats.Game.Entities
             else if (curState == PlayerState.inventory)
             {
                 Velocity = Vector2.Zero;
+                if (curInvState == InventoryState.nothing)
+                {
+                    if (mouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        bool indexSelected = false;
+                        foreach (Rectangle temp in invItemRects)
+                        {
+                            if (temp.Contains(new Point(mouseState.X, mouseState.Y)))
+                            {
+                                selectedItemIndex = invItemRects.IndexOf(temp);
+                                indexSelected = true;
+                            }
+                        }
+                        if (indexSelected)
+                        {
+                            tempItemStack = Items.Items[selectedItemIndex];
+                            Items.Items[selectedItemIndex] = null;
+                            curInvState = InventoryState.dragging;
+                        }
+                    }
+                }
+                if (curInvState == InventoryState.dragging)
+                {
+                    if (mouseState.LeftButton == ButtonState.Released)
+                    {
+                        bool secondItemSelected = false;
+                        foreach (Rectangle temp in invItemRects)
+                        {
+                            if (temp.Contains(new Point(mouseState.X, mouseState.Y)))
+                            {
+                                secondItemSelected = true;
+                                secondSelectedItemIndex = invItemRects.IndexOf(temp);
+                            }
+                        }
+                        if (secondItemSelected)
+                        {
+                            if (secondSelectedItemIndex == selectedItemIndex)
+                            {
+                                Items.Items[selectedItemIndex] = tempItemStack;
+                                tempItemStack = null;
+                                curInvState = InventoryState.nothing;
+                            }
+                            else
+                            {
+                                if (Items.Items[secondSelectedItemIndex] == null)
+                                {
+                                    Items.Items[secondSelectedItemIndex] = tempItemStack;
+                                    selectedItemIndex = -1;
+                                    secondSelectedItemIndex = -1;
+                                    curInvState = InventoryState.nothing;
+                                }
+                                else if (Items.Items[secondSelectedItemIndex].Item == tempItemStack.Item)
+                                {
+                                    Items.Items[secondSelectedItemIndex].Amount += Items.Items[selectedItemIndex].Amount;
+                                    if (Items.Items[secondSelectedItemIndex].Amount > 32)
+                                    {
+                                        Items.Items[secondSelectedItemIndex].Amount = 32;
+                                    }
+                                    tempItemStack = null;
+                                    secondSelectedItemIndex = -1;
+                                    selectedItemIndex = -1;
+                                    curInvState = InventoryState.nothing;
+                                }
+                                else
+                                {
+                                    Items.Items[selectedItemIndex] = Items.Items[secondSelectedItemIndex];
+                                    Items.Items[secondSelectedItemIndex] = tempItemStack;
+                                    tempItemStack = null;
+                                    secondSelectedItemIndex = -1;
+                                    selectedItemIndex = -1;
+                                    curInvState = InventoryState.nothing;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Items.Items[selectedItemIndex] = tempItemStack;
+                            tempItemStack = null;
+                            selectedItemIndex = -1;
+                            secondSelectedItemIndex = -1;
+                            curInvState = InventoryState.nothing;
+                        }
+                    }
+                }
                 if (keyState.IsKeyDown(Keys.I))
                 {
                     if (!firstFrameI)
@@ -186,6 +312,7 @@ namespace Navier_Boats.Game.Entities
                 }
             }
         }
+
 
         public void DrawGUI(SpriteBatch spriteBatch)
         {
@@ -304,13 +431,26 @@ namespace Navier_Boats.Game.Entities
             if (curState == PlayerState.inventory)
             {
                 spriteBatch.Draw(TextureManager.GetInstance()["HighlightTexture"], new Rectangle(ConsoleVars.GetInstance().WindowWidth / 10, ConsoleVars.GetInstance().WindowHeight / 10, (ConsoleVars.GetInstance().WindowWidth * 8) / 10, (ConsoleVars.GetInstance().WindowHeight * 8) / 10), Color.Gray);
-                for (int i = 0; i < 8; i++)
+                spriteBatch.Draw(TextureManager.GetInstance()["HighlightTexture"], new Rectangle(invItemRects[0].X - 5, invItemRects[0].Y - 5, (invItemRects[0].Width * 5) + ((ConsoleVars.GetInstance().WindowWidth * 1) / 7), invItemRects[0].Height + 10), Color.White);
+                foreach (Rectangle temp in invItemRects)
                 {
-                    for (int k = 0; k < 4; k++)
+                    spriteBatch.Draw(TextureManager.GetInstance()["HighlightTexture"], temp, Color.DarkGray);
+                    if (Items.Items[invItemRects.IndexOf(temp)] != null && Items.Items[invItemRects.IndexOf(temp)].Item != null && Items.Items[invItemRects.IndexOf(temp)].Item.InventoryTexture != null)
                     {
-                        spriteBatch.Draw(TextureManager.GetInstance()["HighlightTexture"], new Rectangle(((ConsoleVars.GetInstance().WindowWidth * 117) / 990) + ((i * ConsoleVars.GetInstance().WindowWidth * 49) / 495), ((ConsoleVars.GetInstance().WindowHeight * 4) / 10)  + ((ConsoleVars.GetInstance().WindowHeight * k) / 8), (ConsoleVars.GetInstance().WindowHeight) / 11, (ConsoleVars.GetInstance().WindowHeight) / 11), Color.DarkGray);
+                        spriteBatch.Draw(Items.Items[invItemRects.IndexOf(temp)].Item.ItemTexture, temp, Color.White);
+                        spriteBatch.DrawString(drawFont, Items.Items[invItemRects.IndexOf(temp)].Amount.ToString(), new Vector2((float)temp.X, (float)temp.Y), Color.White);
                     }
                 }
+
+
+                if (tempItemStack != null && curInvState == InventoryState.dragging)
+                {
+                    spriteBatch.Draw(tempItemStack.Item.ItemTexture, new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, (ConsoleVars.GetInstance().WindowHeight) / 11, (ConsoleVars.GetInstance().WindowHeight) / 11), Color.White);
+                }
+            }
+            else if (curState == PlayerState.dead)
+            {
+                //Draw death screen here
             }
 
 

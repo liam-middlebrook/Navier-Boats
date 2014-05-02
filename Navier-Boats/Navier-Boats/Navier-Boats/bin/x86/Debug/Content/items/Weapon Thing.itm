@@ -1,0 +1,12 @@
+{
+  "Type": "Items.Weapon",
+  "Name": "Weapon Thing",
+  "Image": "items/pistol_world",
+  "inventoryImage": "items/pistol_inventory",
+  "Description": "I shoot things",
+  "Stack": 64,
+  "Cost": 0,
+  "Damage": 20.0,
+  "Heal": 0.0,
+  "Range": 20.0
+}

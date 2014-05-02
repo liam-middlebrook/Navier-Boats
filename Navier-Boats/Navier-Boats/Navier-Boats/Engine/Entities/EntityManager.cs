@@ -103,8 +103,29 @@ namespace Navier_Boats.Engine.Entities
             List<Entity> ents = null;
 
             string file = entitySaveLocation + Chunk.CoordsToChunkID(chunkPos).Split('.')[0] + ".ent";
+            
+            if (!File.Exists(file))
+            {
+                Random rnd = CurrentLevel.GetRandom();
+                int numZombies = rnd.Next(4, 8);
+                Wanderer z;
 
-            if (!File.Exists(file)) return;
+                for (int i = 1; i <= numZombies; i++)
+                {
+                    
+                    Vector2 minPos = new Vector2(Chunk.CHUNK_WIDTH*Chunk.TILE_WIDTH, Chunk.CHUNK_HEIGHT*Chunk.TILE_HEIGHT) * chunkPos;
+                    Vector2 maxPos = minPos + new Vector2(Chunk.CHUNK_WIDTH * Chunk.TILE_WIDTH, Chunk.CHUNK_HEIGHT * Chunk.TILE_HEIGHT);
+                    //Work in progress
+                    Vector2 pos = new Vector2(CurrentLevel.GetRandom().Next((int)minPos.X, (int)maxPos.X), CurrentLevel.GetRandom().Next((int)minPos.Y, (int)maxPos.Y));
+                    z = new Wanderer(pos);
+                    
+                    z.Texture = TextureManager.GetInstance().LoadTexture("playerTexture");
+                    z.HeadTexture = TextureManager.GetInstance().LoadTexture("playerHeadTexture");
+                    
+                    this.AddEntity(z);
+                }
+                return;
+            }
 
             using (Stream stream = new FileStream(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
             {
@@ -145,10 +166,16 @@ namespace Navier_Boats.Engine.Entities
                 }
 
                 //Ensure that all LivingEntities are still alive
-                if (((LivingEntity)entities[i]).Health < 0)
+                if (entities[i] is LivingEntity && ((LivingEntity)entities[i]).Health < 0)
                 {
-                    entities.RemoveAt(i);
-                    --i;
+                    LivingEntity ent = entities[i] as LivingEntity;
+                    ent.OnDeath();
+
+                    if (ent is Wanderer)
+                    {
+                        entities.RemoveAt(i);
+                        --i;
+                    }
                 }
             }
         }

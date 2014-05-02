@@ -1,0 +1,12 @@
+{
+  "Type": "Items.HealthPack",
+  "Name": "Health Pack",
+  "Image": "items/health_inventory",
+  "inventoryImage": "items/health_inventory",
+  "Description": "Hi mom",
+  "Stack": 64,
+  "Cost": 0,
+  "Damage": 0.0,
+  "Heal": 20.0,
+  "Range": 0.0
+}

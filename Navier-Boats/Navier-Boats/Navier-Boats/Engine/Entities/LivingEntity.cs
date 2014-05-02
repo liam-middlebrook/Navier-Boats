@@ -9,6 +9,7 @@ using Navier_Boats.Engine.Graphics;
 using Navier_Boats.Game.Entities;
 using Navier_Boats.Engine.Inventory;
 using Navier_Boats.Engine.System;
+using Navier_Boats.Engine.Menu;
 
 
 namespace Navier_Boats.Engine.Entities
@@ -32,6 +33,12 @@ namespace Navier_Boats.Engine.Entities
         //The weapon of the entity
         protected ItemInHand weapon;
 
+        //The time in milliseconds since the Entity attacked
+        protected int milliSinceAttack;
+
+        public const int ATTACK_FLASH_TIMER = 500;
+
+        protected Texture2D pow;
         #endregion
 
         #region Properties
@@ -73,6 +80,8 @@ namespace Navier_Boats.Engine.Entities
             headSprite = new Sprite();
             health = initialHealth;
             this.Items = new Inventory.Inventory(inventorySize);
+            milliSinceAttack = ATTACK_FLASH_TIMER;
+            pow = TextureManager.GetInstance().LoadTexture("pow");
         }
 
         protected LivingEntity(SerializationInfo info, StreamingContext context)
@@ -81,6 +90,8 @@ namespace Navier_Boats.Engine.Entities
             this.health = info.GetDouble("health");
             this.headSprite = (Sprite)info.GetValue("headSprite", typeof(Sprite));
             this.Items = (Inventory.Inventory)info.GetValue("items", typeof(Inventory.Inventory));
+            this.milliSinceAttack = 0;
+            this.pow = TextureManager.GetInstance().LoadTexture("pow");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -100,17 +111,15 @@ namespace Navier_Boats.Engine.Entities
         /// <remarks>A Negative Value will ADD health to the LivingEntity</remarks>
         public void TakeDamage(double damage)
         {
+
+            milliSinceAttack = 0;
+
             if (ConsoleVars.GetInstance().GodMode) return;
 
             health -= damage;
             if (health > 100)
             {
                 health = 100;
-            }
-            else if (health <= 0)
-            {
-                OnDeath();
-                EntityManager.GetInstance().RemoveEntity(this);
             }
         }
 
@@ -122,8 +131,11 @@ namespace Navier_Boats.Engine.Entities
                 DroppedItem item = new DroppedItem();
                 item.Item = Items.Items[index];
                 item.Position = this.Position;
+                item.Texture = Items.Items[index].Item.ItemTexture;
                 EntityManager.GetInstance().AddEntity(item);
             }
+            if(this is Player)
+                StateManager.GetInstance().PushState(GameStates.GAME_OVER);
         }
 
         /// <summary>
@@ -137,7 +149,11 @@ namespace Navier_Boats.Engine.Entities
                 if (entity is IInteractable && entity != this)
                 {
                     IInteractable interactee = entity as IInteractable;
-                    if (Vector2.DistanceSquared(entity.Position, Position) <= 100 * 100)
+                    if (this is Player && ((Player)this).CurState == Player.PlayerState.dead)
+                    {
+                        continue;
+                    }
+                    else if (Vector2.DistanceSquared(entity.Position, Position) <= 100 * 100)
                     {
                         interactee.Interact(this);
                     }
@@ -165,6 +181,7 @@ namespace Navier_Boats.Engine.Entities
             if (weapon != null)
                 weapon.Update(gameTime);
             headSprite.Position = Position;
+            milliSinceAttack += gameTime.ElapsedGameTime.Milliseconds;
         }
 
         /// <summary>
@@ -174,7 +191,14 @@ namespace Navier_Boats.Engine.Entities
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
+
             headSprite.Draw(spriteBatch);
+
+            if (milliSinceAttack < ATTACK_FLASH_TIMER)
+            {
+                spriteBatch.Draw(pow, BoundingRectangle(), new Color(255, 255, 255, 200));
+            }
+
             if (Items.SelectedItem != null && Items.SelectedItem.Item != null && Items.SelectedItem.Item.ItemTexture != null)
                 spriteBatch.Draw(Items.SelectedItem.Item.ItemTexture, Position, Color.White);
         }
