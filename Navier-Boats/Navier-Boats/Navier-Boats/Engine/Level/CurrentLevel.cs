@@ -31,7 +31,7 @@ namespace Navier_Boats.Engine.Level
         }
         #endregion
 
-        private static Random random = new Random();
+        private static Random random;
 
         public static Random GetRandom()
         {
@@ -431,6 +431,7 @@ namespace Navier_Boats.Engine.Level
                         f.Close();
                 }
             }
+            random = new Random(seed);
             LoadedChunks = new Chunk[2, 2];
 
             LoadedChunks[0, 0] = new Chunk(Chunk.CoordsToChunkID(new Vector2(0, 0)) + ".chunk", chunkSaveDirectory, ref terrainGen);
