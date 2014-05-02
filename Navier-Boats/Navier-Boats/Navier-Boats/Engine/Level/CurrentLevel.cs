@@ -371,7 +371,7 @@ namespace Navier_Boats.Engine.Level
             EntityManager.GetInstance().Draw(spriteBatch);
         }
 
-        public void DrawGUI(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
+        public void DrawGUI(SpriteBatch spriteBatch)
         {
             if (ConsoleVars.GetInstance().DebugDraw)
             {
