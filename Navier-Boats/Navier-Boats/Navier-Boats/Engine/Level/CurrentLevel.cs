@@ -329,6 +329,7 @@ namespace Navier_Boats.Engine.Level
 
             return pointChunkOffset;
         }
+
         public short GetTileDataAtPoint(TileLayer tileLayer, Vector2 point)
         {
             Vector2 chunkCoord;
@@ -343,11 +344,31 @@ namespace Navier_Boats.Engine.Level
                     break;
                 }
             }
+
             if (chunk == null)
             {
                 chunk = new Chunk(Chunk.CoordsToChunkID(chunkCoord) + ".chunk", chunkSaveDirectory, ref terrainGen);
             }
+
             return chunk.GetDataAtPosition(tileLayer, pointChunkOffset);
+        }
+
+        public bool IsChunkLoadedAtPoint(Vector2 point)
+        {
+            Vector2 chunkCoord;
+            Vector2 pointChunkOffset = WorldCoordsToTileCoords(point, out chunkCoord);
+
+            Chunk chunk = null;
+            foreach (Chunk loadedChunk in LoadedChunks)
+            {
+                if (chunkCoord == loadedChunk.Position)
+                {
+                    chunk = loadedChunk;
+                    break;
+                }
+            }
+
+            return chunk != null;
         }
 
         public void Draw(SpriteBatch spriteBatch)
