@@ -165,7 +165,7 @@ namespace Navier_Boats.Engine.Entities
                 }
 
                 //Ensure that all LivingEntities are still alive
-                if (((LivingEntity)entities[i]).Health < 0)
+                if (entities[i] is LivingEntity && ((LivingEntity)entities[i]).Health < 0)
                 {
                     LivingEntity ent = entities[i] as LivingEntity;
                     ent.OnDeath();
