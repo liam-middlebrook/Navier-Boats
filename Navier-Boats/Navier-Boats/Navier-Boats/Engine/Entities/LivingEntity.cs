@@ -9,6 +9,7 @@ using Navier_Boats.Engine.Graphics;
 using Navier_Boats.Game.Entities;
 using Navier_Boats.Engine.Inventory;
 using Navier_Boats.Engine.System;
+using Navier_Boats.Engine.Menu;
 
 
 namespace Navier_Boats.Engine.Entities
@@ -133,6 +134,8 @@ namespace Navier_Boats.Engine.Entities
                 item.Texture = Items.Items[index].Item.ItemTexture;
                 EntityManager.GetInstance().AddEntity(item);
             }
+            if(this is Player)
+                StateManager.GetInstance().PushState(GameStates.GAME_OVER);
         }
 
         /// <summary>
