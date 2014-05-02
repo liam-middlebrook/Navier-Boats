@@ -131,6 +131,8 @@
     <Compile Include="Game\Entities\Wanderer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Game\Menu\Credits.cs" />
+    <Compile Include="Game\Menu\GameOver.cs" />
     <Compile Include="Game\Menu\Gameplay.cs" />
     <Compile Include="Game\Menu\MainMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
