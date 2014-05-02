@@ -21,6 +21,7 @@ namespace CharacterCustomizer
         protected Rectangle rBSize, lBSize, dispSize, currOptSize;
         protected int currIndex = 0;
         protected List<Texture2D> options;
+        protected List<string> fileNames;
 
         //const string ImageLoc = "../../../../CharacterCustomizerContent/";
 
@@ -28,6 +29,15 @@ namespace CharacterCustomizer
         protected int leftDisp,rightDisp,displayDisp,optionDisp;
 
         protected bool rBClicked = false, lBClicked = false;
+
+        /// <summary>
+        /// get
+        /// returns the current texture on the wheel
+        /// </summary>
+        public Texture2D Current
+        {
+            get { return options[currIndex]; }
+        }
 
         public Wheel(int s, string dir, ContentManager content, int x, int y) : base(s)
         {
@@ -37,6 +47,7 @@ namespace CharacterCustomizer
             optionDisp = displayDisp;
 
             options = new List<Texture2D>();
+            fileNames = new List<string>();
             int extraDisp = 0;
             LoadTextures(dir, content);
 
@@ -78,6 +89,7 @@ namespace CharacterCustomizer
             {
                 string file = Path.GetFileNameWithoutExtension(fi.Name);
                 options.Add(content.Load<Texture2D>(dir + "/" + file));
+                fileNames.Add(file);
             }
         }
 
@@ -131,6 +143,11 @@ namespace CharacterCustomizer
             spriteBatch.Draw(rightButton, rBSize, rBClicked ? Color.CadetBlue : Color.White);
             spriteBatch.Draw(display, dispSize, Color.White);
             spriteBatch.Draw(currOption, currOptSize, Color.White);
+        }
+
+        public string Save()
+        {
+            return fileNames[currIndex];
         }
     }
 }
