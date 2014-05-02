@@ -12,6 +12,7 @@ using libXNADeveloperConsole;
 using Microsoft.Xna.Framework.Input;
 using Navier_Boats.Engine.Graphics;
 using Navier_Boats.Engine.System;
+using System.Security.Cryptography;
 using Lock = System.Object;
 
 namespace Navier_Boats.Engine.Level
@@ -30,7 +31,7 @@ namespace Navier_Boats.Engine.Level
         }
         #endregion
 
-        private static Random random = new Random();
+        private static Random random;
 
         public static Random GetRandom()
         {
@@ -40,9 +41,10 @@ namespace Navier_Boats.Engine.Level
         public const int OCTAVES = 4;
         public const float GROUNDLAC = 2.145634563f;
         public const float WATERLAC = 2.17832f;
-        public const int SEED = 2; //Not Implemented
         public const int GRID = Chunk.CHUNK_WIDTH;
         public const int NUM_ROAD_CONNECTIONS = 2; //This will change per chunk later
+
+        private int seed;
 
         private Chunk[,] chunks;
 
@@ -70,7 +72,7 @@ namespace Navier_Boats.Engine.Level
         private SpriteFont debugFont;
 
         private string chunkSaveDirectory = "./LevelData";
-
+        private string seedFile = "seed";
         private TerrainGenerator terrainGen;
 
         private CurrentLevel()
@@ -78,7 +80,7 @@ namespace Navier_Boats.Engine.Level
             //EntityManager.GetInstance().EntitySaveDir = Path.Combine(chunkSaveDirectory, "entityData");
             EntityManager.GetInstance().AddEntity(new Player(new Vector2(0, 0)));
 
-            terrainGen = new TerrainGenerator(OCTAVES, GROUNDLAC, WATERLAC, GRID, random.Next());
+            terrainGen = new TerrainGenerator(OCTAVES, GROUNDLAC, WATERLAC, GRID);
         }
 
         public void LoadContent(ContentManager Content)
@@ -369,7 +371,7 @@ namespace Navier_Boats.Engine.Level
             EntityManager.GetInstance().Draw(spriteBatch);
         }
 
-        public void DrawGUI(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
+        public void DrawGUI(SpriteBatch spriteBatch)
         {
             if (ConsoleVars.GetInstance().DebugDraw)
             {
@@ -387,6 +389,52 @@ namespace Navier_Boats.Engine.Level
             {
                 Directory.CreateDirectory(chunkSaveDirectory);
             }
+            string path = Path.Combine(chunkSaveDirectory, seedFile + ".txt");
+            seed = BitConverter.ToInt32(SHA1.Create().ComputeHash(BitConverter.GetBytes(DateTime.Now.Ticks)), 0);
+            if (File.Exists(path))
+            {
+                StreamReader sr = null;
+                try
+                {
+                    using (sr = new StreamReader(path))
+                    {
+                        seed = Convert.ToInt32(sr.ReadLine().Trim());
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                finally
+                {
+                    if (sr != null)
+                        sr.Close();
+                }
+            }
+            else
+            {
+                StreamWriter f = null;
+                try
+                {
+                    using (f = new StreamWriter(path))
+                    {
+                        f.Write(seed);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                finally
+                {
+                    if (f != null)
+                        f.Close();
+                }
+            }
+            random = new Random(seed);
+            terrainGen.Init();
+
+
             LoadedChunks = new Chunk[2, 2];
 
             LoadedChunks[0, 0] = new Chunk(Chunk.CoordsToChunkID(new Vector2(0, 0)) + ".chunk", chunkSaveDirectory, ref terrainGen);

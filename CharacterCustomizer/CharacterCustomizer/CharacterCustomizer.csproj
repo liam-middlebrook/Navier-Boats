@@ -75,6 +75,8 @@
     <Compile Include="CustomizeElement.cs" />
     <Compile Include="Die.cs" />
     <Compile Include="LongWheel.cs" />
+    <Compile Include="MiscButton.cs" />
+    <Compile Include="Preview.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />

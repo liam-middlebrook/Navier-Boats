@@ -117,5 +117,10 @@ namespace CharacterCustomizer
                 Roll();
             }
         }
+
+        public List<int> Save()
+        {
+            return stats;
+        }
     }
 }
