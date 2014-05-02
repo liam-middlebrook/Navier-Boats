@@ -84,6 +84,9 @@
     <Compile Include="Engine\Graphics\TextureManager.cs" />
     <Compile Include="Engine\Inventory\AbstractGameItem.cs" />
     <Compile Include="Engine\Inventory\ItemInfo.cs" />
+    <Compile Include="Engine\Menu\GameState.cs" />
+    <Compile Include="Engine\Menu\IGameState.cs" />
+    <Compile Include="Engine\Menu\StateManager.cs" />
     <Compile Include="Game\Entities\DroppedItem.cs" />
     <Compile Include="Game\Items\HealthPack.cs" />
     <Compile Include="Engine\Inventory\ItemManager.cs" />
