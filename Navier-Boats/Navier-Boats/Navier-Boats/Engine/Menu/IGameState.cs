@@ -13,7 +13,6 @@ namespace Navier_Boats.Engine.Menu
         GAMEPLAY,
         CREDITS,
         GAME_OVER,
-        INSTRUCTIONS,
     }
     public interface IGameState
     {
