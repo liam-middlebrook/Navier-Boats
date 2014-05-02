@@ -80,9 +80,6 @@ namespace Navier_Boats
 
             IsMouseVisible = false;
 
-            StateManager.GetInstance()[GameStates.MAIN_MENU] = new MainMenu();
-            StateManager.GetInstance()[GameStates.GAMEPLAY] = new Gameplay();
-            StateManager.GetInstance().InitializeStateManager(GameStates.MAIN_MENU);
 
             base.Initialize();
         }
@@ -126,6 +123,11 @@ namespace Navier_Boats
             test.HeadTexture = Content.Load<Texture2D>("playerHeadTexture");
              */
             //EntityManager.GetInstance().SaveEntities("test.ent", test);
+            StateManager.GetInstance()[GameStates.MAIN_MENU] = new MainMenu();
+            StateManager.GetInstance()[GameStates.GAMEPLAY] = new Gameplay();
+            StateManager.GetInstance()[GameStates.GAME_OVER] = new GameOver();
+            StateManager.GetInstance()[GameStates.CREDITS] = new Credits();
+            StateManager.GetInstance().InitializeStateManager(GameStates.MAIN_MENU);
 
         }
 
