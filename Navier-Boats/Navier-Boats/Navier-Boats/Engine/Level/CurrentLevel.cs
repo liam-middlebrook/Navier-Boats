@@ -12,6 +12,7 @@ using libXNADeveloperConsole;
 using Microsoft.Xna.Framework.Input;
 using Navier_Boats.Engine.Graphics;
 using Navier_Boats.Engine.System;
+using System.Security.Cryptography;
 using Lock = System.Object;
 
 namespace Navier_Boats.Engine.Level
@@ -40,9 +41,10 @@ namespace Navier_Boats.Engine.Level
         public const int OCTAVES = 4;
         public const float GROUNDLAC = 2.145634563f;
         public const float WATERLAC = 2.17832f;
-        public const int SEED = 2; //Not Implemented
         public const int GRID = Chunk.CHUNK_WIDTH;
         public const int NUM_ROAD_CONNECTIONS = 2; //This will change per chunk later
+
+        private int seed;
 
         private Chunk[,] chunks;
 
@@ -70,7 +72,7 @@ namespace Navier_Boats.Engine.Level
         private SpriteFont debugFont;
 
         private string chunkSaveDirectory = "./LevelData";
-
+        private string seedFile = "seed";
         private TerrainGenerator terrainGen;
 
         private CurrentLevel()
@@ -386,6 +388,48 @@ namespace Navier_Boats.Engine.Level
             if (!Directory.Exists(chunkSaveDirectory))
             {
                 Directory.CreateDirectory(chunkSaveDirectory);
+            }
+            string path = Path.Combine(chunkSaveDirectory, seedFile + ".txt");
+            seed = BitConverter.ToInt32(SHA1.Create().ComputeHash(BitConverter.GetBytes(DateTime.Now.Ticks)), 0);
+            if (File.Exists(path))
+            {
+                StreamReader sr = null;
+                try
+                {
+                    using (sr = new StreamReader(path))
+                    {
+                        seed = Convert.ToInt32(sr.ReadLine().Trim());
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                finally
+                {
+                    if (sr != null)
+                        sr.Close();
+                }
+            }
+            else
+            {
+                StreamWriter f = null;
+                try
+                {
+                    using (f = new StreamWriter(path))
+                    {
+                        f.Write(seed);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                finally
+                {
+                    if (f != null)
+                        f.Close();
+                }
             }
             LoadedChunks = new Chunk[2, 2];
 
