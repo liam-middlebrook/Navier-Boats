@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+//additional using statements
+using System.IO;
+
 namespace CharacterCustomizer
 {
     /// <summary>
@@ -23,7 +26,11 @@ namespace CharacterCustomizer
 
         List<Wheel> characterParts;//all the character component wheels
         Die die;
+        MiscButton previewButton, saveButton;
         MouseState mouseState, prevMouseState;//current and previous mouse state
+
+        Preview preview = null;
+        Texture2D saving;
 
         const int WHEEL_SCALE = 6;
         const int DIE_SCALE = 4;
@@ -60,6 +67,9 @@ namespace CharacterCustomizer
 
             die = new Die(DIE_SCALE, 500, 100, Content);
 
+            previewButton = new MiscButton(500, 300, "Buttons/Preview", Content, WHEEL_SCALE);
+            saveButton = new MiscButton(500, 375, "Buttons/Save", Content, WHEEL_SCALE);
+
             base.Initialize();
         }
 
@@ -75,6 +85,7 @@ namespace CharacterCustomizer
             // TODO: use this.Content to load your game content here
             sf = Content.Load<SpriteFont>("SpriteFont1");
             die.StatText = sf;
+            saving = Content.Load<Texture2D>("Buttons/Saving");
         }
 
         /// <summary>
@@ -103,16 +114,42 @@ namespace CharacterCustomizer
 
             if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
             {
-                foreach (Wheel characterPart in characterParts)
-                    characterPart.ButtonClick(mouseState.X, mouseState.Y);
-                die.ButtonClick(mouseState.X, mouseState.Y);
+                if (preview != null)
+                    preview.ButtonClick(mouseState.X, mouseState.Y);
+                else
+                {
+                    foreach (Wheel characterPart in characterParts)
+                        characterPart.ButtonClick(mouseState.X, mouseState.Y);
+                    die.ButtonClick(mouseState.X, mouseState.Y);
+                    previewButton.ButtonClick(mouseState.X, mouseState.Y);
+                    saveButton.ButtonClick(mouseState.X, mouseState.Y);
+                }
             }
             else if (mouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
             {
-                foreach (Wheel characterPart in characterParts)
-                    characterPart.ButtonUnClick();
-                die.ButtonUnClick();
+                if (preview != null)
+                    preview.ButtonUnClick();
+                else
+                {
+                    foreach (Wheel characterPart in characterParts)
+                        characterPart.ButtonUnClick();
+                    die.ButtonUnClick();
+                    previewButton.ButtonUnClick();
+                    saveButton.ButtonUnClick();
+                }
             }
+            if (previewButton.Clicked)
+            {
+                preview = new Preview(characterParts[0].Current, characterParts[1].Current, characterParts[2].Current, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, Content);
+                previewButton.ButtonUnClick();
+            }
+            if (saveButton.Clicked)
+            {
+                Save();
+                saveButton.ButtonUnClick();
+            }
+            if (preview != null && preview.Clicked)
+                preview = null;
             base.Update(gameTime);
         }
 
@@ -133,10 +170,43 @@ namespace CharacterCustomizer
             foreach (Wheel characterPart in characterParts)
                 characterPart.Draw(spriteBatch);
             die.Draw(spriteBatch);
+            previewButton.Draw(spriteBatch);
+            saveButton.Draw(spriteBatch);
+
+            if (preview != null)
+            {
+                preview.Draw(spriteBatch);
+            }
 
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public void Save()
+        {
+            Texture2D temp = saveButton.Button;
+            saveButton.Button = saving;
+            using (BinaryWriter br = new BinaryWriter(File.OpenWrite("Saves/character.dat")))
+            {
+                try
+                {
+                    foreach (Wheel w in characterParts)
+                        br.Write(w.Save());
+                    foreach (int stat in die.Save())
+                        br.Write(stat);
+                }
+                catch (IOException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                finally
+                {
+                    if (br != null)
+                        br.Dispose();
+                }
+            }
+            saveButton.Button = temp;
         }
     }
 }
