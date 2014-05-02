@@ -174,9 +174,9 @@ namespace Navier_Boats.Engine.Entities
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-            if (weapon != null)
-                weapon.Draw(spriteBatch, this.Items.SelectedItem.Item.ItemTexture);
             headSprite.Draw(spriteBatch);
+            if (Items.SelectedItem != null && Items.SelectedItem.Item != null && Items.SelectedItem.Item.ItemTexture != null)
+                spriteBatch.Draw(Items.SelectedItem.Item.ItemTexture, Position, Color.White);
         }
 
         #endregion
