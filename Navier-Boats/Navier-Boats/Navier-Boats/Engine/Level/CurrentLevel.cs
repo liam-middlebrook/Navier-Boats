@@ -432,6 +432,9 @@ namespace Navier_Boats.Engine.Level
                 }
             }
             random = new Random(seed);
+            terrainGen.Init();
+
+
             LoadedChunks = new Chunk[2, 2];
 
             LoadedChunks[0, 0] = new Chunk(Chunk.CoordsToChunkID(new Vector2(0, 0)) + ".chunk", chunkSaveDirectory, ref terrainGen);

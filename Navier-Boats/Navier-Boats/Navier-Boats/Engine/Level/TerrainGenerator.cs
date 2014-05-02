@@ -37,8 +37,9 @@ namespace Navier_Boats.Engine.Level
             this.gridWidth = grid;
         }
 
-            
-            perlinGen = new PerlinGenerator(seed);
+        public void Init()
+        {
+            perlinGen = new PerlinGenerator();
         }
 
         public void SetRoadPatterns(Dictionary<string, Texture2D> patterns)
