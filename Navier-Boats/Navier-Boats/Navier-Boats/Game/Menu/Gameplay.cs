@@ -31,8 +31,10 @@ namespace Navier_Boats.Game.Menu
             ItemManager.GetInstance();
 
             Player player = EntityManager.GetInstance().Player;
-            player.Items.AddItem(new ItemStack(ItemManager.GetInstance().Items[0], 64));
-            player.Items.AddItem(new ItemStack(ItemManager.GetInstance().Items[1]));
+            for (int i = 0; i < ItemManager.GetInstance().Items.Count; i++)
+            {
+            player.Items.AddItem(new ItemStack(ItemManager.GetInstance().Items[i], ItemManager.GetInstance().Items[i].MaxStack));
+            }
         }
 
         public override void Update(GameTime gameTime)
