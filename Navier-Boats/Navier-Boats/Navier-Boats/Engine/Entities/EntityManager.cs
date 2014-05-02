@@ -105,24 +105,25 @@ namespace Navier_Boats.Engine.Entities
             string file = entitySaveLocation + Chunk.CoordsToChunkID(chunkPos).Split('.')[0] + ".ent";
             
             if (!File.Exists(file))
-            {/*
+            {
                 Random rnd = CurrentLevel.GetRandom();
-                int numZombies = rnd.Next(1, 4);
+                int numZombies = rnd.Next(4, 8);
                 Wanderer z;
 
                 for (int i = 1; i <= numZombies; i++)
                 {
                     
-                    Vector2 pos = Vector2.Zero; 
+                    Vector2 minPos = new Vector2(Chunk.CHUNK_WIDTH*Chunk.TILE_WIDTH, Chunk.CHUNK_HEIGHT*Chunk.TILE_HEIGHT) * chunkPos;
+                    Vector2 maxPos = minPos + new Vector2(Chunk.CHUNK_WIDTH * Chunk.TILE_WIDTH, Chunk.CHUNK_HEIGHT * Chunk.TILE_HEIGHT);
                     //Work in progress
-
+                    Vector2 pos = new Vector2(CurrentLevel.GetRandom().Next((int)minPos.X, (int)maxPos.X), CurrentLevel.GetRandom().Next((int)minPos.Y, (int)maxPos.Y));
                     z = new Wanderer(pos);
                     
                     z.Texture = TextureManager.GetInstance().LoadTexture("playerTexture");
                     z.HeadTexture = TextureManager.GetInstance().LoadTexture("playerHeadTexture");
                     
                     this.AddEntity(z);
-                }*/
+                }
                 return;
             }
 
