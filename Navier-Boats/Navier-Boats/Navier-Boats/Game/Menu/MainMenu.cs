@@ -30,6 +30,10 @@ namespace Navier_Boats.Game.Menu
             {
                 StateManager.GetInstance().PushState(GameStates.GAMEPLAY);
             }
+            if (keyState.IsKeyDown(Keys.C) && prevKeyState.IsKeyUp(Keys.C))
+            {
+                StateManager.GetInstance().PushState(GameStates.CREDITS);
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -39,7 +43,7 @@ namespace Navier_Boats.Game.Menu
 
         public override void DrawGUI(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(FontManager.GetInstance()["consolas"], "Main Menu!", Vector2.Zero, Color.Black);
+            spriteBatch.DrawString(FontManager.GetInstance()["consolas"], "Main Menu!\nPress Spacebar to begin playing!\nPress C to visit the credits page!", Vector2.Zero, Color.Black);
         }
     }
 }
