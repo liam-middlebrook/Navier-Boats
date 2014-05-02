@@ -41,17 +41,21 @@ namespace Navier_Boats.Engine.Menu
         private StateManager()
         {
             states = new Dictionary<GameStates, IGameState>();
-            currentState = new Stack<IGameState>();
+            currentState = new Stack<GameStates>();
         }
 
         public void InitializeStateManager(GameStates defaultState)
         {
-            currentState.Push(states[defaultState]);
+            currentState.Push(defaultState);
+            foreach (KeyValuePair<GameStates,IGameState> state in states)
+            {
+                state.Value.Initialize();
+            }
         }
 
         public void PushState(GameStates newState)
         {
-            currentState.Push(states[newState]);
+            currentState.Push(newState);
         }
         
         public void PopState()
