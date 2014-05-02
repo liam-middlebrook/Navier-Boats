@@ -25,11 +25,11 @@ namespace Navier_Boats.Engine.Menu
         
         private Dictionary<GameStates, IGameState> states;
 
-        private Stack<IGameState> currentState;
+        private Stack<GameStates> currentState;
 
         public IGameState CurrentState
         {
-            get { return currentState.Peek(); }
+            get { return states[currentState.Peek()]; }
         }
 
         public IGameState this[GameStates index]
@@ -59,6 +59,18 @@ namespace Navier_Boats.Engine.Menu
             currentState.Pop();
             if (currentState.Count == 0)
                 global::System.Environment.Exit(0);
+        }
+
+        public void PopState(GameStates targetState)
+        {
+            GameStates curState = currentState.Peek();
+            while(currentState.Count > 0)
+            {
+                curState = currentState.Peek();
+                if (curState == targetState)
+                    break;
+                currentState.Pop();
+            }
         }
     }
 }
