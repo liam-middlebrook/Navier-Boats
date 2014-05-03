@@ -96,8 +96,8 @@ namespace Navier_Boats.Engine.Level
                     {
                         Wanderer wanderer;
                         wanderer = new Wanderer(new Vector2(0, 0));
-                        wanderer.Texture = TextureManager.GetInstance().LoadTexture("playerTexture");
-                        wanderer.HeadTexture = TextureManager.GetInstance().LoadTexture("playerHeadTexture");
+                        wanderer.Texture = TextureManager.GetInstance().LoadTexture("iceberg");
+                        wanderer.HeadTexture = TextureManager.GetInstance().LoadTexture("iceberg_head");
                         EntityManager.GetInstance().AddEntity(wanderer);
                         return 0;
                     }));
