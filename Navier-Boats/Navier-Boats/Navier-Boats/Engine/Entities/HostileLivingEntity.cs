@@ -17,7 +17,7 @@ namespace Navier_Boats.Engine.Entities
         public HostileLivingEntity(int initialHealth)
             : base(initialHealth)
         {
-            TintColor = Color.Red;
+            TintColor = Color.White;
             headSprite.TintColor = TintColor;
         }
 
