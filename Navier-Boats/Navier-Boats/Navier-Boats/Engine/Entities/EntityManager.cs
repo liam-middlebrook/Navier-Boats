@@ -119,8 +119,8 @@ namespace Navier_Boats.Engine.Entities
                     Vector2 pos = new Vector2(CurrentLevel.GetRandom().Next((int)minPos.X, (int)maxPos.X), CurrentLevel.GetRandom().Next((int)minPos.Y, (int)maxPos.Y));
                     z = new Wanderer(pos);
                     
-                    z.Texture = TextureManager.GetInstance().LoadTexture("playerTexture");
-                    z.HeadTexture = TextureManager.GetInstance().LoadTexture("playerHeadTexture");
+                    z.Texture = TextureManager.GetInstance().LoadTexture("iceberg");
+                    z.HeadTexture = TextureManager.GetInstance().LoadTexture("iceberg_head");
                     
                     this.AddEntity(z);
                 }
