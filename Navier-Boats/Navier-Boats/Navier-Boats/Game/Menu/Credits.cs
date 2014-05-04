@@ -39,7 +39,7 @@ namespace Navier_Boats.Game.Menu
 
         public override void DrawGUI(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(FontManager.GetInstance()["consolas"], "Zombie Fiesta\n\n\nCreated By:\n\nSam Bloomberg\nMichael Cohen\nTom Landi\nLiam Middlebrook\nSean Maraia\nSam Willis\n\nSpecial Thanks to our Backer(s)!\n\nBlack Lotus Into Storm Crow\n\n\nPress Escape to return to Main Menu", Vector2.Zero, Color.Black);
+            spriteBatch.DrawString(FontManager.GetInstance()["consolas"], "Zombie Fiesta\n\n\nCreated By:\n\nSam Bloomberg\nMichael Cohen\nTom Landi\nLiam Middlebrook\nSean Maraia\nSam Willis\n\nSpecial Thanks to our Backer(s)!\n\nBlack Lotus Into Storm Crow\n\nOut-Sourced Art By:\n\nAdvisable Robin\n\n\nPress Escape to return to Main Menu", Vector2.Zero, Color.Black);
         }
     }
 }
