@@ -1,7 +1,7 @@
 {
   "Type": "Items.HealthPack",
   "Name": "Health Pack",
-  "Image": "items/health_inventory",
+  "Image": "items/health_world",
   "inventoryImage": "items/health_inventory",
   "Description": "Hi mom",
   "Stack": 64,
