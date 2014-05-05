@@ -149,8 +149,6 @@ namespace Navier_Boats.Engine.Entities
         /// <param name="prevMouseState">The previous state of the mouse</param>
         public void Update(GameTime gameTime, InputStateHelper inputHelper)
         {
-            List<Entity> destroy = new List<Entity>();
-
             //Update each entity
             for (int i = 0; i < entities.Count; i++)
             {
@@ -167,17 +165,9 @@ namespace Navier_Boats.Engine.Entities
                 {
                     ((IInteractable)entities[i]).CheckInteractions(entities);
                 }
-
-                if (entities[i].ShouldDestroy)
-                {
-                    destroy.Add(entities[i]);
-                }
             }
 
-            foreach (Entity ent in destroy)
-            {
-                entities.Remove(ent);
-            }
+            entities.RemoveAll(ent => ent.ShouldDestroy == true);
         }
 
         /// <summary>
