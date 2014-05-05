@@ -389,7 +389,7 @@ namespace Navier_Boats.Game.Entities
             }
             else
             {
-                spriteBatch.Draw(Items.Items[1].Item.ItemTexture, HUDItemBoxRectTwo, Color.White);
+                spriteBatch.Draw(Items.Items[1].Item.InventoryTexture, HUDItemBoxRectTwo, Color.White);
                 spriteBatch.DrawString(itemFont, Items.Items[1].Amount.ToString(), itemTextPosTwo, Color.White);
             }
 
@@ -400,7 +400,7 @@ namespace Navier_Boats.Game.Entities
             }
             else
             {
-                spriteBatch.Draw(Items.Items[2].Item.ItemTexture, HUDItemBoxRectThree, Color.White);
+                spriteBatch.Draw(Items.Items[2].Item.InventoryTexture, HUDItemBoxRectThree, Color.White);
                 spriteBatch.DrawString(itemFont, Items.Items[2].Amount.ToString(), itemTextPosThree, Color.White);
             }
 
@@ -411,7 +411,7 @@ namespace Navier_Boats.Game.Entities
             }
             else
             {
-                spriteBatch.Draw(Items.Items[3].Item.ItemTexture, HUDItemBoxRectFour, Color.White);
+                spriteBatch.Draw(Items.Items[3].Item.InventoryTexture, HUDItemBoxRectFour, Color.White);
                 spriteBatch.DrawString(itemFont, Items.Items[3].Amount.ToString(), itemTextPosFour, Color.White);
             }
 
@@ -422,7 +422,7 @@ namespace Navier_Boats.Game.Entities
             }
             else
             {
-                spriteBatch.Draw(Items.Items[4].Item.ItemTexture, HUDItemBoxRectFive, Color.White);
+                spriteBatch.Draw(Items.Items[4].Item.InventoryTexture, HUDItemBoxRectFive, Color.White);
                 spriteBatch.DrawString(itemFont, Items.Items[4].Amount.ToString(), itemTextPosFive, Color.White);
             }
             #endregion
