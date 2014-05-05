@@ -134,8 +134,11 @@ namespace Navier_Boats.Engine.Entities
                 item.Texture = Items.Items[index].Item.ItemTexture;
                 EntityManager.GetInstance().AddEntity(item);
             }
+
             if(this is Player)
                 StateManager.GetInstance().PushState(GameStates.GAME_OVER);
+            else
+                EntityManager.GetInstance().RemoveEntity(this);
         }
 
         /// <summary>
