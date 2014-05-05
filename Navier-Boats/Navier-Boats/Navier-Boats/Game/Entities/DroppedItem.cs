@@ -15,10 +15,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Inventory;
 using Navier_Boats.Engine.System;
 using Navier_Boats.Engine.Level;
+using System.Runtime.Serialization;
 
 namespace Navier_Boats.Game.Entities
 {
-    class DroppedItem : Entity
+    [Serializable]
+    class DroppedItem : Entity, ISerializable
     {
         private ItemStack item;
 
@@ -26,6 +28,21 @@ namespace Navier_Boats.Game.Entities
         {
             get { return item; }
             set { item = value; }
+        }
+
+        public DroppedItem()
+        {
+        }
+
+        protected DroppedItem(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            this.item = (ItemStack)info.GetValue("droppedItem", typeof(ItemStack));
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("droppedItem", item);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
