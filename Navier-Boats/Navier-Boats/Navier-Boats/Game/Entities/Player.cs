@@ -437,7 +437,7 @@ namespace Navier_Boats.Game.Entities
                     spriteBatch.Draw(TextureManager.GetInstance()["HighlightTexture"], temp, Color.DarkGray);
                     if (Items.Items[invItemRects.IndexOf(temp)] != null && Items.Items[invItemRects.IndexOf(temp)].Item != null && Items.Items[invItemRects.IndexOf(temp)].Item.InventoryTexture != null)
                     {
-                        spriteBatch.Draw(Items.Items[invItemRects.IndexOf(temp)].Item.ItemTexture, temp, Color.White);
+                        spriteBatch.Draw(Items.Items[invItemRects.IndexOf(temp)].Item.InventoryTexture, temp, Color.White);
                         spriteBatch.DrawString(drawFont, Items.Items[invItemRects.IndexOf(temp)].Amount.ToString(), new Vector2((float)temp.X, (float)temp.Y), Color.White);
                     }
                 }
