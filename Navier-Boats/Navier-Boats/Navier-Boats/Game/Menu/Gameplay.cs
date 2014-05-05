@@ -12,21 +12,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Navier_Boats.Engine.System;
 
 namespace Navier_Boats.Game.Menu
 {
     class Gameplay : GameState
     {
-        KeyboardState keyState;
-        KeyboardState prevKeyState;
-
-        MouseState mouseState;
-        MouseState prevMouseState;
+        InputStateHelper inputHelper;
 
         protected override void Init()
         {
-            keyState = Keyboard.GetState();
-            mouseState = Mouse.GetState();
+            inputHelper = new InputStateHelper();
 
             ItemManager.GetInstance();
 
@@ -39,12 +35,9 @@ namespace Navier_Boats.Game.Menu
 
         public override void Update(GameTime gameTime)
         {
-            prevKeyState = keyState;
-            keyState = Keyboard.GetState();
-            prevMouseState = mouseState;
-            mouseState = Mouse.GetState();
+            inputHelper.Update();
 
-            CurrentLevel.GetInstance().Update(gameTime, keyState, prevKeyState, mouseState, prevMouseState);
+            CurrentLevel.GetInstance().Update(gameTime, inputHelper);
             PathThreadPool.GetInstance().Update();
         }
 
