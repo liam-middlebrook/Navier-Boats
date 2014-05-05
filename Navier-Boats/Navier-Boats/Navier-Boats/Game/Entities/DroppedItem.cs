@@ -34,5 +34,29 @@ namespace Navier_Boats.Game.Entities
             base.Draw(spriteBatch);
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            foreach (Entity entity in EntityManager.GetInstance().Entities)
+            {
+                LivingEntity living = entity as LivingEntity;
+                if (living == null)
+                    continue;
+
+                Rectangle otherRect = living.Texture.Bounds;
+                otherRect = new Rectangle((int)living.Position.X, (int)living.Position.Y, otherRect.Width, otherRect.Height);
+
+                Rectangle myRect = Item.Item.ItemTexture.Bounds;
+                myRect = new Rectangle((int)Position.X, (int)Position.Y, myRect.Width, myRect.Height);
+
+                if (otherRect.Intersects(myRect))
+                {
+                    living.Items.AddItem(Item);
+                    EntityManager.GetInstance().RemoveEntity(this);
+                    break;
+                }
+            }
+        }
     }
 }
