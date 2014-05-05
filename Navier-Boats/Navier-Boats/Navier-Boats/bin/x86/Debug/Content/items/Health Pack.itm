@@ -4,7 +4,7 @@
   "Image": "items/health_world",
   "inventoryImage": "items/health_inventory",
   "Description": "Hi mom",
-  "Stack": 64,
+  "Stack": 12,
   "Cost": 0,
   "Damage": 0.0,
   "Heal": 20.0,
