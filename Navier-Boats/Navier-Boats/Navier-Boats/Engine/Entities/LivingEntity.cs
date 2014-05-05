@@ -50,6 +50,8 @@ namespace Navier_Boats.Engine.Entities
         /// </summary>
         public Texture2D HeadTexture { get { return headSprite.Texture; } set { headSprite.Texture = value; } }
 
+        public float HeadRotation { get { return headSprite.Rotation; } set { headSprite.Rotation = value; } }
+
         /// <summary>
         /// The Health of the LivingEntity
         /// </summary>
