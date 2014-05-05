@@ -189,6 +189,12 @@ namespace Navier_Boats.Engine.Entities
                 weapon.Update(gameTime);
             headSprite.Position = Position;
             milliSinceAttack += gameTime.ElapsedGameTime.Milliseconds;
+
+            if (this.Health <= 0)
+            {
+                this.ShouldDestroy = true;
+                OnDeath();
+            }
         }
 
         /// <summary>

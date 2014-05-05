@@ -53,7 +53,7 @@ namespace Navier_Boats.Game.Entities
                 if (otherRect.Intersects(myRect))
                 {
                     living.Items.AddItem(Item);
-                    EntityManager.GetInstance().RemoveEntity(this);
+                    this.ShouldDestroy = true;
                     break;
                 }
             }
