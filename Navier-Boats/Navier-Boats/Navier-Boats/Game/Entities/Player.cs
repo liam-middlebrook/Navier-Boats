@@ -378,7 +378,7 @@ namespace Navier_Boats.Game.Entities
             }
             else
             {
-                spriteBatch.Draw(Items.Items[0].Item.ItemTexture, HUDItemBoxRectOne, Color.White);
+                spriteBatch.Draw(Items.Items[0].Item.InventoryTexture, HUDItemBoxRectOne, Color.White);
                 spriteBatch.DrawString(itemFont, Items.Items[0].Amount.ToString(), itemTextPosOne, Color.White);
             }
 
