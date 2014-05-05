@@ -36,6 +36,8 @@ namespace Navier_Boats.Engine.Entities
         //The time in milliseconds since the Entity attacked
         protected int milliSinceAttack;
 
+        protected bool attackBad = false;
+
         public const int ATTACK_FLASH_TIMER = 500;
 
         protected Texture2D pow;
@@ -90,7 +92,7 @@ namespace Navier_Boats.Engine.Entities
             this.health = info.GetDouble("health");
             this.headSprite = (Sprite)info.GetValue("headSprite", typeof(Sprite));
             this.Items = (Inventory.Inventory)info.GetValue("items", typeof(Inventory.Inventory));
-            this.milliSinceAttack = 0;
+            this.milliSinceAttack = ATTACK_FLASH_TIMER;
             this.pow = TextureManager.GetInstance().LoadTexture("pow");
         }
 
@@ -112,9 +114,11 @@ namespace Navier_Boats.Engine.Entities
         public void TakeDamage(double damage)
         {
 
+            if (ConsoleVars.GetInstance().GodMode) return;
+
             milliSinceAttack = 0;
 
-            if (ConsoleVars.GetInstance().GodMode) return;
+            attackBad = damage > 0;
 
             health -= damage;
             if (health > 100)
@@ -193,14 +197,16 @@ namespace Navier_Boats.Engine.Entities
         /// <param name="spriteBatch">The SpriteBatch object to draw the LivingEntity with</param>
         public override void Draw(SpriteBatch spriteBatch)
         {
+            TintColor = Color.White;
+            if (milliSinceAttack < ATTACK_FLASH_TIMER)
+            {
+                spriteBatch.Draw(pow, BoundingRectangle(), attackBad ? new Color(255, 0, 0, 200) : new Color(0, 255, 0, 200));
+                this.TintColor = attackBad ? Color.Red : Color.Green;
+            }
+
             base.Draw(spriteBatch);
 
             headSprite.Draw(spriteBatch);
-
-            if (milliSinceAttack < ATTACK_FLASH_TIMER)
-            {
-                spriteBatch.Draw(pow, BoundingRectangle(), new Color(255, 255, 255, 200));
-            }
 
             if (Items.SelectedItem != null && Items.SelectedItem.Item != null && Items.SelectedItem.Item.ItemTexture != null)
                 spriteBatch.Draw(Items.SelectedItem.Item.ItemTexture, Position, Color.White);
