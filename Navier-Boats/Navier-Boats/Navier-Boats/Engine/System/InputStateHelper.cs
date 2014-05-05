@@ -15,6 +15,13 @@ namespace Navier_Boats.Engine.System
         private GamePadState gamePadState;
         private GamePadState prevGamePadState;
 
+        public KeyboardState KeyState { get { return keyState; } }
+        public KeyboardState PrevKeyState { get { return prevKeyState; } }
+        public MouseState MouseState { get { return mouseState; } }
+        public MouseState PrevMouseState { get { return prevMouseState; } }
+        public GamePadState GamePadState { get { return gamePadState; } }
+        public GamePadState PrevGamePadState { get { return prevGamePadState; } }
+
         public InputStateHelper()
         {
             keyState = Keyboard.GetState();

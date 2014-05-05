@@ -195,10 +195,10 @@ namespace Navier_Boats.Engine.Level
             InitLevel();
         }
 
-        public void Update(GameTime gameTime, KeyboardState keyState, KeyboardState prevKeyState, MouseState mouseState, MouseState prevMouseState)
+        public void Update(GameTime gameTime, InputStateHelper inputHelper)
         {
             //Entity Update Loop
-            EntityManager.GetInstance().Update(gameTime, keyState, prevKeyState, mouseState, prevMouseState);
+            EntityManager.GetInstance().Update(gameTime, inputHelper);
             //Entity LateUpdate Loop
             EntityManager.GetInstance().LateUpdate(gameTime);
 

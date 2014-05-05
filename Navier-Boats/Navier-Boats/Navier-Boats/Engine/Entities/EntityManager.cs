@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Navier_Boats.Game.Entities;
+using Navier_Boats.Engine.System;
 
 namespace Navier_Boats.Engine.Entities
 {
@@ -146,7 +147,7 @@ namespace Navier_Boats.Engine.Entities
         /// <param name="prevKeyState">The previous state of the keyboard</param>
         /// <param name="mouseState">The current state of the mouse</param>
         /// <param name="prevMouseState">The previous state of the mouse</param>
-        public void Update(GameTime gameTime, KeyboardState keyState, KeyboardState prevKeyState, MouseState mouseState, MouseState prevMouseState)
+        public void Update(GameTime gameTime, InputStateHelper inputHelper)
         {
             //Update each entity
             for (int i = 0; i < entities.Count; i++)
@@ -156,7 +157,7 @@ namespace Navier_Boats.Engine.Entities
                 //Update each IInputControllable
                 if (entities[i] is IInputControllable)
                 {
-                    ((IInputControllable)entities[i]).HandleInput(keyState, prevKeyState, mouseState, prevMouseState);
+                    ((IInputControllable)entities[i]).HandleInput(inputHelper);
                 }
 
                 //Update each IInteractable
