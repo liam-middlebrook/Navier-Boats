@@ -165,20 +165,9 @@ namespace Navier_Boats.Engine.Entities
                 {
                     ((IInteractable)entities[i]).CheckInteractions(entities);
                 }
-
-                //Ensure that all LivingEntities are still alive
-                if (entities[i] is LivingEntity && ((LivingEntity)entities[i]).Health < 0)
-                {
-                    LivingEntity ent = entities[i] as LivingEntity;
-                    ent.OnDeath();
-
-                    if (ent is Wanderer)
-                    {
-                        entities.RemoveAt(i);
-                        --i;
-                    }
-                }
             }
+
+            entities.RemoveAll(ent => ent.ShouldDestroy == true);
         }
 
         /// <summary>

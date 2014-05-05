@@ -92,6 +92,8 @@ namespace Navier_Boats.Engine.Entities
         /// </summary>
         public float InitialSpeed { get { return initialSpeed; } }
 
+        public bool ShouldDestroy { get; set; }
+
         #endregion
 
         /// <summary>
@@ -102,6 +104,7 @@ namespace Navier_Boats.Engine.Entities
         {
             velocity = Vector2.Zero;
             speed = initialSpeed;
+            ShouldDestroy = false;
         }
 
         protected Entity(SerializationInfo info, StreamingContext context)
