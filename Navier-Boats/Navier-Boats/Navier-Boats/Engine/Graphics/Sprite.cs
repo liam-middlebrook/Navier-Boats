@@ -102,6 +102,11 @@ namespace Navier_Boats.Engine.Graphics
         public float Rotation { get { return rotation; } set { rotation = value; } }
 
         /// <summary>
+        /// Whether the rotation of the sprite should be fixed at 0
+        /// </summary>
+        public bool FixedRotation { get; set; }
+        
+        /// <summary>
         /// The Position in Texture Coordinates (texels) to rotate the Sprite around
         /// </summary>
         public Vector2 RotationOrigin { get { return rotationOrigin; } set { rotationOrigin = value; } }
@@ -190,7 +195,7 @@ namespace Navier_Boats.Engine.Graphics
         /// <param name="spriteBatch">The SpriteBatch to draw the Sprite to the screen with</param>
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position, sourceRectangle, tintColor, rotation, rotationOrigin, scale, effects, depthLayer);
+            spriteBatch.Draw(texture, position, sourceRectangle, tintColor, FixedRotation? 0 : rotation, rotationOrigin, scale, effects, depthLayer);
         }
         /// <summary>
         /// Draws the Sprite to the Screen
@@ -199,7 +204,7 @@ namespace Navier_Boats.Engine.Graphics
         /// <param name="levelOffset">A Vector2 representing the offset that the level is from the origin</param>
         public virtual void Draw(SpriteBatch spriteBatch, Vector2 levelOffset)
         {
-            spriteBatch.Draw(texture, position - levelOffset, sourceRectangle, tintColor, rotation, rotationOrigin, scale, effects, depthLayer);
+            spriteBatch.Draw(texture, position - levelOffset, sourceRectangle, tintColor, FixedRotation ? 0 : rotation, rotationOrigin, scale, effects, depthLayer);
         }
 
         /// <summary>

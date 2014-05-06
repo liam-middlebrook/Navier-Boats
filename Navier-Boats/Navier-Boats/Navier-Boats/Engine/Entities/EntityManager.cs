@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Navier_Boats.Game.Entities;
+using Navier_Boats.Engine.System;
 
 namespace Navier_Boats.Engine.Entities
 {
@@ -105,24 +106,25 @@ namespace Navier_Boats.Engine.Entities
             string file = entitySaveLocation + Chunk.CoordsToChunkID(chunkPos).Split('.')[0] + ".ent";
             
             if (!File.Exists(file))
-            {/*
+            {
                 Random rnd = CurrentLevel.GetRandom();
-                int numZombies = rnd.Next(1, 4);
+                int numZombies = rnd.Next(4, 8);
                 Wanderer z;
 
                 for (int i = 1; i <= numZombies; i++)
                 {
                     
-                    Vector2 pos = Vector2.Zero; 
+                    Vector2 minPos = new Vector2(Chunk.CHUNK_WIDTH*Chunk.TILE_WIDTH, Chunk.CHUNK_HEIGHT*Chunk.TILE_HEIGHT) * chunkPos;
+                    Vector2 maxPos = minPos + new Vector2(Chunk.CHUNK_WIDTH * Chunk.TILE_WIDTH, Chunk.CHUNK_HEIGHT * Chunk.TILE_HEIGHT);
                     //Work in progress
-
+                    Vector2 pos = new Vector2(CurrentLevel.GetRandom().Next((int)minPos.X, (int)maxPos.X), CurrentLevel.GetRandom().Next((int)minPos.Y, (int)maxPos.Y));
                     z = new Wanderer(pos);
                     
-                    z.Texture = TextureManager.GetInstance().LoadTexture("playerTexture");
-                    z.HeadTexture = TextureManager.GetInstance().LoadTexture("playerHeadTexture");
+                    z.Texture = TextureManager.GetInstance().LoadTexture("iceberg");
+                    z.HeadTexture = TextureManager.GetInstance().LoadTexture("iceberg_head");
                     
                     this.AddEntity(z);
-                }*/
+                }
                 return;
             }
 
@@ -145,7 +147,7 @@ namespace Navier_Boats.Engine.Entities
         /// <param name="prevKeyState">The previous state of the keyboard</param>
         /// <param name="mouseState">The current state of the mouse</param>
         /// <param name="prevMouseState">The previous state of the mouse</param>
-        public void Update(GameTime gameTime, KeyboardState keyState, KeyboardState prevKeyState, MouseState mouseState, MouseState prevMouseState)
+        public void Update(GameTime gameTime, InputStateHelper inputHelper)
         {
             //Update each entity
             for (int i = 0; i < entities.Count; i++)
@@ -155,7 +157,7 @@ namespace Navier_Boats.Engine.Entities
                 //Update each IInputControllable
                 if (entities[i] is IInputControllable)
                 {
-                    ((IInputControllable)entities[i]).HandleInput(keyState, prevKeyState, mouseState, prevMouseState);
+                    ((IInputControllable)entities[i]).HandleInput(inputHelper);
                 }
 
                 //Update each IInteractable
@@ -163,20 +165,9 @@ namespace Navier_Boats.Engine.Entities
                 {
                     ((IInteractable)entities[i]).CheckInteractions(entities);
                 }
-
-                //Ensure that all LivingEntities are still alive
-                if (((LivingEntity)entities[i]).Health < 0)
-                {
-                    LivingEntity ent = entities[i] as LivingEntity;
-                    ent.OnDeath();
-
-                    if (ent is Wanderer)
-                    {
-                        entities.RemoveAt(i);
-                        --i;
-                    }
-                }
             }
+
+            entities.RemoveAll(ent => ent.ShouldDestroy == true);
         }
 
         /// <summary>

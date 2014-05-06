@@ -9,6 +9,7 @@ using Navier_Boats.Engine.Graphics;
 using Navier_Boats.Game.Entities;
 using Navier_Boats.Engine.Inventory;
 using Navier_Boats.Engine.System;
+using Navier_Boats.Engine.Menu;
 
 
 namespace Navier_Boats.Engine.Entities
@@ -35,6 +36,8 @@ namespace Navier_Boats.Engine.Entities
         //The time in milliseconds since the Entity attacked
         protected int milliSinceAttack;
 
+        protected bool attackBad = false;
+
         public const int ATTACK_FLASH_TIMER = 500;
 
         protected Texture2D pow;
@@ -46,6 +49,8 @@ namespace Navier_Boats.Engine.Entities
         /// The Texture for the LivingEntity's Head
         /// </summary>
         public Texture2D HeadTexture { get { return headSprite.Texture; } set { headSprite.Texture = value; } }
+
+        public float HeadRotation { get { return headSprite.Rotation; } set { headSprite.Rotation = value; } }
 
         /// <summary>
         /// The Health of the LivingEntity
@@ -89,7 +94,7 @@ namespace Navier_Boats.Engine.Entities
             this.health = info.GetDouble("health");
             this.headSprite = (Sprite)info.GetValue("headSprite", typeof(Sprite));
             this.Items = (Inventory.Inventory)info.GetValue("items", typeof(Inventory.Inventory));
-            this.milliSinceAttack = 0;
+            this.milliSinceAttack = ATTACK_FLASH_TIMER;
             this.pow = TextureManager.GetInstance().LoadTexture("pow");
         }
 
@@ -111,9 +116,11 @@ namespace Navier_Boats.Engine.Entities
         public void TakeDamage(double damage)
         {
 
+            if (ConsoleVars.GetInstance().GodMode) return;
+
             milliSinceAttack = 0;
 
-            if (ConsoleVars.GetInstance().GodMode) return;
+            attackBad = damage > 0;
 
             health -= damage;
             if (health > 100)
@@ -130,8 +137,14 @@ namespace Navier_Boats.Engine.Entities
                 DroppedItem item = new DroppedItem();
                 item.Item = Items.Items[index];
                 item.Position = this.Position;
+                item.Texture = Items.Items[index].Item.ItemTexture;
                 EntityManager.GetInstance().AddEntity(item);
             }
+
+            if(this is Player)
+                StateManager.GetInstance().PushState(GameStates.GAME_OVER);
+            else
+                EntityManager.GetInstance().RemoveEntity(this);
         }
 
         /// <summary>
@@ -178,6 +191,12 @@ namespace Navier_Boats.Engine.Entities
                 weapon.Update(gameTime);
             headSprite.Position = Position;
             milliSinceAttack += gameTime.ElapsedGameTime.Milliseconds;
+
+            if (this.Health <= 0)
+            {
+                this.ShouldDestroy = true;
+                OnDeath();
+            }
         }
 
         /// <summary>
@@ -186,14 +205,19 @@ namespace Navier_Boats.Engine.Entities
         /// <param name="spriteBatch">The SpriteBatch object to draw the LivingEntity with</param>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
-            if (weapon != null)
-                weapon.Draw(spriteBatch, this.Items.SelectedItem.Item.ItemTexture);
+            TintColor = Color.White;
             if (milliSinceAttack < ATTACK_FLASH_TIMER)
             {
-                spriteBatch.Draw(pow, BoundingRectangle() , new Color(255,255,255,200));
+                spriteBatch.Draw(pow, BoundingRectangle(), attackBad ? new Color(255, 0, 0, 200) : new Color(0, 255, 0, 200));
+                this.TintColor = attackBad ? Color.Red : Color.Green;
             }
+
+            base.Draw(spriteBatch);
+
             headSprite.Draw(spriteBatch);
+
+            if (Items.SelectedItem != null && Items.SelectedItem.Item != null && Items.SelectedItem.Item.ItemTexture != null)
+                spriteBatch.Draw(Items.SelectedItem.Item.ItemTexture, Position, Color.White);
         }
 
         #endregion

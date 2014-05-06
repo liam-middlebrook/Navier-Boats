@@ -92,6 +92,8 @@ namespace Navier_Boats.Engine.Entities
         /// </summary>
         public float InitialSpeed { get { return initialSpeed; } }
 
+        public bool ShouldDestroy { get; set; }
+
         #endregion
 
         /// <summary>
@@ -102,6 +104,7 @@ namespace Navier_Boats.Engine.Entities
         {
             velocity = Vector2.Zero;
             speed = initialSpeed;
+            ShouldDestroy = false;
         }
 
         protected Entity(SerializationInfo info, StreamingContext context)
@@ -128,6 +131,11 @@ namespace Navier_Boats.Engine.Entities
         /// <param name="gameTime">Data about the time between update cycles for our game</param>
         public virtual void Update(GameTime gameTime)
         {
+            if (!CurrentLevel.GetInstance().IsChunkLoadedAtPoint(Position))
+            {
+                return;
+            }
+
             //Change the speed of an entity realative to the type of tile it's walking on
             if (CurrentLevel.GetInstance().GetTileDataAtPoint(TileLayer.ROAD_LAYER, Position) != (short)TileType.Road)
             {
