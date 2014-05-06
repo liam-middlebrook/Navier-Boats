@@ -7,6 +7,7 @@ using Navier_Boats.Engine.Entities;
 using Navier_Boats.Engine.Level;
 using Navier_Boats.Engine.Pathfinding;
 using Navier_Boats.Engine.Pathfinding.Threading;
+using Navier_Boats.Engine.Inventory;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 
@@ -46,6 +47,8 @@ namespace Navier_Boats.Game.Entities
         {
             Position = position;
             initialSpeed = 50;
+            if(CurrentLevel.GetRandom().Next(2) == 1)
+                this.Items.AddItem(new ItemStack(ItemManager.GetInstance().GetRandomItem(), CurrentLevel.GetRandom().Next(1, 5)));
         }
 
         protected Wanderer(SerializationInfo info, StreamingContext context)
@@ -244,6 +247,14 @@ namespace Navier_Boats.Game.Entities
             headSprite.Rotation = Rotation;
 
             base.Update(gameTime);
+        }
+
+        public override void OnDeath()
+        {
+            if (this.currentJob != null)
+                this.currentJob.Cancelled = true;
+
+            base.OnDeath();
         }
 
         public override void Unload()

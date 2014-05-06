@@ -60,7 +60,33 @@ namespace Navier_Boats.Engine.Inventory
             info.AddValue("selectedItemIndex", selectedItemIndex);
         }
 
+        // stacks if possible
         public void AddItem(ItemStack item)
+        {
+            for (int i = 0; i < this.Items.Length; i++)
+            {
+                ItemStack slot = this.Items[i];
+                if (slot == null || slot.Item == null)
+                    continue;
+
+                if (slot.Item == item.Item)
+                {
+                    while (slot.Amount < slot.Item.MaxStack && item.Amount > 0)
+                    {
+                        slot.Amount++;
+                        item.Amount--;
+                    }
+
+                    if (item.Amount <= 0)
+                        return;
+                }
+            }
+
+            AddItemToEmptySlot(item);
+        }
+
+        // doesn't stack, ever
+        public void AddItemToEmptySlot(ItemStack item)
         {
             for(int i = 0; i < this.Items.Length; i++)
             {

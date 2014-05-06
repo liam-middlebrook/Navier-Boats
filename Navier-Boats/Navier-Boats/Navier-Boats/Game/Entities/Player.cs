@@ -111,7 +111,7 @@ namespace Navier_Boats.Game.Entities
             curState = PlayerState.dead;
         }
 
-        public void HandleInput(KeyboardState keyState, KeyboardState prevKeyState, MouseState mouseState, MouseState prevMouseState)
+        public void HandleInput(InputStateHelper inputHelper)
         {
             if (curState == PlayerState.playing)
             {
@@ -128,12 +128,12 @@ namespace Navier_Boats.Game.Entities
                     }
                     else
                     {
-                        vel.X += keyState.IsKeyDown(Keys.A) ? -1 : 0;
-                        vel.X += keyState.IsKeyDown(Keys.D) ? 1 : 0;
-                        vel.Y += keyState.IsKeyDown(Keys.W) ? -1 : 0;
-                        vel.Y += keyState.IsKeyDown(Keys.S) ? 1 : 0;
+                        vel.X += inputHelper.KeyState.IsKeyDown(Keys.A) ? -1 : 0;
+                        vel.X += inputHelper.KeyState.IsKeyDown(Keys.D) ? 1 : 0;
+                        vel.Y += inputHelper.KeyState.IsKeyDown(Keys.W) ? -1 : 0;
+                        vel.Y += inputHelper.KeyState.IsKeyDown(Keys.S) ? 1 : 0;
 
-                        if (keyState.IsKeyDown(Keys.I))
+                        if (inputHelper.KeyState.IsKeyDown(Keys.I))
                         {
                             if (!firstFrameI)
                             {
@@ -146,31 +146,31 @@ namespace Navier_Boats.Game.Entities
                             firstFrameI = false;
                         }
 
-                        if (keyState.IsKeyDown(Keys.D1))
+                        if (inputHelper.KeyState.IsKeyDown(Keys.D1))
                         {
                             Items.SelectedItemIndex = 0;
                         }
-                        else if (keyState.IsKeyDown(Keys.D2))
+                        else if (inputHelper.KeyState.IsKeyDown(Keys.D2))
                         {
                             Items.SelectedItemIndex = 1;
                         }
-                        else if (keyState.IsKeyDown(Keys.D3))
+                        else if (inputHelper.KeyState.IsKeyDown(Keys.D3))
                         {
                             Items.SelectedItemIndex = 2;
                         }
-                        else if (keyState.IsKeyDown(Keys.D4))
+                        else if (inputHelper.KeyState.IsKeyDown(Keys.D4))
                         {
                             Items.SelectedItemIndex = 3;
                         }
-                        else if (keyState.IsKeyDown(Keys.D5))
+                        else if (inputHelper.KeyState.IsKeyDown(Keys.D5))
                         {
                             Items.SelectedItemIndex = 4;
                         }
-                        if (mouseState.ScrollWheelValue < previousMouseWheelValue)
+                        if (inputHelper.MouseState.ScrollWheelValue < previousMouseWheelValue)
                         {
                             Items.SelectedItemIndex = (Items.SelectedItemIndex + 1) % 5;
                         }
-                        if (mouseState.ScrollWheelValue > previousMouseWheelValue)
+                        if (inputHelper.MouseState.ScrollWheelValue > previousMouseWheelValue)
                         {
                             if (Items.SelectedItemIndex - 1 < 0)
                             {
@@ -181,17 +181,17 @@ namespace Navier_Boats.Game.Entities
                                 Items.SelectedItemIndex -= 1;
                             }
                         }
-                        if (mouseState.LeftButton == ButtonState.Pressed && clickLastFrame == false && Items.SelectedItem != null && Items.SelectedItem.Item != null && Items.SelectedItem.Amount > 0)
+                        if (inputHelper.MouseState.LeftButton == ButtonState.Pressed && clickLastFrame == false && Items.SelectedItem != null && Items.SelectedItem.Item != null && Items.SelectedItem.Amount > 0)
                         {
                             Items.SelectedItem.Item.OnAction(this);
                             clickLastFrame = true;
                         }
-                        else if (mouseState.LeftButton == ButtonState.Released)
+                        else if (inputHelper.MouseState.LeftButton == ButtonState.Released)
                         {
                             clickLastFrame = false;
                         }
 
-                        previousMouseWheelValue = mouseState.ScrollWheelValue;
+                        previousMouseWheelValue = inputHelper.MouseState.ScrollWheelValue;
 
                     }
                     if (vel.LengthSquared() != 0)
@@ -207,7 +207,7 @@ namespace Navier_Boats.Game.Entities
 
                 Vector2 headScreenPos = Camera.ConvertToScreenCoords(headSprite.Position);
 
-                float angle = (float)Math.Atan2(mouseState.Y - headScreenPos.X, mouseState.X - headScreenPos.X);
+                float angle = (float)Math.Atan2(inputHelper.MouseState.Y - headScreenPos.X, inputHelper.MouseState.X - headScreenPos.X);
                 headSprite.Rotation = MathHelper.SmoothStep(headSprite.Rotation, angle, 0.97f);
 
             }
@@ -216,12 +216,12 @@ namespace Navier_Boats.Game.Entities
                 Velocity = Vector2.Zero;
                 if (curInvState == InventoryState.nothing)
                 {
-                    if (mouseState.LeftButton == ButtonState.Pressed)
+                    if (inputHelper.MouseState.LeftButton == ButtonState.Pressed)
                     {
                         bool indexSelected = false;
                         foreach (Rectangle temp in invItemRects)
                         {
-                            if (temp.Contains(new Point(mouseState.X, mouseState.Y)))
+                            if (temp.Contains(new Point(inputHelper.MouseState.X, inputHelper.MouseState.Y)))
                             {
                                 selectedItemIndex = invItemRects.IndexOf(temp);
                                 indexSelected = true;
@@ -237,12 +237,12 @@ namespace Navier_Boats.Game.Entities
                 }
                 if (curInvState == InventoryState.dragging)
                 {
-                    if (mouseState.LeftButton == ButtonState.Released)
+                    if (inputHelper.MouseState.LeftButton == ButtonState.Released)
                     {
                         bool secondItemSelected = false;
                         foreach (Rectangle temp in invItemRects)
                         {
-                            if (temp.Contains(new Point(mouseState.X, mouseState.Y)))
+                            if (temp.Contains(new Point(inputHelper.MouseState.X, inputHelper.MouseState.Y)))
                             {
                                 secondItemSelected = true;
                                 secondSelectedItemIndex = invItemRects.IndexOf(temp);
@@ -298,7 +298,7 @@ namespace Navier_Boats.Game.Entities
                         }
                     }
                 }
-                if (keyState.IsKeyDown(Keys.I))
+                if (inputHelper.KeyState.IsKeyDown(Keys.I))
                 {
                     if (!firstFrameI)
                     {
@@ -378,7 +378,7 @@ namespace Navier_Boats.Game.Entities
             }
             else
             {
-                spriteBatch.Draw(Items.Items[0].Item.ItemTexture, HUDItemBoxRectOne, Color.White);
+                spriteBatch.Draw(Items.Items[0].Item.InventoryTexture, HUDItemBoxRectOne, Color.White);
                 spriteBatch.DrawString(itemFont, Items.Items[0].Amount.ToString(), itemTextPosOne, Color.White);
             }
 
@@ -389,7 +389,7 @@ namespace Navier_Boats.Game.Entities
             }
             else
             {
-                spriteBatch.Draw(Items.Items[1].Item.ItemTexture, HUDItemBoxRectTwo, Color.White);
+                spriteBatch.Draw(Items.Items[1].Item.InventoryTexture, HUDItemBoxRectTwo, Color.White);
                 spriteBatch.DrawString(itemFont, Items.Items[1].Amount.ToString(), itemTextPosTwo, Color.White);
             }
 
@@ -400,7 +400,7 @@ namespace Navier_Boats.Game.Entities
             }
             else
             {
-                spriteBatch.Draw(Items.Items[2].Item.ItemTexture, HUDItemBoxRectThree, Color.White);
+                spriteBatch.Draw(Items.Items[2].Item.InventoryTexture, HUDItemBoxRectThree, Color.White);
                 spriteBatch.DrawString(itemFont, Items.Items[2].Amount.ToString(), itemTextPosThree, Color.White);
             }
 
@@ -411,7 +411,7 @@ namespace Navier_Boats.Game.Entities
             }
             else
             {
-                spriteBatch.Draw(Items.Items[3].Item.ItemTexture, HUDItemBoxRectFour, Color.White);
+                spriteBatch.Draw(Items.Items[3].Item.InventoryTexture, HUDItemBoxRectFour, Color.White);
                 spriteBatch.DrawString(itemFont, Items.Items[3].Amount.ToString(), itemTextPosFour, Color.White);
             }
 
@@ -422,7 +422,7 @@ namespace Navier_Boats.Game.Entities
             }
             else
             {
-                spriteBatch.Draw(Items.Items[4].Item.ItemTexture, HUDItemBoxRectFive, Color.White);
+                spriteBatch.Draw(Items.Items[4].Item.InventoryTexture, HUDItemBoxRectFive, Color.White);
                 spriteBatch.DrawString(itemFont, Items.Items[4].Amount.ToString(), itemTextPosFive, Color.White);
             }
             #endregion
@@ -437,7 +437,7 @@ namespace Navier_Boats.Game.Entities
                     spriteBatch.Draw(TextureManager.GetInstance()["HighlightTexture"], temp, Color.DarkGray);
                     if (Items.Items[invItemRects.IndexOf(temp)] != null && Items.Items[invItemRects.IndexOf(temp)].Item != null && Items.Items[invItemRects.IndexOf(temp)].Item.InventoryTexture != null)
                     {
-                        spriteBatch.Draw(Items.Items[invItemRects.IndexOf(temp)].Item.ItemTexture, temp, Color.White);
+                        spriteBatch.Draw(Items.Items[invItemRects.IndexOf(temp)].Item.InventoryTexture, temp, Color.White);
                         spriteBatch.DrawString(drawFont, Items.Items[invItemRects.IndexOf(temp)].Amount.ToString(), new Vector2((float)temp.X, (float)temp.Y), Color.White);
                     }
                 }

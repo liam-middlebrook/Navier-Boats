@@ -29,15 +29,17 @@ namespace Navier_Boats.Engine.Level
         /// <param name="grid">Width of area to generate noise for</param>
         /// <param name="seed">Integer unique to each world</param>
         /// <param name="type">Type of generation to perform, defaults to Intracity if none is given</param>
-        public TerrainGenerator(int oct, float gLac, float wLac, int grid, int seed)
+        public TerrainGenerator(int oct, float gLac, float wLac, int grid)
         {
             this.octaves = oct;
             this.groundLacuniarity = gLac;
             this.waterLacuniarity = wLac;
             this.gridWidth = grid;
+        }
 
-            
-            perlinGen = new PerlinGenerator(seed);
+        public void Init()
+        {
+            perlinGen = new PerlinGenerator();
         }
 
         public void SetRoadPatterns(Dictionary<string, Texture2D> patterns)
