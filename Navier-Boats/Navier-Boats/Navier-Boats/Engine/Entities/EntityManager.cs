@@ -42,6 +42,8 @@ namespace Navier_Boats.Engine.Entities
         /// </summary>
         private List<Entity> entities;
 
+        public GameTime GameTime { get; set; }
+
         public readonly string entitySaveLocation = "./LevelData/";
 
         public List<Entity> Entities {get {return entities;}}
@@ -108,7 +110,7 @@ namespace Navier_Boats.Engine.Entities
             if (!File.Exists(file))
             {
                 Random rnd = CurrentLevel.GetRandom();
-                int numZombies = rnd.Next(4, 8);
+                int numZombies = rnd.Next(4, (int)GameTime.TotalGameTime.TotalMinutes*4+4);
                 Wanderer z;
 
                 for (int i = 1; i <= numZombies; i++)

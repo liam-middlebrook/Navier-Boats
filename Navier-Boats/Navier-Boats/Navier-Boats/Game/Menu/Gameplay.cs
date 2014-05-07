@@ -37,6 +37,7 @@ namespace Navier_Boats.Game.Menu
         {
             inputHelper.Update();
 
+            EntityManager.GetInstance().GameTime = gameTime;
             CurrentLevel.GetInstance().Update(gameTime, inputHelper);
             PathThreadPool.GetInstance().Update();
         }
