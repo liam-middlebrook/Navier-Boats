@@ -122,5 +122,10 @@ namespace CharacterCustomizer
         {
             return stats;
         }
+
+        public void Load(List<int> s)
+        {
+            stats = s;
+        }
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.IO;
+using System.Windows.Forms;
 
 namespace CharacterCustomizer
 {
@@ -22,6 +23,8 @@ namespace CharacterCustomizer
         protected int currIndex = 0;
         protected List<Texture2D> options;
         protected List<string> fileNames;
+        protected MiscButton colorButton;
+        protected Color color;
 
         //const string ImageLoc = "../../../../CharacterCustomizerContent/";
 
@@ -39,17 +42,28 @@ namespace CharacterCustomizer
             get { return options[currIndex]; }
         }
 
+        /// <summary>
+        /// get
+        /// </summary>
+        public Color Color
+        {
+            get { return color; }
+        }
+
         public Wheel(int s, string dir, ContentManager content, int x, int y) : base(s)
         {
             leftDisp = 0;
             displayDisp = leftDisp + 3;
             rightDisp = displayDisp + 3;
             optionDisp = displayDisp;
+            int colorDisp = rightDisp + 3;
 
             options = new List<Texture2D>();
             fileNames = new List<string>();
+            color = Color.White;
             int extraDisp = 0;
             LoadTextures(dir, content);
+            Texture2D colorTexture = content.Load<Texture2D>("Buttons/Color");
 
             leftButton = content.Load<Texture2D>("Buttons/Left");
             leftDisp = ConvertPixelsToScale(leftDisp) + extraDisp;
@@ -70,6 +84,10 @@ namespace CharacterCustomizer
             rightButton = content.Load<Texture2D>("Buttons/Right");
             rightDisp = ConvertPixelsToScale(rightDisp) + extraDisp;
             rBSize = new Rectangle(x + rightDisp, y, rightButton.Width * Scale, rightButton.Height * Scale);
+
+            extraDisp += rBSize.Width;
+
+            colorButton = new MiscButton(x + ConvertPixelsToScale(colorDisp) + extraDisp, y, colorTexture, s / 2);
         }
 
         /// <summary>
@@ -110,6 +128,23 @@ namespace CharacterCustomizer
                 CycleOption(false);
                 lBClicked = true;
             }
+            else
+            {
+                colorButton.ButtonClick(mouseX, mouseY);
+                if (colorButton.Clicked)
+                {
+                    ColorDialog cd = new ColorDialog();
+                    cd.Color = System.Drawing.Color.FromArgb(color.A,color.R,color.G,color.B);
+                    cd.AllowFullOpen = true;
+                    cd.FullOpen = true;
+
+                    if (cd.ShowDialog() == DialogResult.OK)
+                        color = new Color(cd.Color.R,cd.Color.G,cd.Color.B,cd.Color.A);
+
+                    if (cd != null)
+                        cd.Dispose();
+                }
+            }
         }
 
         /// <summary>
@@ -121,6 +156,7 @@ namespace CharacterCustomizer
                 rBClicked = false;
             if(lBClicked)
                 lBClicked = false;
+            colorButton.ButtonUnClick();
         }
 
         /// <summary>
@@ -142,12 +178,31 @@ namespace CharacterCustomizer
             spriteBatch.Draw(leftButton, lBSize, lBClicked ? Color.CadetBlue : Color.White);
             spriteBatch.Draw(rightButton, rBSize, rBClicked ? Color.CadetBlue : Color.White);
             spriteBatch.Draw(display, dispSize, Color.White);
-            spriteBatch.Draw(currOption, currOptSize, Color.White);
+            spriteBatch.Draw(currOption, currOptSize, color);
+            colorButton.Draw(spriteBatch);
         }
 
         public string Save()
         {
-            return fileNames[currIndex];
+            return fileNames[currIndex] + "\n" + color.R + "," + color.G + "," + color.B + "," + color.A;
+        }
+
+        public void Load(string saveData)
+        {
+            try
+            {
+                string[] data = saveData.Split('\n');
+                string fileName = data[0];
+                currIndex = fileNames.IndexOf(fileName);
+                currOption = options[currIndex];
+
+                string[] rgba = data[1].Split(',');
+                color = new Color(int.Parse(rgba[0]), int.Parse(rgba[1]), int.Parse(rgba[2]), int.Parse(rgba[3]));
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("Feature Does not exist");
+            }
         }
     }
 }
