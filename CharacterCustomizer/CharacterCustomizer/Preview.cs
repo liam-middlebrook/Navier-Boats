@@ -17,6 +17,7 @@ namespace CharacterCustomizer
     class Preview
     {
         List<Texture2D> character;
+        List<Color> colors;
         Texture2D blank;
         Rectangle paneSize, shadowSize;
         MiscButton okButton;
@@ -29,13 +30,19 @@ namespace CharacterCustomizer
             get { return okButton.Clicked; }
         }
 
-        public Preview(Texture2D face, Texture2D body, Texture2D legs, int screenWidth, int screenHeight, ContentManager content)
+        public Preview(Texture2D face, Color faceColor, Texture2D body, Color bodyColor, Texture2D legs, Color legColor, int screenWidth, int screenHeight, ContentManager content)
         {
             character = new List<Texture2D>();
             character.Add(legs);
             character.Add(body);
             character.Add(face);
             //character.Add(hair);
+
+            colors = new List<Color>();
+            colors.Add(legColor);
+            colors.Add(bodyColor);
+            colors.Add(faceColor);
+            //colors.Add(hairColor);
 
             blank = content.Load<Texture2D>("Blank");
 
@@ -78,13 +85,13 @@ namespace CharacterCustomizer
             spriteBatch.Draw(blank, shadowSize, Color.Black * 0.5f);
             spriteBatch.Draw(blank, paneSize, Color.MediumPurple);
             int disp = paneSize.Height / 8;
-            spriteBatch.Draw(character[0], new Rectangle(paneSize.X + paneSize.Width / 2 - w0 / 2, paneSize.Y + paneSize.Height - h0 - disp, w0, h0), Color.White);
+            spriteBatch.Draw(character[0], new Rectangle(paneSize.X + paneSize.Width / 2 - w0 / 2, paneSize.Y + paneSize.Height - h0 - disp, w0, h0), colors[0]);
             disp -= 35;
-            spriteBatch.Draw(character[1], new Rectangle(paneSize.X + paneSize.Width / 2 - w1 / 2, paneSize.Y + paneSize.Height - h0 - h1 - disp, w1, h1), Color.White);
+            spriteBatch.Draw(character[1], new Rectangle(paneSize.X + paneSize.Width / 2 - w1 / 2, paneSize.Y + paneSize.Height - h0 - h1 - disp, w1, h1), colors[1]);
             disp -= 13;
-            spriteBatch.Draw(character[2], new Rectangle(paneSize.X + paneSize.Width / 2 - w2 / 2, paneSize.Y + paneSize.Height - h0 - h1 - h2 - disp, w2, h2), Color.White);
+            spriteBatch.Draw(character[2], new Rectangle(paneSize.X + paneSize.Width / 2 - w2 / 2, paneSize.Y + paneSize.Height - h0 - h1 - h2 - disp, w2, h2), colors[2]);
             //disp -= 3;
-            //spriteBatch.Draw(character[3], new Rectangle(paneSize.X + paneSize.Width / 2 - w3 / 2, paneSize.Y + paneSize.Height - h0 - h1 - h2 - disp, w3, h3), Color.White);
+            //spriteBatch.Draw(character[3], new Rectangle(paneSize.X + paneSize.Width / 2 - w3 / 2, paneSize.Y + paneSize.Height - h0 - h1 - h2 - disp, w3, h3), colors[3]);
 
             okButton.Draw(spriteBatch);
 

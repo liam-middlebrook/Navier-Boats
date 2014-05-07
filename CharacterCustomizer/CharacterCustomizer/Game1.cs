@@ -27,11 +27,12 @@ namespace CharacterCustomizer
 
         List<Wheel> characterParts;//all the character component wheels
         Die die;
-        MiscButton previewButton, saveButton;
+        MiscButton previewButton, saveButton, loadButton;
         MouseState mouseState, prevMouseState;//current and previous mouse state
 
         Preview preview = null;
         Texture2D saving, save;
+        string loadedFile;
 
         const int WHEEL_SCALE = 6;
         const int DIE_SCALE = 4;
@@ -68,9 +69,10 @@ namespace CharacterCustomizer
 
             die = new Die(DIE_SCALE, 500, 100, Content);
 
-            previewButton = new MiscButton(500, 300, "Buttons/Preview", Content, WHEEL_SCALE);
-            saveButton = new MiscButton(500, 375, "Buttons/Save", Content, WHEEL_SCALE);
+            previewButton = new MiscButton(500, 300, "Buttons/Preview", Content, 3);
+            saveButton = new MiscButton(500, 350, "Buttons/Save", Content, 3);
             save = saveButton.Button;
+            loadButton = new MiscButton(500, 400, "Buttons/Load", Content, 3);
 
             base.Initialize();
         }
@@ -125,6 +127,7 @@ namespace CharacterCustomizer
                     die.ButtonClick(mouseState.X, mouseState.Y);
                     previewButton.ButtonClick(mouseState.X, mouseState.Y);
                     saveButton.ButtonClick(mouseState.X, mouseState.Y);
+                    loadButton.ButtonClick(mouseState.X, mouseState.Y);
                 }
             }
             else if (mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Released && prevMouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
@@ -138,11 +141,12 @@ namespace CharacterCustomizer
                     die.ButtonUnClick();
                     previewButton.ButtonUnClick();
                     saveButton.ButtonUnClick();
+                    loadButton.ButtonUnClick();
                 }
             }
             if (previewButton.Clicked)
             {
-                preview = new Preview(characterParts[0].Current, characterParts[1].Current, characterParts[2].Current, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, Content);
+                preview = new Preview(characterParts[0].Current, characterParts[0].Color, characterParts[1].Current, characterParts[1].Color, characterParts[2].Current, characterParts[2].Color, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, Content);
                 previewButton.ButtonUnClick();
             }
             if (saveButton.Clicked)
@@ -151,6 +155,11 @@ namespace CharacterCustomizer
                 Save();
                 saveButton.ButtonUnClick();
                 saveButton.Button = save;
+            }
+            if (loadButton.Clicked)
+            {
+                Load();
+                loadButton.ButtonUnClick();
             }
             if (preview != null && preview.Clicked)
                 preview = null;
@@ -176,6 +185,7 @@ namespace CharacterCustomizer
             die.Draw(spriteBatch);
             previewButton.Draw(spriteBatch);
             saveButton.Draw(spriteBatch);
+            loadButton.Draw(spriteBatch);
 
             if (preview != null)
             {
@@ -194,21 +204,66 @@ namespace CharacterCustomizer
             saver.AddExtension = true;
             saver.CheckPathExists = true;
             saver.DefaultExt = "dat";
-            saver.InitialDirectory = "Saves";
+            saver.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory + "Saves\\";
             saver.OverwritePrompt = true;
             saver.RestoreDirectory = true;
             saver.Title = "Save Character As";
+            if (loadedFile != null)
+                saver.FileName = loadedFile;
 
             if (saver.ShowDialog() == DialogResult.OK)
             {
-                using (BinaryWriter br = new BinaryWriter(File.OpenWrite(saver.FileName)))
+                using (BinaryWriter bw = new BinaryWriter(File.OpenWrite(saver.FileName)))
                 {
                     try
                     {
                         foreach (Wheel w in characterParts)
-                            br.Write(w.Save());
+                            bw.Write(w.Save());
                         foreach (int stat in die.Save())
-                            br.Write(stat);
+                            bw.Write(stat);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                    finally
+                    {
+                        if (bw != null)
+                            bw.Dispose();
+                    }
+                }
+            }
+
+            loadedFile = saver.FileName;
+
+            if (saver != null)
+                saver.Dispose();
+        }
+
+        public void Load()
+        {
+            OpenFileDialog loader = new OpenFileDialog();
+
+            loader.CheckPathExists = true;
+            loader.CheckFileExists = true;
+            //loader.DefaultExt = "dat";
+            loader.Filter = "Data files (.dat)|*.dat|All files|*.*";
+            loader.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory + "Saves\\";
+            loader.RestoreDirectory = true;
+            loader.Title = "Load Character";
+
+            if (loader.ShowDialog() == DialogResult.OK)
+            {
+                using (BinaryReader br = new BinaryReader(File.OpenRead(loader.FileName)))
+                {
+                    try
+                    {
+                        foreach (Wheel w in characterParts)
+                            w.Load(br.ReadString());
+                        List<int> stats = new List<int>();
+                        foreach (int stat in die.Save())
+                            stats.Add(br.ReadInt32());
+                        die.Load(stats);
                     }
                     catch (Exception e)
                     {
@@ -222,8 +277,10 @@ namespace CharacterCustomizer
                 }
             }
 
-            if (saver != null)
-                saver.Dispose();
+            loadedFile = loader.FileName;
+
+            if (loader != null)
+                loader.Dispose();
         }
 
     }

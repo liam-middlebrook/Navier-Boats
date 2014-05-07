@@ -29,6 +29,9 @@ namespace CharacterCustomizer
 
             rightDisp += dispSize.Width - displayDisp + ConvertPixelsToScale(3);
             rBSize = new Rectangle(x + rightDisp, y, rightButton.Width * Scale, rightButton.Height * Scale);
+
+            int colorDisp = rightDisp + rBSize.Width + ConvertPixelsToScale(3);
+            colorButton = new MiscButton(x + colorDisp, y, colorButton.Button, s / 2);
         }
     }
 }
