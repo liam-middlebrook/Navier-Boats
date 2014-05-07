@@ -50,6 +50,12 @@ namespace Navier_Boats.Game.Items
             {
                 if (entities[i] != executor && entities[i] is LivingEntity && Vector2.DistanceSquared(entities[i].Position, executor.Position) < Range * Range)
                 {
+                    Vector2 executorToEnemy = entities[i].Position - executor.Position;
+
+                    float attackAngle = (float)Math.Atan2(-executorToEnemy.Y, executorToEnemy.X);
+                    //Console.WriteLine(executorToEnemy);
+                    //Console.WriteLine("attack angle: "+180*(attackAngle%360)/Math.PI);
+                    //Console.WriteLine("head angle: " + 180*(executor.HeadRotation%360)/Math.PI);
                     ((LivingEntity)entities[i]).TakeDamage(Damage);
                 }
             }
