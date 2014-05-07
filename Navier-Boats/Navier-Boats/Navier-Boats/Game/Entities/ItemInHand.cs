@@ -15,10 +15,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Inventory;
 using Navier_Boats.Engine.System;
 using Navier_Boats.Engine.Level;
+using System.Runtime.Serialization;
 
 
 namespace Navier_Boats.Game.Entities
 {
+    [Serializable]
     public class ItemInHand : Entity, IInteractable
     {
         enum WeaponState
@@ -51,6 +53,16 @@ namespace Navier_Boats.Game.Entities
             currentState = WeaponState.right;
             range = baseRange;
             this.Position = new Vector2((int)Math.Round(EntityManager.GetInstance().Player.Position.X), (int)Math.Round(EntityManager.GetInstance().Player.Position.Y));
+        }
+
+        public ItemInHand(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
         }
 
         public override void Update(GameTime gameTime)
