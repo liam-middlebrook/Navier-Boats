@@ -42,6 +42,7 @@ namespace Navier_Boats.Game.Entities
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            base.GetObjectData(info, context);
             info.AddValue("droppedItem", item);
         }
 
