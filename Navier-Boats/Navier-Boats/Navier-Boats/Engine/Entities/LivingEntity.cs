@@ -141,10 +141,6 @@ namespace Navier_Boats.Engine.Entities
                 EntityManager.GetInstance().AddEntity(item);
             }
 
-            if(this is Player)
-                StateManager.GetInstance().PushState(GameStates.GAME_OVER);
-            else
-                EntityManager.GetInstance().RemoveEntity(this);
         }
 
         /// <summary>
@@ -162,7 +158,7 @@ namespace Navier_Boats.Engine.Entities
                     {
                         continue;
                     }
-                    else if (Vector2.DistanceSquared(entity.Position, Position) <= 100 * 100)
+                    else if (Vector2.DistanceSquared(entity.Position, Position) <= 75 * 75)
                     {
                         interactee.Interact(this);
                     }

@@ -59,7 +59,7 @@ namespace Navier_Boats.Game.Entities
             foreach (Entity entity in EntityManager.GetInstance().Entities)
             {
                 LivingEntity living = entity as LivingEntity;
-                if (living == null)
+                if (living == null || living.ShouldDestroy)
                     continue;
 
                 Rectangle otherRect = living.Texture.Bounds;
