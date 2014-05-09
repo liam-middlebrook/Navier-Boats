@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Navier_Boats.Game.Menu;
+using Microsoft.Xna.Framework.Content;
 
 namespace Navier_Boats.Engine.Menu
 {
@@ -47,9 +48,18 @@ namespace Navier_Boats.Engine.Menu
         public void InitializeStateManager(GameStates defaultState)
         {
             currentState.Push(defaultState);
-            foreach (KeyValuePair<GameStates,IGameState> state in states)
+            foreach (KeyValuePair<GameStates, IGameState> state in states)
             {
                 state.Value.Initialize();
+            }
+        }
+
+        public void LoadStateContentFiles(GameStates defaultState, ContentManager content)
+        {
+            currentState.Push(defaultState);
+            foreach (KeyValuePair<GameStates, IGameState> state in states)
+            {
+                state.Value.LoadContent(content);
             }
         }
 

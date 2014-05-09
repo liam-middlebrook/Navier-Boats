@@ -21,6 +21,11 @@ namespace Navier_Boats.Game.Menu
 
         }
 
+        public override void LoadContent(Microsoft.Xna.Framework.Content.ContentManager content)
+        {
+
+        }
+
         public override void Update(GameTime gameTime)
         {
             prevKeyState = keyState;

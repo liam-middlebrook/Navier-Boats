@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Content;
 
 namespace Navier_Boats.Engine.Menu
 {
@@ -21,6 +22,8 @@ namespace Navier_Boats.Engine.Menu
         }
 
         protected abstract void Init();
+
+        public abstract void LoadContent(ContentManager content);
 
         public abstract void Update(GameTime gameTime);
 

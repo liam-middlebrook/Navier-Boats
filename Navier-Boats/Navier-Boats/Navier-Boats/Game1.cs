@@ -128,6 +128,7 @@ namespace Navier_Boats
             StateManager.GetInstance()[GameStates.GAME_OVER] = new GameOver();
             StateManager.GetInstance()[GameStates.CREDITS] = new Credits();
             StateManager.GetInstance().InitializeStateManager(GameStates.MAIN_MENU);
+            StateManager.GetInstance().LoadStateContentFiles(GameStates.MAIN_MENU, Content);
         }
 
         /// <summary>
