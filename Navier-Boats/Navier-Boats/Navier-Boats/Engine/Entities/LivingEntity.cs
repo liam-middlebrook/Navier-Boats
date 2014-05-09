@@ -213,7 +213,7 @@ namespace Navier_Boats.Engine.Entities
             headSprite.Draw(spriteBatch);
 
             if (Items.SelectedItem != null && Items.SelectedItem.Item != null && Items.SelectedItem.Item.ItemTexture != null)
-                spriteBatch.Draw(Items.SelectedItem.Item.ItemTexture, Position, Color.White);
+                spriteBatch.Draw(Items.SelectedItem.Item.ItemTexture, Position, null,Color.White,HeadRotation, Center(), 1.0f, SpriteEffects.None, 0.0f);
         }
 
         #endregion
