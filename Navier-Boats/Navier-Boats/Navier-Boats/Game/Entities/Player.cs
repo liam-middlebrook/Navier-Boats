@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Inventory;
 using Navier_Boats.Engine.System;
 using Navier_Boats.Engine.Level;
+using Navier_Boats.Engine.Menu;
 
 namespace Navier_Boats.Game.Entities
 {
@@ -96,11 +97,11 @@ namespace Navier_Boats.Game.Entities
             }
 
             #region HUD Rectangle Initiation
-            HUDItemBoxRectOne = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 724,ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
-            HUDItemBoxRectTwo = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 604,ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
-            HUDItemBoxRectThree = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 484,ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
-            HUDItemBoxRectFour = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 364,ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
-            HUDItemBoxRectFive = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 244,ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
+            HUDItemBoxRectOne = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 724, ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
+            HUDItemBoxRectTwo = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 604, ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
+            HUDItemBoxRectThree = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 484, ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
+            HUDItemBoxRectFour = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 364, ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
+            HUDItemBoxRectFive = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 244, ConsoleVars.GetInstance().WindowHeight - 124, 75, 75);
             CompassRect = new Rectangle(ConsoleVars.GetInstance().WindowWidth - 124, 50, 75, 75);
             #endregion
         }
@@ -108,7 +109,9 @@ namespace Navier_Boats.Game.Entities
         public override void OnDeath()
         {
             base.OnDeath();
+            this.ShouldDestroy = false;
             curState = PlayerState.dead;
+            StateManager.GetInstance().PushState(GameStates.GAME_OVER);
         }
 
         public void HandleInput(InputStateHelper inputHelper)
@@ -319,19 +322,19 @@ namespace Navier_Boats.Game.Entities
             if (Items.SelectedItemIndex == 0)
             {
                 HighlightRect = new Rectangle(HUDItemBoxRectOne.X - 5, HUDItemBoxRectOne.Y - 5, HUDItemBoxRectOne.Width + 10, HUDItemBoxRectOne.Height + 10);
-            } 
+            }
             if (Items.SelectedItemIndex == 1)
             {
                 HighlightRect = new Rectangle(HUDItemBoxRectTwo.X - 5, HUDItemBoxRectTwo.Y - 5, HUDItemBoxRectTwo.Width + 10, HUDItemBoxRectTwo.Height + 10);
-            } 
+            }
             if (Items.SelectedItemIndex == 2)
             {
                 HighlightRect = new Rectangle(HUDItemBoxRectThree.X - 5, HUDItemBoxRectThree.Y - 5, HUDItemBoxRectThree.Width + 10, HUDItemBoxRectThree.Height + 10);
-            } 
+            }
             if (Items.SelectedItemIndex == 3)
             {
                 HighlightRect = new Rectangle(HUDItemBoxRectFour.X - 5, HUDItemBoxRectFour.Y - 5, HUDItemBoxRectFour.Width + 10, HUDItemBoxRectFour.Height + 10);
-            } 
+            }
             if (Items.SelectedItemIndex == 4)
             {
                 HighlightRect = new Rectangle(HUDItemBoxRectFive.X - 5, HUDItemBoxRectFive.Y - 5, HUDItemBoxRectFive.Width + 10, HUDItemBoxRectFive.Height + 10);
@@ -345,7 +348,7 @@ namespace Navier_Boats.Game.Entities
             spriteBatch.Draw(TextureManager.GetInstance()["HUDItemBoxTexture"], HUDItemBoxRectFive, Color.White);
             spriteBatch.Draw(TextureManager.GetInstance()["HealthTexture"], new Rectangle(ConsoleVars.GetInstance().WindowWidth - 974, ConsoleVars.GetInstance().WindowHeight - 99, 200, 50), Color.Black);
             spriteBatch.Draw(TextureManager.GetInstance()["HealthTexture"], new Rectangle(ConsoleVars.GetInstance().WindowWidth - 973, ConsoleVars.GetInstance().WindowHeight - 98, (int)(2 * Health) - 2, 48), Color.White);
-            spriteBatch.Draw(TextureManager.GetInstance()["MoneyTexture"], new Rectangle(ConsoleVars.GetInstance().WindowWidth - 974, ConsoleVars.GetInstance().WindowHeight - 134, 200 , 35), Color.White);
+            spriteBatch.Draw(TextureManager.GetInstance()["MoneyTexture"], new Rectangle(ConsoleVars.GetInstance().WindowWidth - 974, ConsoleVars.GetInstance().WindowHeight - 134, 200, 35), Color.White);
             spriteBatch.Draw(TextureManager.GetInstance()["CompassTexture"], CompassRect, Color.White);
 
             //Draw text indicating precise value of player health
@@ -353,7 +356,7 @@ namespace Navier_Boats.Game.Entities
 
             // Get how large the text will be when drawn
             Vector2 fontSize = drawFont.MeasureString(string.Format("{0:00.00}", Health));
-            
+
             //Get the position to draw the text to
             Vector2 healthTextPos = new Vector2(ConsoleVars.GetInstance().WindowWidth - 874, ConsoleVars.GetInstance().WindowHeight - 76) - fontSize / 2;
             spriteBatch.DrawString(drawFont, string.Format("{0:00.00}", Health), healthTextPos, Color.White);
