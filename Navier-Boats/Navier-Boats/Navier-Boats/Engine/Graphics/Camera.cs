@@ -14,7 +14,7 @@ namespace Navier_Boats.Engine.Graphics
         private static Matrix transformMatrix = new Matrix();
         private static Matrix inverseTransformMatrix = new Matrix();
         private static Rectangle screenSize = new Rectangle(0, 0, 1024, 1024);
-        private static bool followMouse = true;
+        private static bool followMouse = false;
 
         public static Matrix TransformMatrix { get { return transformMatrix; } }
 
