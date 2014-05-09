@@ -54,9 +54,14 @@ namespace Navier_Boats.Game.Items
 
                     float attackAngle = (float)Math.Atan2(-executorToEnemy.Y, executorToEnemy.X);
                     //Console.WriteLine(executorToEnemy);
-                    //Console.WriteLine("attack angle: "+180*(attackAngle%360)/Math.PI);
-                    //Console.WriteLine("head angle: " + 180*(executor.HeadRotation%360)/Math.PI);
-                    ((LivingEntity)entities[i]).TakeDamage(Damage);
+
+                    float angleDifference = (float)Math.Abs(180 * (executor.HeadRotation % 360) / Math.PI + 180 * (attackAngle % 360) / Math.PI);
+                    //Console.WriteLine("Angle Difference: " + angleDifference);
+
+                    if (angleDifference <= 10.0f)
+                    {
+                        ((LivingEntity)entities[i]).TakeDamage(Damage);
+                    }
                 }
             }
             executor.Items.RemoveItem(this);
