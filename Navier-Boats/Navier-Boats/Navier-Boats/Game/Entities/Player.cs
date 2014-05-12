@@ -222,14 +222,15 @@ namespace Navier_Boats.Game.Entities
                     if (inputHelper.MouseState.LeftButton == ButtonState.Pressed)
                     {
                         bool indexSelected = false;
-                        foreach (Rectangle temp in invItemRects)
+                        for(int i = 0; i < invItemRects.Count; ++i)
                         {
-                            if (temp.Contains(new Point(inputHelper.MouseState.X, inputHelper.MouseState.Y)))
+                            if (invItemRects[i].Contains(new Point(inputHelper.MouseState.X, inputHelper.MouseState.Y)))
                             {
-                                selectedItemIndex = invItemRects.IndexOf(temp);
+                                selectedItemIndex = i;
                                 indexSelected = true;
                             }
                         }
+                        //Remove the item from the inventory and start dragging it
                         if (indexSelected)
                         {
                             tempItemStack = Items.Items[selectedItemIndex];
@@ -243,12 +244,12 @@ namespace Navier_Boats.Game.Entities
                     if (inputHelper.MouseState.LeftButton == ButtonState.Released)
                     {
                         bool secondItemSelected = false;
-                        foreach (Rectangle temp in invItemRects)
+                        for(int i = 0; i < invItemRects.Count; ++i)
                         {
-                            if (temp.Contains(new Point(inputHelper.MouseState.X, inputHelper.MouseState.Y)))
+                            if (invItemRects[i].Contains(new Point(inputHelper.MouseState.X, inputHelper.MouseState.Y)))
                             {
                                 secondItemSelected = true;
-                                secondSelectedItemIndex = invItemRects.IndexOf(temp);
+                                secondSelectedItemIndex = i;
                             }
                         }
                         if (secondItemSelected)
