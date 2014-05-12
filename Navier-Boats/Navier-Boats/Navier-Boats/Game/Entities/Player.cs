@@ -254,6 +254,7 @@ namespace Navier_Boats.Game.Entities
                         }
                         if (secondItemSelected)
                         {
+                            // If it's getting dropped on the same spot as it previously was
                             if (secondSelectedItemIndex == selectedItemIndex)
                             {
                                 Items.Items[selectedItemIndex] = tempItemStack;
@@ -262,6 +263,7 @@ namespace Navier_Boats.Game.Entities
                             }
                             else
                             {
+                                // If it is dorpping onto an empty one
                                 if (Items.Items[secondSelectedItemIndex] == null)
                                 {
                                     Items.Items[secondSelectedItemIndex] = tempItemStack;
@@ -269,18 +271,20 @@ namespace Navier_Boats.Game.Entities
                                     secondSelectedItemIndex = -1;
                                     curInvState = InventoryState.nothing;
                                 }
+                                //If it's dropping onto an item of same type (Stacking)
                                 else if (Items.Items[secondSelectedItemIndex].Item == tempItemStack.Item)
                                 {
                                     Items.Items[secondSelectedItemIndex].Amount += Items.Items[selectedItemIndex].Amount;
-                                    if (Items.Items[secondSelectedItemIndex].Amount > 32)
+                                    if (Items.Items[secondSelectedItemIndex].Amount > Items.Items[selectedItemIndex].MaxStack)
                                     {
-                                        Items.Items[secondSelectedItemIndex].Amount = 32;
+                                        Items.Items[secondSelectedItemIndex].Amount = Items.Items[selectedItemIndex].MaxStack;
                                     }
                                     tempItemStack = null;
                                     secondSelectedItemIndex = -1;
                                     selectedItemIndex = -1;
                                     curInvState = InventoryState.nothing;
                                 }
+                                //If it's dropping onto an item of different type
                                 else
                                 {
                                     Items.Items[selectedItemIndex] = Items.Items[secondSelectedItemIndex];
