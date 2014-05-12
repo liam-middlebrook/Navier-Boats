@@ -274,11 +274,8 @@ namespace Navier_Boats.Game.Entities
                                 //If it's dropping onto an item of same type (Stacking)
                                 else if (Items.Items[secondSelectedItemIndex].Item == tempItemStack.Item)
                                 {
-                                    Items.Items[secondSelectedItemIndex].Amount += Items.Items[selectedItemIndex].Amount;
-                                    if (Items.Items[secondSelectedItemIndex].Amount > Items.Items[selectedItemIndex].Item.MaxStack)
-                                    {
-                                        Items.Items[secondSelectedItemIndex].Amount = Items.Items[selectedItemIndex].Item.MaxStack;
-                                    }
+                                    int addAmt = (Items.Items[secondSelectedItemIndex].Amount + tempItemStack.Amount) > tempItemStack.Item.MaxStack ? tempItemStack.Item.MaxStack : Items.Items[secondSelectedItemIndex].Amount + tempItemStack.Amount;
+                                    Items.Items[secondSelectedItemIndex].Amount = addAmt;
                                     tempItemStack = null;
                                     secondSelectedItemIndex = -1;
                                     selectedItemIndex = -1;
