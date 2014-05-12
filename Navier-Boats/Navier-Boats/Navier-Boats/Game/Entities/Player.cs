@@ -275,9 +275,9 @@ namespace Navier_Boats.Game.Entities
                                 else if (Items.Items[secondSelectedItemIndex].Item == tempItemStack.Item)
                                 {
                                     Items.Items[secondSelectedItemIndex].Amount += Items.Items[selectedItemIndex].Amount;
-                                    if (Items.Items[secondSelectedItemIndex].Amount > Items.Items[selectedItemIndex].MaxStack)
+                                    if (Items.Items[secondSelectedItemIndex].Amount > Items.Items[selectedItemIndex].Item.MaxStack)
                                     {
-                                        Items.Items[secondSelectedItemIndex].Amount = Items.Items[selectedItemIndex].MaxStack;
+                                        Items.Items[secondSelectedItemIndex].Amount = Items.Items[selectedItemIndex].Item.MaxStack;
                                     }
                                     tempItemStack = null;
                                     secondSelectedItemIndex = -1;
