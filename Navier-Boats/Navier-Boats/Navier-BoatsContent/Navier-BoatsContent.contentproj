@@ -55,11 +55,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\blue.png">
-      <Name>blue</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="tiles\green.png">
       <Name>green</Name>
       <Importer>TextureImporter</Importer>
@@ -181,6 +176,13 @@
   <ItemGroup>
     <Compile Include="items\health_world.png">
       <Name>health_world</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="tiles\water.png">
+      <Name>water</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
