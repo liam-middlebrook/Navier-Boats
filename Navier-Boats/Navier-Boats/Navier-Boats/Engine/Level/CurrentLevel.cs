@@ -178,7 +178,7 @@ namespace Navier_Boats.Engine.Level
             tileTextures.Add(Content.Load<Texture2D>("tiles\\green"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\sand"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\water"));
-            tileTextures.Add(Content.Load<Texture2D>("tiles\\deepwater"));
+            tileTextures.Add(Content.Load<Texture2D>("tiles\\DeepWater"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\road"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\roadcornerin"));
             tileTextures.Add(Content.Load<Texture2D>("tiles\\roadcornerout"));
