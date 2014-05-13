@@ -7,13 +7,16 @@ namespace Navier_Boats.Engine.Level
 {
     public enum TileType
     {
-        Road = 4,
+        Clear = 0,
         Grass = 1,
         Sand = 2,
         Water = 3,
-        Clear = 0,
-        City = 5,
-        Debug = 6,
+        DeepWater = 4,
+        Road = 5,
+        RoadCornerInside = 6,
+        RoadCornerOutside = 7,
+        RoadSide = 8,
+        Debug = 9,
         
     }
 
