@@ -48,7 +48,7 @@ namespace Navier_Boats.Game.Entities
             Position = position;
             initialSpeed = 50;
             if(CurrentLevel.GetRandom().Next(2) == 1)
-                this.Items.AddItem(new ItemStack(ItemManager.GetInstance().GetRandomItem(), CurrentLevel.GetRandom().Next(1, 5)));
+                this.Items.AddItem(new ItemStack(ItemManager.GetInstance().GetRandomItem(), CurrentLevel.GetRandom().Next(1, 10)));
         }
 
         protected Wanderer(SerializationInfo info, StreamingContext context)

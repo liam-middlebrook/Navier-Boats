@@ -93,12 +93,13 @@ namespace Navier_Boats.Engine.Inventory
             int diceRoll = CurrentLevel.GetRandom().Next(0, totalCost);
             int index = 0;
 
-            while (diceRoll > 0)
+            while (diceRoll >= 0)
             {
                 diceRoll -= items[index].Cost;
                 index++;
             }
-            return items[diceRoll];
+
+            return items[index-1];
         }
     }
 }
