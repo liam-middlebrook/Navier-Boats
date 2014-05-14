@@ -29,7 +29,10 @@ namespace Navier_Boats.Game.Menu
             Player player = EntityManager.GetInstance().Player;
             for (int i = 0; i < ItemManager.GetInstance().Items.Count; i++)
             {
-            player.Items.AddItem(new ItemStack(ItemManager.GetInstance().Items[i], ItemManager.GetInstance().Items[i].MaxStack));
+                if (ItemManager.GetInstance().Items[i].getItemType() == "Items.Weapon")
+                {
+                    player.Items.AddItem(new ItemStack(ItemManager.GetInstance().Items[i], ItemManager.GetInstance().Items[i].MaxStack / 4));
+                }
             }
         }
 
