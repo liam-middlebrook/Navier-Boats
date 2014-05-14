@@ -21,6 +21,7 @@ using Navier_Boats.Engine.Pathfinding;
 using Navier_Boats.Engine.Pathfinding.Threading;
 using Navier_Boats.Engine.Menu;
 using Navier_Boats.Game.Menu;
+using Navier_Boats.Engine.Graphics.PostProcessing;
 
 /**
  * Add your names here once you have completed the Git/SourceTree seminar:
@@ -178,6 +179,7 @@ namespace Navier_Boats
             StateManager.GetInstance().CurrentState.Draw(spriteBatch);
 
             spriteBatch.End();
+            ShaderManager.GetInstance().PostProcess(spriteBatch);
             spriteBatch.Begin();
 
             StateManager.GetInstance().CurrentState.DrawGUI(spriteBatch);
@@ -185,6 +187,8 @@ namespace Navier_Boats
             ConsoleWindow.GetInstance().Draw(spriteBatch);
             
             spriteBatch.End();
+
+
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
