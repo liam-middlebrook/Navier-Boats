@@ -12,8 +12,6 @@ float4 PixelShaderFunction(float4 color : COLOR0, float2 uv : TEXCOORD0) : COLOR
 
 	float4 finalColor = tex2D(mainColor, uv);
 
-	if(water == true)
-		{
 			// Sample the normal map
 			float2 normalUVup = uv;
 			float2 normalUVdown = uv;
@@ -32,7 +30,7 @@ float4 PixelShaderFunction(float4 color : COLOR0, float2 uv : TEXCOORD0) : COLOR
 	
 			float4 waterTint = tex2D(normalMap, uv + direction.xy * 0.02f) * direction * 5.5;
 			waterTint.a = 1.0;
-			waterTint.b *= 1.25;
+			waterTint.b *= .85;
 
 			float3 lightDir = normalize(float3(1,1,1));
 			float lightAmount = saturate( dot(lightDir, direction) * 100 );
@@ -47,7 +45,7 @@ float4 PixelShaderFunction(float4 color : COLOR0, float2 uv : TEXCOORD0) : COLOR
 
 
 			finalColor *= 1.25;
-		}
+		
 
 	// All done
 	return finalColor;
