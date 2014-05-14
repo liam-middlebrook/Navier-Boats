@@ -15,13 +15,12 @@ using Navier_Boats.Engine.Level;
 using Navier_Boats.Engine.Graphics;
 using Navier_Boats.Engine.System;
 using Navier_Boats.Engine.Inventory;
-
-// DEBUGGING PATHFINDER, REMOVE ONCE IT WORKS
 using Navier_Boats.Engine.Pathfinding;
 using Navier_Boats.Engine.Pathfinding.Threading;
 using Navier_Boats.Engine.Menu;
 using Navier_Boats.Game.Menu;
 using Navier_Boats.Engine.Graphics.PostProcessing;
+using Navier_Boats.Game.Graphics;
 
 /**
  * Add your names here once you have completed the Git/SourceTree seminar:
@@ -115,6 +114,8 @@ namespace Navier_Boats
 
             ItemManager.GetInstance();
 
+            TracerManager.GetInstance().Initialize(Content.Load<Texture2D>("1x1"));
+
             //TextureManager.GetInstance()["debugTextures/path"] = Content.Load<Texture2D>("debugTextures/path");
             TextureManager.GetInstance().LoadAllTexturesInDirectory("debugTextures");
             // TODO: use this.Content to load your game content here
@@ -161,6 +162,8 @@ namespace Navier_Boats
             
             ConsoleWindow.GetInstance().Update(keyHelper);
 
+            TracerManager.GetInstance().Update(gameTime);
+
             // TODO: Add your update logic here
             
             base.Update(gameTime);
@@ -177,6 +180,8 @@ namespace Navier_Boats
             spriteBatch.Begin(0, null, null, null, null, null, Camera.TransformMatrix);
 
             StateManager.GetInstance().CurrentState.Draw(spriteBatch);
+
+            TracerManager.GetInstance().Draw(spriteBatch);
 
             spriteBatch.End();
             ShaderManager.GetInstance().PostProcess(spriteBatch);

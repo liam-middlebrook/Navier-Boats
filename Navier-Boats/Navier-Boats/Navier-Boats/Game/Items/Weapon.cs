@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Entities;
 using Navier_Boats.Engine.Inventory;
+using Navier_Boats.Game.Graphics;
 
 namespace Navier_Boats.Game.Items
 {
@@ -45,6 +46,8 @@ namespace Navier_Boats.Game.Items
 
         public override void OnAction(LivingEntity executor)
         {
+            bool hitEnemy = false;
+
             List<Entity> entities = EntityManager.GetInstance().Entities;
             for(int i = 0; i < entities.Count;++i)
             {
@@ -61,9 +64,21 @@ namespace Navier_Boats.Game.Items
                     if (angleDifference <= 10.0f)
                     {
                         ((LivingEntity)entities[i]).TakeDamage(Damage);
+
+                        if (!hitEnemy)
+                        {
+                            hitEnemy = true;
+                            TracerManager.GetInstance().AddTracer(executor.Position, (float)executor.HeadRotation, (float)Vector2.Distance(executor.Position, entities[i].Position));
+                        }
                     }
                 }
             }
+
+            if(!hitEnemy)
+            {
+                TracerManager.GetInstance().AddTracer(executor.Position, (float)executor.HeadRotation, (float)this.Range);
+            }
+
             executor.Items.RemoveItem(this);
         }
 
