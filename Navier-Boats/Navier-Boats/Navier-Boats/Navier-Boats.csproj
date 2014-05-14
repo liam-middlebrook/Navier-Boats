@@ -89,6 +89,7 @@
     <Compile Include="Engine\Menu\StateManager.cs" />
     <Compile Include="Engine\System\InputStateHelper.cs" />
     <Compile Include="Game\Entities\DroppedItem.cs" />
+    <Compile Include="Game\Graphics\TracerManager.cs" />
     <Compile Include="Game\Items\HealthPack.cs" />
     <Compile Include="Engine\Inventory\ItemManager.cs" />
     <Compile Include="Game\Items\Weapon.cs" />
