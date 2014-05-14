@@ -80,6 +80,8 @@ namespace Navier_Boats.Engine.Graphics
             loadedTextures[""].SetData<Color>(new[] { Color.White });
 
             loadScreen = new LoadScreen(Content);
+
+            graphicsDevice.Textures[1] = Content.Load<Texture2D>("Shaders/shaderwaternormal");
         }
 
         /// <summary>
