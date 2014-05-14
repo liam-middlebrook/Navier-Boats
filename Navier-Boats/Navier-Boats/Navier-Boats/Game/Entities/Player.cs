@@ -108,7 +108,6 @@ namespace Navier_Boats.Game.Entities
 
         public override void OnDeath()
         {
-            base.OnDeath();
             this.ShouldDestroy = false;
             curState = PlayerState.dead;
             StateManager.GetInstance().PushState(GameStates.GAME_OVER);
