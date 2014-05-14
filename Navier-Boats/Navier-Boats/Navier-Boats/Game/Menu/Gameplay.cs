@@ -32,6 +32,7 @@ namespace Navier_Boats.Game.Menu
                 if (ItemManager.GetInstance().Items[i].getItemType() == "Items.Weapon")
                 {
                     player.Items.AddItem(new ItemStack(ItemManager.GetInstance().Items[i], ItemManager.GetInstance().Items[i].MaxStack / 4));
+                    break;
                 }
             }
         }
