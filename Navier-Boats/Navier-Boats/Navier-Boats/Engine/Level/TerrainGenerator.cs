@@ -205,8 +205,10 @@ namespace Navier_Boats.Engine.Level
             {
                 for (int y = 0; y < to.GetLength(0); y++)
                 {
-                    if (from[x, y] != (short)TileType.Clear)
+                    if (from[x, y] != (short)TileType.Clear && to[x, y] != (short)TileType.Road)
+                    {
                         to[x, y] = from[x, y];
+                    }
                 }
             }
         }
