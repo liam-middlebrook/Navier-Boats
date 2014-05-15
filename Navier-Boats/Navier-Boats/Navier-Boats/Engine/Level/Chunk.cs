@@ -282,7 +282,7 @@ namespace Navier_Boats.Engine.Level
 
 
                             if (ConsoleVars.GetInstance().ShowChunkBorders && (x == 0 || y == 0))
-                                spriteBatch.Draw(tileTextures[(int)TileType.Debug - 1], worldPos, Color.White);
+                                spriteBatch.Draw(tileTextures[(short)TileType.Debug], worldPos, Color.White);
 
                             if (ConsoleVars.GetInstance().ShowRoadConnectors && Connections != null)
                             {
@@ -292,22 +292,22 @@ namespace Navier_Boats.Engine.Level
                                     {
                                         case RoadConnectors.North:
                                             if (y == 0 && (x == 23 || x == 24))
-                                                spriteBatch.Draw(tileTextures[(int)TileType.Debug - 1], worldPos, Color.Green);
+                                                spriteBatch.Draw(tileTextures[(short)TileType.Debug - 1], worldPos, Color.Green);
                                             break;
 
                                         case RoadConnectors.East:
                                             if (x == CHUNK_WIDTH - 1 && (y == 23 || y == 24))
-                                                spriteBatch.Draw(tileTextures[(int)TileType.Debug - 1], worldPos, Color.Green);
+                                                spriteBatch.Draw(tileTextures[(short)TileType.Debug - 1], worldPos, Color.Green);
                                             break;
 
                                         case RoadConnectors.South:
                                             if (y == CHUNK_HEIGHT - 1 && (x == 23 || x == 24))
-                                                spriteBatch.Draw(tileTextures[(int)TileType.Debug - 1], worldPos, Color.Green);
+                                                spriteBatch.Draw(tileTextures[(short)TileType.Debug - 1], worldPos, Color.Green);
                                             break;
 
                                         case RoadConnectors.West:
                                             if (x == 0 && (y == 23 || y == 24))
-                                                spriteBatch.Draw(tileTextures[(int)TileType.Debug - 1], worldPos, Color.Green);
+                                                spriteBatch.Draw(tileTextures[(short)TileType.Debug - 1], worldPos, Color.Green);
                                             break;
 
                                     }
