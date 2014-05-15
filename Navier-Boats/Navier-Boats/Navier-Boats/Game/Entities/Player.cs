@@ -376,9 +376,9 @@ namespace Navier_Boats.Game.Entities
             Vector2 moneyTextPos = new Vector2(ConsoleVars.GetInstance().WindowWidth - 874, ConsoleVars.GetInstance().WindowHeight - 111) - fontSize / 2;
             spriteBatch.DrawString(drawFont, this.Money.ToString(), moneyTextPos, Color.Black);
 
-            Vector2 scoreTextPos = new Vector2(CompassRect.Center.X, CompassRect.Center.Y) - fontSize / 2;
+            Vector2 scoreTextPos = new Vector2(CompassRect.Center.X  + 25 - (10 * drawFont.MeasureString(score.ToString()).X )/ 20 +  ((CompassRect.Width) / ( 3 * drawFont.MeasureString(score.ToString()).X)), CompassRect.Center.Y + 5) - fontSize / 2;
             spriteBatch.DrawString(drawFont, this.Score.ToString(), scoreTextPos, Color.White);
-
+            
             //Draw text indicating the number of items in the stack of items this appears over
             SpriteFont itemFont = FontManager.GetInstance()["Console Font"];
 
