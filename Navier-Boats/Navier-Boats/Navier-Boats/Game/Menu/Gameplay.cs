@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using Navier_Boats.Engine.System;
 using Navier_Boats.Engine.Graphics.PostProcessing;
+using Navier_Boats.Game.Graphics;
 
 namespace Navier_Boats.Game.Menu
 {
@@ -56,12 +57,24 @@ namespace Navier_Boats.Game.Menu
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Begin(0, null, null, null, null, null, Camera.TransformMatrix);
+
             CurrentLevel.GetInstance().Draw(spriteBatch);
+
+            spriteBatch.End();
+
+            ShaderManager.GetInstance()[0].Matrix = Camera.TransformMatrix;
+            ShaderManager.GetInstance().PostProcess(spriteBatch);
+
+            spriteBatch.Begin(0, null, null, null, null, null, Camera.TransformMatrix);
 
             EntityManager.GetInstance().Draw(spriteBatch);
 
+            TracerManager.GetInstance().Draw(spriteBatch);
+
             PathThreadPool.GetInstance().Draw(spriteBatch, TextureManager.GetInstance()["debugTextures/path"]);
-            ShaderManager.GetInstance()[0].Matrix = Camera.TransformMatrix;
+
+            spriteBatch.End();
         }
 
         public override void DrawGUI(SpriteBatch spriteBatch)

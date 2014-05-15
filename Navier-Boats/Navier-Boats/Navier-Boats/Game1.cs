@@ -177,14 +177,8 @@ namespace Navier_Boats
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin(0, null, null, null, null, null, Camera.TransformMatrix);
-
             StateManager.GetInstance().CurrentState.Draw(spriteBatch);
 
-            TracerManager.GetInstance().Draw(spriteBatch);
-
-            spriteBatch.End();
-            ShaderManager.GetInstance().PostProcess(spriteBatch);
             spriteBatch.Begin();
 
             StateManager.GetInstance().CurrentState.DrawGUI(spriteBatch);
