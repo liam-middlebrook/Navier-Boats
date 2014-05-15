@@ -389,6 +389,7 @@ namespace Navier_Boats.Game.Entities
             Vector2 itemTextPosThree = new Vector2(ConsoleVars.GetInstance().WindowWidth - 434, ConsoleVars.GetInstance().WindowHeight - 84);
             Vector2 itemTextPosFour = new Vector2(ConsoleVars.GetInstance().WindowWidth - 314, ConsoleVars.GetInstance().WindowHeight - 84);
             Vector2 itemTextPosFive = new Vector2(ConsoleVars.GetInstance().WindowWidth - 194, ConsoleVars.GetInstance().WindowHeight - 84);
+            Vector2 itemDescriptonPos = new Vector2(115, 100);
             #region HUD Item Number Drawing
             if (Items.Items[0] == null || Items.Items[0].Item == null || Items.Items[0].Item.ItemTexture == null)
             {
@@ -459,8 +460,17 @@ namespace Navier_Boats.Game.Entities
                         spriteBatch.DrawString(drawFont, Items.Items[invItemRects.IndexOf(temp)].Amount.ToString(), new Vector2((float)temp.X, (float)temp.Y), Color.White);
                     }
                 }
-
-
+                if (Items.SelectedItem != null && Items.SelectedItem.Item != null)
+                {
+                    string itemDescription = Items.SelectedItem.Item.Description;
+                    int lineLen = 75;
+                    int times = itemDescription.Length / lineLen + 1;
+                    for (int i = 0; i < times; i++)
+                    {
+                        itemDescription = itemDescription.Insert(i * lineLen, "\n");
+                    }
+                    spriteBatch.DrawString(drawFont, itemDescription, itemDescriptonPos, Color.White);
+                }
                 if (tempItemStack != null && curInvState == InventoryState.dragging)
                 {
                     spriteBatch.Draw(tempItemStack.Item.ItemTexture, new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, (ConsoleVars.GetInstance().WindowHeight) / 11, (ConsoleVars.GetInstance().WindowHeight) / 11), Color.White);
