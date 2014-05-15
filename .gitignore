@@ -128,3 +128,5 @@ Navier-Boats/Navier-Boats/Navier-Boats/bin/x86/Debug/Content/*
 !Navier-Boats/Navier-Boats/Navier-Boats/bin/x86/Debug/Content/items
 #xna content files
 *.xnb
+#windows explorer files
+*.db
