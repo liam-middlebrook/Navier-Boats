@@ -172,7 +172,8 @@ namespace Navier_Boats.Engine.Level
 
         private short[,] ToArray(Texture2D tex)
         {
-            Color refColor = new Color(84, 84, 84, 255);
+            Color roadColor = new Color(72, 77, 62, 255);
+            Color edgeColor = new Color(0, 255, 0, 255);
             short[,] chunk = new short[Chunk.CHUNK_WIDTH, Chunk.CHUNK_HEIGHT];
 
             for (int x = 0; x < Chunk.CHUNK_WIDTH; x++)
@@ -181,9 +182,13 @@ namespace Navier_Boats.Engine.Level
                 {
                     Color[] c = new Color[1];
                     tex.GetData<Color>(0, new Rectangle(x, y, 1, 1), c, 0, 1);
-                    if (c[0] == refColor)
+                    if (c[0] == roadColor)
                     {
                         chunk[x, y] = (short)TileType.Road;
+                    }
+                    else if (c[0] == edgeColor)
+                    {
+                        chunk[x, y] = (short)TileType.RoadSide;
                     }
                     else
                     {
