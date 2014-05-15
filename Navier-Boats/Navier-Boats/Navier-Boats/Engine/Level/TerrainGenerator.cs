@@ -199,6 +199,15 @@ namespace Navier_Boats.Engine.Level
             return chunk;
         }
 
+        public float GetTileRotation(int x, int y)
+        {
+            if (x == 22) return (float)(-Math.PI / 2f);
+            else if (x == 25) return (float)(Math.PI / 2f);
+
+            else if (y == 22) return (float)(Math.PI);
+            else return 0;
+        }
+
         private void MergeArrays(short[,] from, ref short[,] to)
         {
             for (int x = 0; x < to.GetLength(0); x++)
