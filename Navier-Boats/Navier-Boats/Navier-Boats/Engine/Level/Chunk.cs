@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Navier_Boats.Engine.Graphics;
 using Navier_Boats.Engine.System;
+using Navier_Boats.Engine.Graphics.PostProcessing;
 
 namespace Navier_Boats.Engine.Level
 {
@@ -269,10 +270,16 @@ namespace Navier_Boats.Engine.Level
                         //Draw the groundLayer tile
                         spriteBatch.Draw(tileTextures[chunkDataGroundLayer[x, y]], worldPos, Color.White);
 
+                        if (chunkDataGroundLayer[x, y] == (short)TileType.Water && chunkDataRoadLayer[x,y]==0)
+                        {
+                            Tuple<Texture2D, Vector2> drawRequest = new Tuple<Texture2D,Vector2>(tileTextures[chunkDataGroundLayer[x, y]], worldPos);
+                            ShaderManager.GetInstance()[0].DrawQueries.Add(drawRequest);
+                        }
                         if (ConsoleVars.GetInstance().ShowRoads)
                         {
                             //Draw the road layer tile
                             spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y]], worldPos, Color.White);
+
 
                             if (ConsoleVars.GetInstance().ShowChunkBorders && (x == 0 || y == 0))
                                 spriteBatch.Draw(tileTextures[(int)TileType.Debug - 1], worldPos, Color.White);

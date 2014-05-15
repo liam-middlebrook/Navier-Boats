@@ -81,6 +81,8 @@
   <ItemGroup>
     <Compile Include="Engine\Graphics\FontManager.cs" />
     <Compile Include="Engine\Graphics\IDrawableGUI.cs" />
+    <Compile Include="Engine\Graphics\PostProcessing\ShaderManager.cs" />
+    <Compile Include="Engine\Graphics\PostProcessing\ShaderQuery.cs" />
     <Compile Include="Engine\Graphics\TextureManager.cs" />
     <Compile Include="Engine\Inventory\AbstractGameItem.cs" />
     <Compile Include="Engine\Inventory\ItemInfo.cs" />
