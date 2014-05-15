@@ -253,7 +253,7 @@ namespace Navier_Boats.Game.Entities
         {
             if (this.currentJob != null)
                 this.currentJob.Cancelled = true;
-            EntityManager.GetInstance().Player.Score += 100;
+            EntityManager.GetInstance().Player.Score += 10;
             base.OnDeath();
         }
 
