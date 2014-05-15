@@ -219,12 +219,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Shaders\shaderwater.jpg">
+    <Compile Include="Shaders\shaderwater.png">
       <Name>shaderwater</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Shaders\shaderwaternormal.jpg">
+    <Compile Include="Shaders\shaderwaternormal.png">
       <Name>shaderwaternormal</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
