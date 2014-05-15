@@ -34,7 +34,7 @@ namespace Navier_Boats.Game.Entities
         }
 
         private int score;
-
+       
         private int selectedItemIndex;
 
         private int secondSelectedItemIndex;
@@ -94,6 +94,8 @@ namespace Navier_Boats.Game.Entities
             Position = position;
             initialSpeed = 300;
 
+            score = 0;
+
             invItemRects = new List<Rectangle>();
 
             for (int i = 0; i < 4; i++)
@@ -116,7 +118,7 @@ namespace Navier_Boats.Game.Entities
 
         public override void OnDeath()
         {
-        
+
             this.ShouldDestroy = false;
             curState = PlayerState.dead;
             StateManager.GetInstance().PushState(GameStates.GAME_OVER);
@@ -373,6 +375,9 @@ namespace Navier_Boats.Game.Entities
 
             Vector2 moneyTextPos = new Vector2(ConsoleVars.GetInstance().WindowWidth - 874, ConsoleVars.GetInstance().WindowHeight - 111) - fontSize / 2;
             spriteBatch.DrawString(drawFont, this.Money.ToString(), moneyTextPos, Color.Black);
+
+            Vector2 scoreTextPos = new Vector2(CompassRect.Center.X, CompassRect.Center.Y) - fontSize / 2;
+            spriteBatch.DrawString(drawFont, this.Score.ToString(), scoreTextPos, Color.White);
 
             //Draw text indicating the number of items in the stack of items this appears over
             SpriteFont itemFont = FontManager.GetInstance()["Console Font"];
