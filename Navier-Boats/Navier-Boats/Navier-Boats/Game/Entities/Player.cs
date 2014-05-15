@@ -33,6 +33,8 @@ namespace Navier_Boats.Game.Entities
             dead
         }
 
+        private int score;
+
         private int selectedItemIndex;
 
         private int secondSelectedItemIndex;
@@ -61,6 +63,12 @@ namespace Navier_Boats.Game.Entities
         {
             get { return curState; }
             set { curState = value; }
+        }
+
+        public int Score
+        {
+            get { return score; }
+            set { score = value; }
         }
 
         #region HUD Element Rectangles
@@ -108,6 +116,7 @@ namespace Navier_Boats.Game.Entities
 
         public override void OnDeath()
         {
+        
             this.ShouldDestroy = false;
             curState = PlayerState.dead;
             StateManager.GetInstance().PushState(GameStates.GAME_OVER);
