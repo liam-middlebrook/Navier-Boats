@@ -93,5 +93,15 @@ namespace Navier_Boats.Game.Items
             Range = info.Range;
             Damage = info.Damage;
         }
+
+        public override bool Equals(object obj)
+        {
+            Weapon other = obj as Weapon;
+            if (other == null)
+                return false;
+
+            return other.InventoryTexture == this.InventoryTexture && other.ItemTexture == this.ItemTexture && other.MaxStack == this.MaxStack &&
+                other.Cost == this.Cost && other.Range == this.Range && other.Description == this.Description && other.Damage == this.Damage;
+        }
     }
 }

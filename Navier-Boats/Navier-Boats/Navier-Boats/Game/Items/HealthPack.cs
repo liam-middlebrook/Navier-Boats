@@ -53,5 +53,15 @@ namespace Navier_Boats.Game.Items
             base.ImportItem(info);
             HealAmount = info.Heal;
         }
+
+        public override bool Equals(object obj)
+        {
+            HealthPack other = obj as HealthPack;
+            if (other == null)
+                return false;
+
+            return other.InventoryTexture == this.InventoryTexture && other.ItemTexture == this.ItemTexture && other.MaxStack == this.MaxStack &&
+                other.Cost == this.Cost && other.Description == this.Description && other.HealAmount == this.HealAmount;
+        }
     }
 }
