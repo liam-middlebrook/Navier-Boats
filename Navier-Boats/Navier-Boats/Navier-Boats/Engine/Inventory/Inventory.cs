@@ -69,7 +69,7 @@ namespace Navier_Boats.Engine.Inventory
                 if (slot == null || slot.Item == null)
                     continue;
 
-                if (slot.Item == item.Item)
+                if (slot.Item.Equals(item.Item))
                 {
                     while (slot.Amount < slot.Item.MaxStack && item.Amount > 0)
                     {
