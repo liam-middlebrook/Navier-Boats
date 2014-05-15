@@ -3,7 +3,7 @@
   "Name": "Health Pack",
   "Image": "items/health_world",
   "inventoryImage": "items/health_inventory",
-  "Description": "Hi mom",
+  "Description": "Heals up to 20 health",
   "Stack": 12,
   "Cost": 4,
   "Damage": 0.0,

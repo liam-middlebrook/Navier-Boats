@@ -1,9 +1,9 @@
 {
   "Type": "Items.Weapon",
-  "Name": "Weapon Thing",
+  "Name": "Pistol",
   "Image": "items/pistol_world",
   "inventoryImage": "items/pistol_inventory",
-  "Description": "I shoot things",
+  "Description": "A standard pistol",
   "Stack": 64,
   "Cost": 10,
   "Damage": 40.0,
