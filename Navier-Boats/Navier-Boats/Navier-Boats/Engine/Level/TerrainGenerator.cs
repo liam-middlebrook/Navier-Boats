@@ -51,7 +51,7 @@ namespace Navier_Boats.Engine.Level
         {
             Random rand = CurrentLevel.GetRandom();
             List<Chunk> adjChunks = CurrentLevel.GetInstance().GetAdjacentChunks(c);
-            List<RoadConnectors> rc = new List<RoadConnectors>();
+            List<RoadConnector> rc = new List<RoadConnector>();
             
             
 
@@ -96,8 +96,8 @@ namespace Navier_Boats.Engine.Level
             numConnections--;
             while (numConnections > 0)
             {
-                RoadConnectors cn;
-                while (rc.Contains(cn = (RoadConnectors)Enum.GetValues(typeof(RoadConnectors)).GetValue(rand.Next(4))));
+                RoadConnector cn;
+                while (rc.Contains(cn = (RoadConnector)Enum.GetValues(typeof(RoadConnector)).GetValue(rand.Next(4))));
                 rc.Add(cn);
                 numConnections--;
             }
@@ -138,7 +138,7 @@ namespace Navier_Boats.Engine.Level
 
        
 
-        public short[,] GenerateRoadLayer(List<RoadConnectors> connections)
+        public short[,] GenerateRoadLayer(List<RoadConnector> connections)
         {
             short[,] layer = new short[Chunk.CHUNK_WIDTH, Chunk.CHUNK_HEIGHT];
             if (connections.Count == 0)
@@ -159,13 +159,13 @@ namespace Navier_Boats.Engine.Level
             return layer;
         }
 
-        private short[,] GenRoadPattern(List<RoadConnectors> rc)
+        private short[,] GenRoadPattern(List<RoadConnector> rc)
         {
             short[,] pattern = new short[Chunk.CHUNK_WIDTH, Chunk.CHUNK_HEIGHT];
-            foreach (RoadConnectors c in rc)
+            foreach (RoadConnector c in rc)
             {
-                string name = Enum.GetName(typeof(RoadConnectors), c);
-                MergeArrays(ToArray(roadPatterns[Enum.GetName(typeof(RoadConnectors), c)]), ref pattern);
+                string name = Enum.GetName(typeof(RoadConnector), c);
+                MergeArrays(ToArray(roadPatterns[Enum.GetName(typeof(RoadConnector), c)]), ref pattern);
             }
             return pattern;
         }

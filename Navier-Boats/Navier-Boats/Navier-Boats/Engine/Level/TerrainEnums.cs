@@ -35,11 +35,24 @@ namespace Navier_Boats.Engine.Level
         COLLISION_LAYER
     }
 
-    public enum RoadConnectors
+    
+
+    public enum RoadConnector
     {
-        East = 0,        
-        North = 1,  
-        West = 2,
-        South = 3,
+        East = 1,   
+        North = 2,
+        West = 4,
+        South = 8,
+    }
+
+    public enum RoadCombination
+    {
+        NorthAndEast = 3,
+        NorthAndWest = 6,
+        SouthAndEast = 9,
+        SouthAndWest = 12,
+
+        NorthAndSouth = 10,
+        EastAndWest = 5,
     }
 }

@@ -29,7 +29,7 @@ namespace Navier_Boats.Engine.Level
 
         public readonly string CHUNK_ID; //format 1(xIndex-sign)1(yIndex-sign)15(xIndex-value)15(yIndex-value)
         public readonly Vector2 Position;
-        public List<RoadConnectors> Connections;
+        public List<RoadConnector> Connections;
 
         private bool fileInUse;
 
@@ -44,7 +44,7 @@ namespace Navier_Boats.Engine.Level
         /// <param name="y">The Y value of the chunk in chunk-coords</param>
         private void CreateChunk(int x, int y)
         {
-            Connections = (x == 0 && y == 0) ? new List<RoadConnectors> {RoadConnectors.North, RoadConnectors.East, RoadConnectors.South, RoadConnectors.West } : terrainGen.GenerateConnections(this, CurrentLevel.NUM_ROAD_CONNECTIONS);
+            Connections = (x == 0 && y == 0) ? new List<RoadConnector> {RoadConnector.North, RoadConnector.East, RoadConnector.South, RoadConnector.West } : terrainGen.GenerateConnections(this, CurrentLevel.NUM_ROAD_CONNECTIONS, ref roadMask);
 
             //Fills chunk with tiles generated using Perlin Noise
             rand = CurrentLevel.GetRandom();
@@ -286,26 +286,26 @@ namespace Navier_Boats.Engine.Level
 
                             if (ConsoleVars.GetInstance().ShowRoadConnectors && Connections != null)
                             {
-                                foreach (RoadConnectors c in Connections)
+                                foreach (RoadConnector c in Connections)
                                 {
                                     switch (c)
                                     {
-                                        case RoadConnectors.North:
+                                        case RoadConnector.North:
                                             if (y == 0 && (x == 23 || x == 24))
                                                 spriteBatch.Draw(tileTextures[(short)TileType.Debug - 1], worldPos, Color.Green);
                                             break;
 
-                                        case RoadConnectors.East:
+                                        case RoadConnector.East:
                                             if (x == CHUNK_WIDTH - 1 && (y == 23 || y == 24))
                                                 spriteBatch.Draw(tileTextures[(short)TileType.Debug - 1], worldPos, Color.Green);
                                             break;
 
-                                        case RoadConnectors.South:
+                                        case RoadConnector.South:
                                             if (y == CHUNK_HEIGHT - 1 && (x == 23 || x == 24))
                                                 spriteBatch.Draw(tileTextures[(short)TileType.Debug - 1], worldPos, Color.Green);
                                             break;
 
-                                        case RoadConnectors.West:
+                                        case RoadConnector.West:
                                             if (x == 0 && (y == 23 || y == 24))
                                                 spriteBatch.Draw(tileTextures[(short)TileType.Debug - 1], worldPos, Color.Green);
                                             break;
