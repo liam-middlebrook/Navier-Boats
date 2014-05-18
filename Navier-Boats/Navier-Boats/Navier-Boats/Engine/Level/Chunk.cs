@@ -265,6 +265,8 @@ namespace Navier_Boats.Engine.Level
                     //Get the screen position of the tile
                     Vector2 screenPos = Camera.ConvertToScreenCoords(worldPos);
 
+                    Rectangle tilePos = new Rectangle((int)worldPos.X, (int)worldPos.Y, TILE_WIDTH, TILE_HEIGHT);
+
                     //Is the tile on the screen?
                     if (windowRect.Contains(new Rectangle((int)screenPos.X, (int)screenPos.Y, 1, 1)))
                     {
@@ -279,8 +281,8 @@ namespace Navier_Boats.Engine.Level
                         if (ConsoleVars.GetInstance().ShowRoads)
                         {
                             //Draw the road layer tile
-                            spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y]], worldPos, Color.White);
-
+                            spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y]], tilePos, null, Color.White, terrainGen.GetTileRotation(x, y, roadMask), new Vector2(24, 24), SpriteEffects.None, 0);
+                                                
 
                             if (ConsoleVars.GetInstance().ShowChunkBorders && (x == 0 || y == 0))
                                 spriteBatch.Draw(tileTextures[(short)TileType.Debug], worldPos, Color.White);
