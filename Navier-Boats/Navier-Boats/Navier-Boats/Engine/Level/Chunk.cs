@@ -30,6 +30,7 @@ namespace Navier_Boats.Engine.Level
         public readonly string CHUNK_ID; //format 1(xIndex-sign)1(yIndex-sign)15(xIndex-value)15(yIndex-value)
         public readonly Vector2 Position;
         public List<RoadConnector> Connections;
+        private byte roadMask = 0;
 
         private bool fileInUse;
 

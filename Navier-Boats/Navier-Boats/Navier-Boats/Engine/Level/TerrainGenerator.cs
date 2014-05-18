@@ -47,7 +47,7 @@ namespace Navier_Boats.Engine.Level
             this.roadPatterns = patterns;
         }
 
-        public List<RoadConnectors> GenerateConnections(Chunk c, int numConnections)
+        public List<RoadConnector> GenerateConnections(Chunk c, int numConnections, ref byte mask)
         {
             Random rand = CurrentLevel.GetRandom();
             List<Chunk> adjChunks = CurrentLevel.GetInstance().GetAdjacentChunks(c);
@@ -65,30 +65,34 @@ namespace Navier_Boats.Engine.Level
 
                 if (xDiff == 1 && yDiff == 0) //Left
                 {
-                    if (c2.Connections.Contains(RoadConnectors.East) && !rc.Contains(RoadConnectors.West))
+                    if ((mask & (byte)RoadCombination.EastAndWest) == (byte)RoadConnector.East || rc.Count == 0)
                     {
-                        rc.Add(RoadConnectors.West);
+                        rc.Add(RoadConnector.West);
+                        mask |= (byte)RoadConnector.West;
                     }
                 }
                 else if (xDiff == -1 && yDiff == 0) //Right
                 {
-                    if (c2.Connections.Contains(RoadConnectors.West) && !rc.Contains(RoadConnectors.East))
+                    if ((mask & (byte)RoadCombination.EastAndWest) == (byte)RoadConnector.West || rc.Count == 0)
                     {
-                        rc.Add(RoadConnectors.East);
+                        rc.Add(RoadConnector.East);
+                        mask |= (byte)RoadConnector.East;
                     }
                 }
-                else if (xDiff == 0 && yDiff == 1) //Up
+                else if (xDiff == 0 && yDiff == -1) //Up
                 {
-                    if (c2.Connections.Contains(RoadConnectors.South) && !rc.Contains(RoadConnectors.North))
+                    if ((mask & (byte)RoadCombination.NorthAndSouth) == (byte)RoadConnector.South || rc.Count == 0)
                     {
-                        rc.Add(RoadConnectors.North);
+                        rc.Add(RoadConnector.North);
+                        mask |= (byte)RoadConnector.North;
                     }
                 }
-                else if (xDiff == 0 && yDiff == -1) //Down
+                else if (xDiff == 0 && yDiff == 1) //Down
                 {
-                    if (c2.Connections.Contains(RoadConnectors.North) && !rc.Contains(RoadConnectors.South))
+                    if ((mask & (byte)RoadCombination.NorthAndSouth) == (byte)RoadConnector.North || rc.Count == 0)
                     {
-                        rc.Add(RoadConnectors.South);
+                        rc.Add(RoadConnector.South);
+                        mask |= (byte)RoadConnector.South;
                     }
                 }
             }
@@ -99,6 +103,7 @@ namespace Navier_Boats.Engine.Level
                 RoadConnector cn;
                 while (rc.Contains(cn = (RoadConnector)Enum.GetValues(typeof(RoadConnector)).GetValue(rand.Next(4))));
                 rc.Add(cn);
+                mask |= (byte)cn;
                 numConnections--;
             }
 
