@@ -204,12 +204,11 @@ namespace Navier_Boats.Engine.Level
             return chunk;
         }
 
-        public float GetTileRotation(int x, int y)
+        public float GetTileRotation(int x, int y, byte mask)
         {
-            if (x == 22) return (float)(-Math.PI / 2f);
-            else if (x == 25) return (float)(Math.PI / 2f);
-
-            else if (y == 22) return (float)(Math.PI);
+            if (x == 22) return (float)(Math.PI / 2f);
+            else if (x == 25) return (float)(-Math.PI / 2f);
+            if (y == 22) return (float)(Math.PI);
             else return 0;
         }
 
