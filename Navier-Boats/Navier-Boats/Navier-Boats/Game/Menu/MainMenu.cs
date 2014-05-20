@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Navier_Boats.Engine.System;
 
 namespace Navier_Boats.Game.Menu
 {
@@ -15,10 +16,17 @@ namespace Navier_Boats.Game.Menu
         KeyboardState keyState;
         KeyboardState prevKeyState;
 
+        MouseState prevMouseState;
+        MouseState mouseState;
+
+        Rectangle creditsLoc;
+        Rectangle playLoc;
+
         protected override void Init()
         {
             keyState = Keyboard.GetState();
-
+            creditsLoc = new Rectangle(ConsoleVars.GetInstance().WindowWidth / 3, ConsoleVars.GetInstance().WindowHeight / 2, ConsoleVars.GetInstance().WindowWidth / 3, ConsoleVars.GetInstance().WindowHeight / 5);
+            playLoc = new Rectangle(ConsoleVars.GetInstance().WindowWidth / 6, ConsoleVars.GetInstance().WindowHeight / 5, ConsoleVars.GetInstance().WindowWidth * 2 / 3, ConsoleVars.GetInstance().WindowHeight / 4);
         }
 
         public override void LoadContent(Microsoft.Xna.Framework.Content.ContentManager content)
@@ -30,7 +38,10 @@ namespace Navier_Boats.Game.Menu
         {
             prevKeyState = keyState;
             keyState = Keyboard.GetState();
+            prevMouseState = mouseState;
+            mouseState = Mouse.GetState();
 
+            /*
             if (keyState.IsKeyDown(Keys.Space) && prevKeyState.IsKeyUp(Keys.Space))
             {
                 StateManager.GetInstance().PushState(GameStates.GAMEPLAY);
@@ -38,6 +49,15 @@ namespace Navier_Boats.Game.Menu
             if (keyState.IsKeyDown(Keys.C) && prevKeyState.IsKeyUp(Keys.C))
             {
                 StateManager.GetInstance().PushState(GameStates.CREDITS);
+            }
+             * */
+            if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && creditsLoc.Contains(new Point(mouseState.X, mouseState.Y)))
+            {
+                StateManager.GetInstance().PushState(GameStates.CREDITS);
+            }
+            if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && playLoc.Contains(new Point(mouseState.X, mouseState.Y)))
+            {
+                StateManager.GetInstance().PushState(GameStates.GAMEPLAY);
             }
         }
 
@@ -48,7 +68,16 @@ namespace Navier_Boats.Game.Menu
 
         public override void DrawGUI(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(FontManager.GetInstance()["consolas"], "Main Menu!\nPress Spacebar to begin playing!\nPress C to visit the credits page!", Vector2.Zero, Color.Black);
+            spriteBatch.Draw(TextureManager.GetInstance()["HighlightTexture"], creditsLoc, Color.White);
+            spriteBatch.DrawString(FontManager.GetInstance()["consolas"], "Credits", new Vector2(creditsLoc.X, creditsLoc.Y), Color.Black);
+
+            spriteBatch.Draw(TextureManager.GetInstance()["HighlightTexture"], playLoc, Color.White);
+            spriteBatch.DrawString(FontManager.GetInstance()["consolas"], "Play Game", new Vector2(playLoc.X, playLoc.Y), Color.Black);
+
+            
+            //spriteBatch.DrawString(FontManager.GetInstance()["consolas"], "Main Menu!\nPress Spacebar to begin playing!\nPress C to visit the credits page!", Vector2.Zero, Color.Black);
+            spriteBatch.Draw(TextureManager.GetInstance()["CursorTexture"], new Vector2(mouseState.X, mouseState.Y), Color.White);
+           
         }
     }
 }

@@ -1,0 +1,12 @@
+{
+  "Type": "Items.Weapon",
+  "Name": "testItem",
+  "Image": "cursor",
+  "inventoryImage": "cursor",
+  "Description": "N/A",
+  "Stack": 64,
+  "Cost": 0,
+  "Damage": 12.0,
+  "Heal": 0.0,
+  "Range": 12.0
+}

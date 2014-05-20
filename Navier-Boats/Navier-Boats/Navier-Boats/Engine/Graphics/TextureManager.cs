@@ -96,6 +96,11 @@ namespace Navier_Boats.Engine.Graphics
             Texture2D HUDItemBoxTexture;
             Texture2D MoneyTexture;
             Texture2D HighlightTexture;
+            Texture2D CursorTexture;
+
+            CursorTexture = Content.Load<Texture2D>("cursor");
+
+            loadedTextures["CursorTexture"] = CursorTexture;
 
             #region Generate_Highlight_Texture
 
