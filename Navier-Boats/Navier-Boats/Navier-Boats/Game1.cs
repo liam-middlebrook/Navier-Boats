@@ -179,7 +179,7 @@ namespace Navier_Boats
 
             StateManager.GetInstance().CurrentState.Draw(spriteBatch);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Matrix.Identity);
 
             StateManager.GetInstance().CurrentState.DrawGUI(spriteBatch);
 
