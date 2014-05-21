@@ -137,7 +137,7 @@ namespace Navier_Boats.Engine.Entities
             }
 
             //Change the speed of an entity realative to the type of tile it's walking on
-            if (CurrentLevel.GetInstance().GetTileDataAtPoint(TileLayer.ROAD_LAYER, Position) != (short)TileType.Road)
+            if (CurrentLevel.GetInstance().GetTileDataAtPoint(TileLayer.ROAD_LAYER, Position) == (short)TileType.Clear)
             {
                 switch (CurrentLevel.GetInstance().GetTileDataAtPoint(TileLayer.GROUND_LAYER, Position))
                 {
