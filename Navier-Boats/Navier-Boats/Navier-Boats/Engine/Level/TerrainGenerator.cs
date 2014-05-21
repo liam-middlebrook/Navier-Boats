@@ -199,12 +199,71 @@ namespace Navier_Boats.Engine.Level
                     {
                         chunk[x, y] = (short)TileType.Clear;
                     }
+                    
                 }
-            }  
+            }
+            
             return chunk;
         }
 
-        public float GetTileRotation(int x, int y, byte mask)
+        public short IsCorner(int x, int y, short[,] arr, List<RoadConnector> cn)
+        {
+            if (x == 0 || x == arr.GetLength(0) - 1 || y == 0 || y == arr.GetLength(0) - 1 || cn == null) return -1;
+            short[] res = new short[4];
+
+            res[0] = arr[x, y + 1];
+            res[1] = arr[x - 1, y];
+            res[2] = arr[x + 1, y];
+            res[3] = arr[x, y - 1];
+
+            int C = 0;
+            bool r = false;
+            foreach (short s in res)
+            {
+                if (s == (short)TileType.RoadSide)
+                {
+                    C++;
+                }
+                if (s == (short)TileType.Road)
+                {
+                    r = true;
+                }
+            }
+
+            if (C == 2 && r)
+            {
+                if (res[0] == (short)TileType.RoadSide && res[1] == (short)TileType.RoadSide)
+                {
+                    if (cn.Contains(RoadConnector.West) && cn.Contains(RoadConnector.South))
+                        return (short)TileType.RoadCornerInside;
+                    else
+                        return (short)TileType.RoadCornerOutside;
+                }
+                else if (res[0] == (short)TileType.RoadSide && res[2] == (short)TileType.RoadSide)
+                {
+                    if (cn.Contains(RoadConnector.East) && cn.Contains(RoadConnector.South))
+                        return (short)TileType.RoadCornerInside;
+                    else
+                        return (short)TileType.RoadCornerOutside;
+                }
+                else if (res[3] == (short)TileType.RoadSide && res[1] == (short)TileType.RoadSide)
+                {
+                    if (cn.Contains(RoadConnector.West) && cn.Contains(RoadConnector.North))
+                        return (short)TileType.RoadCornerInside;
+                    else
+                        return (short)TileType.RoadCornerOutside;
+                }
+                else if (res[3] == (short)TileType.RoadSide && res[2] == (short)TileType.RoadSide)
+                {
+                    if (cn.Contains(RoadConnector.East) && cn.Contains(RoadConnector.North))
+                        return (short)TileType.RoadCornerInside;
+                    else
+                        return (short)TileType.RoadCornerOutside;
+                }
+            }
+
+            return -1;
+        }
         {
             if (x == 22) return (float)(Math.PI / 2f);
             else if (x == 25) return (float)(-Math.PI / 2f);
