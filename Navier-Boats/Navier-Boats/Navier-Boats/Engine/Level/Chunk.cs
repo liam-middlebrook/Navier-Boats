@@ -281,7 +281,7 @@ namespace Navier_Boats.Engine.Level
                         if (ConsoleVars.GetInstance().ShowRoads)
                         {
                             //Draw the road layer tile
-                            spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y]], tilePos, null, Color.White, terrainGen.GetTileRotation(x, y, roadMask), new Vector2(24, 24), SpriteEffects.None, 0);
+                            spriteBatch.Draw(tileTextures[chunkDataRoadLayer[x, y]], tilePos, null, Color.White, terrainGen.GetTileRotation(x, y, chunkDataRoadLayer[x, y], chunkDataRoadLayer, Connections), new Vector2(24, 24), SpriteEffects.None, 0);
                                                 
 
                             if (ConsoleVars.GetInstance().ShowChunkBorders && (x == 0 || y == 0))

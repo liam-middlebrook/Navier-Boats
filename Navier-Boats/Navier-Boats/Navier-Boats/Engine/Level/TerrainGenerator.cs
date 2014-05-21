@@ -264,11 +264,53 @@ namespace Navier_Boats.Engine.Level
 
             return -1;
         }
+
+        public float GetTileRotation(int x, int y, short type, short[,] arr, List<RoadConnector> cn)
         {
-            if (x == 22) return (float)(Math.PI / 2f);
-            else if (x == 25) return (float)(-Math.PI / 2f);
-            if (y == 22) return (float)(Math.PI);
-            else return 0;
+            if (x == 22 && y == 22)
+            {
+                if (type == (short)TileType.RoadCornerInside)
+                    return (float)Math.PI;
+                else if (type == (short)TileType.RoadCornerOutside)
+                    return 0;
+                else
+                    return (float)Math.PI;
+            }
+            else if (x == 25 && y == 22)
+            {
+                if (type == (short)TileType.RoadCornerInside)
+                    return (float)-Math.PI / 2f;
+                else if (type == (short)TileType.RoadCornerOutside)
+                    return (float)-Math.PI / 2f;
+                else return (float)Math.PI;
+            }
+            else if (x == 22 && y == 25)
+            {
+                if (type == (short)TileType.RoadCornerInside)
+                    return (float)Math.PI / 2f;
+                else if (type == (short)TileType.RoadCornerOutside)
+                    return (float)-Math.PI / 2f;
+                else return (float)Math.PI / 2f;
+            }
+            else if (x == 25 && y == 25)
+            {
+                if (type == (short)TileType.RoadCornerInside)
+                    return 0;
+                else if (type == (short)TileType.RoadCornerOutside)
+                    return (float)Math.PI;
+                else return (float)-Math.PI / 2f;
+            }
+
+            if (IsCorner(x, y, arr, cn) == -1)
+            {
+                if (x == 22) return (float)(Math.PI / 2f);
+                if (y == 22) return (float)(Math.PI);
+                if (y == 25) return 0;
+                else if (x == 25) return (float)(-Math.PI / 2f);
+            }
+            
+            
+            return 0;
         }
 
         private void MergeArrays(short[,] from, ref short[,] to)
