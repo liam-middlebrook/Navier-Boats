@@ -40,7 +40,9 @@ namespace Navier_Boats.Game.Menu
 
         public override void LoadContent(Microsoft.Xna.Framework.Content.ContentManager content)
         {
-
+            TextureManager.GetInstance().LoadTexture("menu");
+            TextureManager.GetInstance().LoadTexture("Credits");
+            TextureManager.GetInstance().LoadTexture("Play");
         }
 
         public override void Update(GameTime gameTime)
