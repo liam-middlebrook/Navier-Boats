@@ -159,7 +159,17 @@ namespace Navier_Boats.Engine.Level
             else
             {
                 layer = GenRoadPattern(connections);
-                
+                for (int x = 0; x < Chunk.CHUNK_WIDTH; x++)
+                {
+                    for (int y = 0; y < Chunk.CHUNK_HEIGHT; y++)
+                    {
+                        short s = IsCorner(x, y, layer, connections);
+                        if (s != -1)
+                        {
+                            layer[x, y] = s;
+                        }
+                    }
+                }
             }
             return layer;
         }
